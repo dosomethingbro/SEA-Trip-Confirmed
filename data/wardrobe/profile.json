@@ -1,0 +1,37 @@
+{
+ "heightIn": 74,
+ "tops": "XL",
+ "waist": 36,
+ "inseam": 34,
+ "inseamAssumed": true,
+ "shoe": null,
+ "preferTall": true,
+ "tiers": [
+  "good",
+  "better",
+  "bifl"
+ ],
+ "trip": {
+  "start": "2026-11-22",
+  "end": "2026-12-07",
+  "stops": [
+   {
+    "name": "Chiang Mai",
+    "note": "Warm days, cooler nights, temples (Doi Suthep)"
+   },
+   {
+    "name": "Elephant sanctuary",
+    "note": "Mud and river water, quick-dry, sandals"
+   },
+   {
+    "name": "Hanoi",
+    "note": "Cool evenings about 55 to 65 \u00b0F"
+   },
+   {
+    "name": "Ninh Binh",
+    "note": "Boat rides, cycling, the Hang Mua climb"
+   }
+  ]
+ },
+ "activeStyle": null
+}

@@ -1,0 +1,187 @@
+[
+ {
+  "id": "chiang-mai-old-town",
+  "name": "Chiang Mai Old Town",
+  "tagline": "Warm-day temple hopping, cafe-ready polish",
+  "rules": [
+   "Choose long linen trousers over shorts; wats appear unannounced",
+   "Keep shoulders covered; a short-sleeve collared shirt works",
+   "Wear slip-on shoes; you'll take them off constantly"
+  ],
+  "palette": [
+   "ecru",
+   "sand",
+   "olive",
+   "tobacco brown"
+  ],
+  "outfit": {
+   "top": "ecru linen camp-collar shirt, worn untucked",
+   "bottom": "sand linen-blend drawstring trousers, cropped at the ankle",
+   "layer": null,
+   "shoes": "dark brown unlined suede loafers",
+   "accessory": "braided leather belt and sunglasses"
+  },
+  "articleIds": [
+   "tagthai-thailand-temple-dress-code",
+   "roughguides-chiang-mai-december",
+   "propercloth-style-linen-shirts",
+   "atg-drawstring-pants",
+   "ps-best-shoes-for-summer",
+   "essentialman-camp-collar-fit"
+  ]
+ },
+ {
+  "id": "hanoi-evening",
+  "name": "Hanoi evening",
+  "tagline": "Smart layers for cool, damp nights",
+  "rules": [
+   "Damp air feels colder; bring a real layer after dark",
+   "Put a knit or overshirt over a collared shirt",
+   "Go long trousers and closed shoes; save sandals for daytime"
+  ],
+  "palette": [
+   "navy",
+   "charcoal",
+   "camel",
+   "cream"
+  ],
+  "outfit": {
+   "top": "cream long-sleeve oxford or knit polo",
+   "bottom": "charcoal tapered chinos or lightweight wool trousers",
+   "layer": "navy unstructured overshirt or packable light jacket",
+   "shoes": "dark brown suede loafers or minimal leather sneakers",
+   "accessory": "light wool scarf for the wind"
+  },
+  "articleIds": [
+   "vlt-how-to-dress-hanoi-winter",
+   "vinwonders-hanoi-winter-guide",
+   "vntourism-dress-vietnam-november",
+   "atg-how-to-wear-autumn-colours",
+   "gg-earth-tones-outfits",
+   "blacklapel-fit-guide-trousers"
+  ]
+ },
+ {
+  "id": "sanctuary-day",
+  "name": "Sanctuary day",
+  "tagline": "Muddy, wet, sunny: dress to get dirty",
+  "rules": [
+   "Pick quick-dry synthetics or merino; skip cotton, denim, white",
+   "Back-strap sandals for rivers, closed shoes for mud",
+   "Long sleeves and a hat handle sun and grass"
+  ],
+  "palette": [
+   "olive",
+   "charcoal",
+   "khaki"
+  ],
+  "outfit": {
+   "top": "olive quick-dry long-sleeve shirt you don't mind ruining",
+   "bottom": "dark quick-dry shorts, above the knee",
+   "layer": "windproof shell for Ninh Binh boat rides",
+   "shoes": "back-strap sport sandals with grippy soles",
+   "accessory": "wide-brim bucket hat and rubber-strap watch"
+  },
+  "articleIds": [
+   "discovercorps-elephant-packing-list",
+   "kohsamuiguide-rainy-season-thailand",
+   "we3travel-waterproof-travel-shoes",
+   "localvietnam-tam-coc-guide",
+   "abrotherabroad-unbound-merino-tee",
+   "atg-stylish-sandals"
+  ]
+ },
+ {
+  "id": "temple-day",
+  "name": "Temple day",
+  "tagline": "Covered, respectful, easy to slip off",
+  "rules": [
+   "Cover shoulders and knees; ankles too at the strictest sites",
+   "Nothing sheer, ripped, sleeveless or with rolled sleeves",
+   "Wear slip-ons and pack a sarong or scarf"
+  ],
+  "palette": [
+   "white",
+   "stone",
+   "navy",
+   "light grey"
+  ],
+  "outfit": {
+   "top": "light grey long-sleeve linen-cotton shirt, sleeves down",
+   "bottom": "navy full-length lightweight trousers",
+   "layer": null,
+   "shoes": "leather slip-on sneakers or loafers",
+   "accessory": "foldable sarong-style scarf in a small sling bag"
+  },
+  "articleIds": [
+   "tagthai-thailand-temple-dress-code",
+   "muddietrails-doi-suthep-guide",
+   "yourthaiguide-bangkok-temple-dress-code",
+   "nothingfamiliar-thailand-temple-dress-code",
+   "tatnews-thai-temple-etiquette",
+   "vntourism-what-to-wear-temples-cities"
+  ]
+ },
+ {
+  "id": "travel-day",
+  "name": "Travel day",
+  "tagline": "Comfortable in transit, sharp on arrival",
+  "rules": [
+   "Wear your bulkiest pieces on the plane",
+   "Choose an untucked shirt and stretch chinos over sweats",
+   "Pack about ten pieces in colors that all combine"
+  ],
+  "palette": [
+   "navy",
+   "grey",
+   "white",
+   "olive"
+  ],
+  "outfit": {
+   "top": "navy merino T-shirt",
+   "bottom": "grey stretch chinos or drawstring trousers",
+   "layer": "lightweight olive overshirt",
+   "shoes": "white leather sneakers",
+   "accessory": "compact crossbody sling for passport and phone"
+  },
+  "articleIds": [
+   "modestman-smart-casual-travel",
+   "carryology-mens-travel-capsule",
+   "insidethetravellab-mens-capsule",
+   "gg-travel-with-one-bag",
+   "carryology-crossbody-sling-bags",
+   "abrotherabroad-unbound-merino-tee"
+  ]
+ },
+ {
+  "id": "minimal-neutral",
+  "name": "Minimal neutral",
+  "tagline": "Few pieces, every combination works",
+  "rules": [
+   "Build on three neutrals plus one accent color",
+   "Vary texture within one color family",
+   "Light shades by day, darker tones at night"
+  ],
+  "palette": [
+   "cream",
+   "sand",
+   "navy",
+   "charcoal"
+  ],
+  "outfit": {
+   "top": "cream knit polo",
+   "bottom": "sand linen trousers",
+   "layer": null,
+   "shoes": "white minimal leather sneakers",
+   "accessory": "steel watch on a grey nylon strap"
+  },
+  "articleIds": [
+   "fb-how-to-wear-neutrals",
+   "thevou-monochrome-dressing",
+   "gg-earth-tones-outfits",
+   "modestman-summer-style-tips",
+   "gearpatrol-summer-watch-straps",
+   "fb-best-white-sneakers"
+  ]
+ }
+]

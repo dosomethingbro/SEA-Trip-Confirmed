@@ -1,0 +1,156 @@
+[
+ {
+  "id": "permanent-style",
+  "name": "Permanent Style",
+  "url": "https://www.permanentstyle.com/feed",
+  "kind": "articles",
+  "sections": [
+   "fit",
+   "fabrics-heat",
+   "shirts",
+   "shoes",
+   "color"
+  ],
+  "verified": true,
+  "notes": "Verified via feeder.co listing (latest Oct 23 2026, ~3/week). Great on fit, cloth and tailoring; skip winter knitwear and in-house product drops."
+ },
+ {
+  "id": "ape-to-gentleman",
+  "name": "Ape to Gentleman",
+  "url": "https://www.apetogentleman.com/feed/",
+  "kind": "articles",
+  "sections": [
+   "shoes",
+   "shirts",
+   "color",
+   "accessories"
+  ],
+  "verified": true,
+  "notes": "Verified via feeder.co (4 posts in last week, Oct 2026). Good roundups of shoes and colour; filter out spirits, grooming clinics and runway trend pieces."
+ },
+ {
+  "id": "gentlemans-gazette",
+  "name": "Gentleman's Gazette",
+  "url": "https://www.gentlemansgazette.com/feed/",
+  "kind": "articles",
+  "sections": [
+   "fabrics-heat",
+   "fit",
+   "accessories",
+   "packing-travel"
+  ],
+  "verified": true,
+  "notes": "Verified via feeder.co (latest post hours old, Oct 2026). Strong hot-weather, fabric and packing guides; skip etiquette, history and celebrity EDC posts."
+ },
+ {
+  "id": "dappered",
+  "name": "Dappered",
+  "url": "https://dappered.com/feed/",
+  "kind": "articles",
+  "sections": [
+   "shoes",
+   "pants-shorts",
+   "accessories"
+  ],
+  "verified": true,
+  "notes": "Verified via feeder.co (~7 posts/week, Oct 2026). Useful affordable reviews and style scenarios; most posts are sale roundups, so filter for 'In Review' and 'Style Scenario'."
+ },
+ {
+  "id": "fashionbeans",
+  "name": "FashionBeans \u2013 Men's Fashion",
+  "url": "https://www.fashionbeans.com/category/mens-fashion/feed/",
+  "kind": "articles",
+  "sections": [
+   "shirts",
+   "pants-shorts",
+   "shoes",
+   "accessories"
+  ],
+  "verified": true,
+  "notes": "Feed URL per Feedspot; live per category page with Oct 2026 posts and Aug 2026 dated guides. Buying guides for linen, sneakers, walking shoes; filter out outerwear and novelty brand lists."
+ },
+ {
+  "id": "highsnobiety",
+  "name": "Highsnobiety",
+  "url": "https://www.highsnobiety.com/feed/",
+  "kind": "articles",
+  "sections": [
+   "shoes",
+   "color"
+  ],
+  "verified": true,
+  "notes": "Verified via feeder.co (status Working, ~9 posts/day). Occasional sneaker and colour ideas; heavy streetwear and hype drops, so filter hard by keywords."
+ },
+ {
+  "id": "r-malefashionadvice",
+  "name": "r/malefashionadvice",
+  "url": "https://www.reddit.com/r/malefashionadvice/.rss",
+  "kind": "community",
+  "sections": [
+   "fit",
+   "shirts",
+   "pants-shorts",
+   "shoes"
+  ],
+  "verified": true,
+  "notes": "Live per GummySearch (daily thread dated Oct 24 2026, 6.5M members). Pull Fit Feedback and guides; skip daily simple-questions threads."
+ },
+ {
+  "id": "r-onebag",
+  "name": "r/onebag",
+  "url": "https://www.reddit.com/r/onebag/.rss",
+  "kind": "community",
+  "sections": [
+   "packing-travel",
+   "fabrics-heat"
+  ],
+  "verified": true,
+  "notes": "Live per GummySearch (Bag Finder megathread Oct 19 2026, 961k members). Packing lists and merino talk; skip Trading Zone posts."
+ },
+ {
+  "id": "r-frugalmalefashion",
+  "name": "r/frugalmalefashion",
+  "url": "https://www.reddit.com/r/frugalmalefashion/.rss",
+  "kind": "community",
+  "sections": [
+   "shoes",
+   "shirts",
+   "pants-shorts"
+  ],
+  "verified": true,
+  "notes": "Feed listed on feeder.co; live per GummySearch (updated Oct 23 2026, deal codes dated Oct 22). Deals only; filter for linen, loafers, sandals."
+ },
+ {
+  "id": "r-thailandtourism",
+  "name": "r/ThailandTourism",
+  "url": "https://www.reddit.com/r/ThailandTourism/.rss",
+  "kind": "community",
+  "sections": [
+   "packing-travel"
+  ],
+  "verified": true,
+  "notes": "Live per GummySearch (1.2M members, updated Oct 1 2026). Filter for Chiang Mai, temple, elephant and weather; skip visa and accommodation threads."
+ },
+ {
+  "id": "r-vietnam",
+  "name": "r/VietNam",
+  "url": "https://www.reddit.com/r/VietNam/.rss",
+  "kind": "community",
+  "sections": [
+   "packing-travel"
+  ],
+  "verified": true,
+  "notes": "Live per GummySearch (1.5M members, updated Oct 15 2026). Filter for Hanoi, Ninh Binh, weather; skip Ha Giang loop and expat daily-life posts."
+ },
+ {
+  "id": "r-travel",
+  "name": "r/travel",
+  "url": "https://www.reddit.com/r/travel/.rss",
+  "kind": "community",
+  "sections": [
+   "packing-travel"
+  ],
+  "verified": true,
+  "notes": "Live per GummySearch (14.5M members, updated Oct 25 2026). Very noisy; keep only posts matching Vietnam, Thailand, packing or carry-on."
+ }
+]
