@@ -1,0 +1,601 @@
+<title>The Pan Rack</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: PCPartPicker-style parts list. One row per pan slot, a dish-coverage matrix on the right of each row, a sticky total bar. Tapping "Swap" opens a comparison matrix of every option for that slot. */
+:root{
+  --bg:#ECEFEF; --surface:#FFFFFF; --sunk:#F4F6F6; --ink:#15181A; --muted:#5B6467; --line:#D3D9DA;
+  --blued:#2B5070; --blued-soft:#E1E9EF; --heat:#B96A16; --ok:#2E7A55; --ok-soft:#E1F0E8;
+  --steel1:#D7DCDE; --steel2:#98A1A5; --iron:#26292B; --carbon:#323945; --enamel:#C24A2A; --nonstick:#2A2C2E;
+  --font-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121516;--surface:#1A1E20;--sunk:#15191A;--ink:#E6EBEC;--muted:#98A2A5;--line:#2C3437;
+  --blued:#86AFD3;--blued-soft:#1D2A35;--heat:#E39A48;--ok:#5EC290;--ok-soft:#173226;
+  --steel1:#C3C9CC;--steel2:#7E888C;--iron:#0C0D0D;--carbon:#3B4352;--enamel:#D9603E;--nonstick:#0F1011;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121516;--surface:#1A1E20;--sunk:#15191A;--ink:#E6EBEC;--muted:#98A2A5;--line:#2C3437;
+  --blued:#86AFD3;--blued-soft:#1D2A35;--heat:#E39A48;--ok:#5EC290;--ok-soft:#173226;
+  --steel1:#C3C9CC;--steel2:#7E888C;--iron:#0C0D0D;--carbon:#3B4352;--enamel:#D9603E;--nonstick:#0F1011;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14.5px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 110px}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;text-transform:uppercase;letter-spacing:.01em}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+a{color:var(--blued)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--blued);outline-offset:2px}
+
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;padding-block:28px 18px;border-bottom:2px solid var(--ink)}
+header h1{font-size:clamp(44px,7vw,76px);font-weight:800;line-height:.88}
+header h1 span{color:var(--blued)}
+header p{margin:8px 0 0;color:var(--muted);max-width:56ch}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);padding:7px 13px;border-radius:999px;font-weight:600;font-size:13.5px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Summary strip */
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px}
+.summary div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.summary b{font-family:var(--font-mono);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.summary .ok{color:var(--ok)}
+@media (max-width:640px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Parts table */
+.tablewrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);background:var(--surface);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:1220px}
+thead th{position:sticky;top:0;background:var(--sunk);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+thead th.dish{text-align:center;width:54px;padding:8px 2px;vertical-align:bottom}
+thead th.dish .ic{width:26px;height:26px;color:var(--ink);display:block;margin:0 auto 4px}
+thead th.dish small{font-size:9.5px;letter-spacing:.06em}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:middle}
+.lvl{display:inline-flex;gap:1px;align-items:center}
+.lvl .ic{width:16px;height:16px}
+.lvl .ic.dim{opacity:.22}
+.heat .ic{color:var(--heat)}
+.care .ic{color:var(--blued)}
+.badges{display:flex;gap:8px;margin-top:4px;color:var(--muted)}
+.badges span{display:inline-flex;align-items:center;gap:3px;font-size:11px}
+.badges .ic{width:15px;height:15px}
+.badges .no{opacity:.4;text-decoration:line-through}
+.mat{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);flex:none}
+tbody td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr.off td:not(.comp):not(.act){opacity:.35}
+td.comp{width:150px}
+td.comp b{font-family:var(--font-display);font-size:19px;text-transform:uppercase;display:block;line-height:1}
+td.comp small{color:var(--muted);font-size:12px}
+.prod{display:flex;gap:12px;align-items:center;min-width:250px}
+.thumb{width:64px;height:64px;flex:none;border:1px solid var(--line);border-radius:4px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:contain}
+.thumb svg{width:58px;height:auto}
+.prod .brand{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.prod a.name{font-weight:700;color:var(--ink);text-decoration:none;line-height:1.25;display:block}
+.prod a.name:hover{text-decoration:underline}
+.spec{font-size:13px;white-space:nowrap}
+.spec small{display:block;color:var(--muted);font-size:11.5px}
+td.dish{text-align:center;padding:10px 2px}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line)}
+.dot.d1{border-color:var(--ok);background:linear-gradient(90deg,var(--ok) 50%,transparent 50%)}
+.dot.d2{border-color:var(--ok);background:var(--ok)}
+td.price{text-align:right;white-space:nowrap}
+td.price b{font-family:var(--font-mono);font-size:16px;font-variant-numeric:tabular-nums}
+td.price small{display:block;color:var(--muted);font-size:11.5px}
+td.act{white-space:nowrap;text-align:right}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 11px;border-radius:4px;font-weight:600;font-size:13px;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn.buy{background:var(--blued);border-color:var(--blued);color:var(--surface)}
+.btn.buy:hover{filter:brightness(1.1)}
+.btn.ghost:hover{background:var(--blued-soft)}
+.acts{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.toggle{width:34px;height:20px;appearance:none;background:var(--line);border-radius:999px;position:relative;margin:0;vertical-align:middle;cursor:pointer}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.toggle:checked{background:var(--ok)}
+.toggle:checked::after{transform:translateX(14px)}
+tr.total td{background:var(--sunk);font-weight:700;border-bottom:0}
+tr.total td.price b{font-size:20px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.scroll-hint{display:none;font-size:12px;color:var(--muted);margin-top:8px}
+@media (max-width:1100px){.scroll-hint{display:block}}
+
+/* Compare drawer */
+dialog{border:1px solid var(--line);border-radius:6px;padding:0;background:var(--surface);color:var(--ink);width:min(1100px,calc(100vw - 24px));max-height:calc(100vh - 40px)}
+dialog::backdrop{background:rgba(10,12,13,.55)}
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface);z-index:2}
+.dhead h2{font-size:28px;font-weight:800}
+.dbody{padding:0 0 8px;overflow-x:auto}
+.cmp{min-width:760px}
+.cmp th[scope="row"]{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);width:140px;background:var(--sunk);font-weight:600}
+.cmp td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13.5px}
+.cmp td.cur{background:var(--blued-soft)}
+.cmp .big{width:120px;height:120px}
+.cmp .big svg{width:100px}
+.best{color:var(--ok);font-weight:700}
+.pill{display:inline-block;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;padding:2px 6px;border-radius:3px;border:1px solid var(--heat);color:var(--heat);text-transform:uppercase}
+
+section.notes{margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;border-top:2px solid var(--ink);padding-top:18px}
+section.notes h3{font-size:20px;margin-bottom:6px}
+section.notes p,section.notes li{font-size:13.5px;color:var(--muted);max-width:62ch}
+section.notes ul{padding-left:18px;margin:0}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--ink);color:var(--bg);
+  padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.bar .mono{font-size:20px;font-weight:600}
+.bar button{background:var(--bg);color:var(--ink);border:0;border-radius:4px;padding:8px 12px;font-weight:700;font-size:13px}
+.prod button.name{all:unset;cursor:pointer;font-weight:700;line-height:1.25;display:block;color:var(--ink)}
+.prod button.name:hover{text-decoration:underline}
+.prod button.name:focus-visible{outline:2px solid var(--blued);outline-offset:2px}
+.prod .thumb{cursor:pointer}
+tr.divider td{background:var(--ink);color:var(--bg);padding:10px 12px;border-bottom:0}
+tr.divider b{font-family:var(--font-display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;margin-right:10px}
+tr.divider span{font-size:12.5px;opacity:.8}
+
+/* Details panel */
+#info .dbody{padding:18px;display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:24px}
+@media (max-width:700px){#info .dbody{grid-template-columns:minmax(0,1fr)}}
+.hero-img{width:100%;aspect-ratio:1;max-width:100%;border:1px solid var(--line);border-radius:6px;background:#fff;display:grid;place-items:center;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:contain}
+.hero-img svg{width:80%;height:auto}
+.info-price{display:flex;align-items:baseline;gap:8px;margin-top:12px}
+.info-price b{font-family:var(--font-mono);font-size:26px;font-variant-numeric:tabular-nums}
+.info-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.specgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:12px 0}
+.specgrid div{background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;min-width:0}
+.dishrow{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}
+.dishchip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px 4px 6px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.dishchip.d1{border-color:var(--ok);color:var(--ok)}
+.dishchip.d2{background:var(--ok);border-color:var(--ok);color:var(--surface);font-weight:600}
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.pc h4{margin:0 0 4px;font-size:12px}
+.pc ul{margin:0;padding-left:18px;font-size:13.5px}
+.pc li{margin-bottom:3px}
+.pc .plus h4{color:var(--ok)} .pc .minus h4{color:var(--heat)}
+.ask{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+.ask .qs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.ask .qs button{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600}
+.ask .qs button:hover{background:var(--blued-soft)}
+.ask form{display:flex;gap:6px}
+.ask input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;padding:8px 10px;font:inherit}
+.answer{margin-top:10px;white-space:pre-wrap;font-size:14px;background:var(--sunk);border-radius:4px;padding:12px;border:1px solid var(--line)}
+.answer[data-state="wait"]{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Cookware parts list · prices checked Oct 24, 2026</div>
+      <h1>The Pan <span>Rack</span></h1>
+      <p>Pick one pan per slot, then add specialty pieces below. The matrix shows which of your regular dishes each pan handles. Tap any product name for details, reviews and questions.</p>
+    </div>
+    <div class="presets" role="group" aria-label="Starting builds">
+      <button class="chip" data-preset="core">Core 3</button>
+      <button class="chip" data-preset="rec">Recommended 5</button>
+      <button class="chip" data-preset="full">Full 6</button>
+      <button class="chip" data-preset="value">Value</button>
+    </div>
+  </header>
+
+  <div class="summary" aria-live="polite">
+    <div><span class="eyebrow">Pieces</span><b id="sCount">0</b></div>
+    <div><span class="eyebrow">Total</span><b id="sTotal">$0</b></div>
+    <div><span class="eyebrow">Dishes covered</span><b id="sCov" class="ok">0/7</b></div>
+    <div><span class="eyebrow">Induction ready</span><b id="sInd">—</b></div>
+  </div>
+
+  <div class="tablewrap">
+    <table id="parts">
+      <thead><tr>
+        <th>Slot</th><th>Selection</th><th>Build</th><th>Heat</th><th>Care</th>
+        <th class="dish" data-dish="0"></th><th class="dish" data-dish="1"></th><th class="dish" data-dish="2"></th>
+        <th class="dish" data-dish="3"></th><th class="dish" data-dish="4"></th><th class="dish" data-dish="5"></th><th class="dish" data-dish="6"></th>
+        <th style="text-align:right">Price</th><th style="text-align:right">Buy</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <div class="scroll-hint">Swipe the table sideways to see the dish matrix and buy buttons.</div>
+  <div class="legend">
+    <span><i class="dot d2"></i> Best tool for it</span>
+    <span><i class="dot d1"></i> Handles it</span>
+    <span><i class="dot"></i> Not its job</span>
+    <span class="heat" id="lgHeat"></span>
+    <span class="care" id="lgCare"></span>
+    <span id="lgMisc"></span>
+  </div>
+
+  <section class="notes">
+    <div><h3>How the picks were chosen</h3><p>America's Test Kitchen still rates the All-Clad D3 12" its top stainless skillet. Several 2026 tests pick Lodge's Chef Collection for cast iron. de Buyer and Matfer are the reference French carbon steel pans. Le Creuset and Staub lead enameled Dutch ovens.</p></div>
+    <div><h3>Prices</h3><p>Pulled from each linked store on Oct 24, 2026. All-Clad's own site has the D3 pieces on sale right now. The de Buyer price is the Canadian listing converted, so check the Amazon link for the US price. Black Friday is a month out if you can wait.</p></div>
+    <div><h3>Care in one line each</h3><ul>
+      <li>Stainless: preheat, then oil, then food. Bar Keepers Friend for stains.</li>
+      <li>Carbon steel and cast iron: rinse, dry on the burner, thin coat of oil.</li>
+      <li>Enamel: medium heat is plenty. No metal scrapers.</li>
+      <li>Nonstick: low-medium heat, no metal tools, no dishwasher.</li></ul></div>
+  </section>
+</div>
+
+<div class="bar"><span><span class="mono" id="bTotal">$0</span> · <span id="bMeta"></span></span><button id="copyBtn" type="button">Copy list with links</button></div>
+
+<dialog id="cmp" aria-labelledby="cmpTitle">
+  <div class="dhead"><div><div class="eyebrow">Compare and swap</div><h2 id="cmpTitle"></h2></div><button class="btn" id="cmpClose" type="button">Close</button></div>
+  <div class="dbody"><table class="cmp" id="cmpTable"></table></div>
+</dialog>
+
+<dialog id="info" aria-labelledby="infoTitle">
+  <div class="dhead"><div><div class="eyebrow" id="infoBrand"></div><h2 id="infoTitle"></h2></div><button class="btn" id="infoClose" type="button">Close</button></div>
+  <div class="dbody">
+    <div>
+      <div class="hero-img" id="infoImg"></div>
+      <div class="info-price"><b id="infoPrice"></b><span id="infoStore" style="color:var(--muted);font-size:13px"></span></div>
+      <div class="info-links" id="infoLinks"></div>
+    </div>
+    <div style="min-width:0">
+      <p id="infoNote" style="margin:0;font-size:15px"></p>
+      <div class="specgrid" id="infoSpecs"></div>
+      <div class="eyebrow">Good for</div>
+      <div class="dishrow" id="infoDishes"></div>
+      <div class="pc"><div class="plus"><h4 class="eyebrow">Why buy it</h4><ul id="infoPros"></ul></div><div class="minus"><h4 class="eyebrow">Watch out for</h4><ul id="infoCons"></ul></div></div>
+      <p style="font-size:13.5px;color:var(--muted);margin:12px 0 0" id="infoCare"></p>
+      <div class="ask" id="askBox" hidden>
+        <div class="eyebrow">Ask Claude about this pan</div>
+        <div class="qs" id="askQs"></div>
+        <form id="askForm"><input id="askInput" placeholder="e.g. Is this good for smash burgers?" aria-label="Your question"><button class="btn buy" type="submit">Ask</button><button class="btn" type="button" id="askStop" hidden>Stop</button></form>
+        <div class="answer" id="askOut" hidden></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="var(--steel2)"/><stop offset=".5" stop-color="var(--steel1)"/><stop offset="1" stop-color="var(--steel2)"/></linearGradient></defs></svg>
+
+<script>
+const DISHES=["Steak","Chicken","Fish","Burritos","Tacos","Soups","Pasta"];
+const P={
+ steak:'<path d="M4 10c0-3.5 3.5-6 8-6s8 2.5 8 6.5S16.5 20 11 20 4 15 4 10z"/><circle cx="14" cy="10" r="2.2"/><path d="M7 13c1 1.5 2.5 2.5 4.5 2.5"/>',
+ chicken:'<ellipse cx="15" cy="9" rx="5" ry="6.2" transform="rotate(45 15 9)"/><path d="M10.5 13.5 6 18"/><circle cx="4.6" cy="18.2" r="1.5"/><circle cx="6.2" cy="20" r="1.3"/>',
+ fish:'<path d="M2.5 12c3-4.5 9-6 14-2l4.5-3.5v11L16.5 14c-5 4-11 2.5-14-2z"/><circle cx="7.5" cy="11" r=".9" fill="currentColor"/><path d="M11 9.5c.8 1.6.8 3.4 0 5"/>',
+ burrito:'<rect x="2.5" y="8" width="19" height="8" rx="4" transform="rotate(-18 12 12)"/><path d="M7.5 9.7c.9 2.2 1.4 4.3 1.2 6.4M12 8.4c.9 2.2 1.4 4.3 1.2 6.4"/>',
+ taco:'<path d="M2.5 17a9.5 9.5 0 0 1 19 0z"/><path d="M6 11.5c1-1.2 2.4-.6 3-1.8M11 8.6c1-.9 2.3 0 3.2-1M15.6 9.6c1 .2 1.8 1 2.6.6"/>',
+ soup:'<path d="M3 12h18a9 8 0 0 1-18 0z"/><path d="M9 4c-1.2 1.3 1.2 2.4 0 4M13.5 4c-1.2 1.3 1.2 2.4 0 4"/>',
+ pasta:'<path d="M3 13h18a9 7 0 0 1-18 0z"/><path d="M6 13c1-2.5 2.6.4 4-2s2.8.6 4-1.6 2.6.9 4 .6"/><path d="M17 3v7M15.5 3v3M18.5 3v3"/>',
+ flame:'<path d="M12 3c.6 3.6 5 5 5 10a5 5 0 0 1-10 0c0-2.6 1.6-3.8 2.4-6 .9 1.4 1.7 2.4 1.6 4 1.5-1.6 1.6-4.6 1-8z"/>',
+ sponge:'<rect x="3.5" y="8" width="17" height="10" rx="2.5"/><path d="M3.5 11.5h17"/><circle cx="8" cy="14.8" r=".8" fill="currentColor"/><circle cx="12" cy="15.3" r=".8" fill="currentColor"/><circle cx="16" cy="14.6" r=".8" fill="currentColor"/>',
+ therm:'<path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/>',
+ coil:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+ dw:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 7.5h16"/><circle cx="12" cy="14.5" r="4"/>',
+ hand:'<path d="M12 3.5c3 4 5 6.5 5 9.5a5 5 0 0 1-10 0c0-3 2-5.5 5-9.5z"/>',
+ pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.2"/>'
+};
+const DKEYS=["steak","chicken","fish","burrito","taco","soup","pasta"];
+const icon=(k,cls="")=>`<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
+const lvl=(k,n,max)=>`<span class="lvl">${Array.from({length:max},(_,i)=>icon(k,i<n?"":"dim")).join("")}</span>`;
+const HEAT_TXT=["","Low to medium","Medium-high","High","Ripping hot"];
+const CARE_TXT=["","Wash and go","Easy, some scrubbing","Season and dry"];
+function traits(o){
+  const b=o.build.toLowerCase();
+  if(b.includes("enamel"))return{heat:2,care:1,sw:"var(--enamel)"};
+  if(b.includes("ptfe"))return{heat:1,care:1,sw:"var(--nonstick)"};
+  if(b.includes("carbon"))return{heat:4,care:3,sw:"var(--carbon)"};
+  if(b.includes("cast iron"))return{heat:4,care:3,sw:"var(--iron)"};
+  return{heat:3,care:2,sw:"var(--steel2)"};
+}
+document.getElementById("lgHeat").innerHTML=icon("flame")+" Max heat it handles (1–4)";
+document.getElementById("lgCare").innerHTML=icon("sponge")+" Care effort (1–3)";
+document.getElementById("lgMisc").innerHTML=`${icon("coil")} Induction · ${icon("dw")} Dishwasher · ${icon("hand")} Hand wash · ${icon("pin")} Made in`;
+document.querySelectorAll("th[data-dish]").forEach(th=>{const i=+th.dataset.dish;th.innerHTML=`<span title="${DISHES[i]}">${icon(DKEYS[i])}<small>${DISHES[i]}</small></span>`;});
+function draw(kind,fill){
+  const s={
+    skillet:`<path d="M8 30 L14 46 Q16 50 22 50 L74 50 Q80 50 82 46 L88 30 Z" fill="${fill}"/><rect x="86" y="30" width="58" height="6" rx="3" fill="${fill}" transform="rotate(-8 86 33)"/><rect x="6" y="28" width="84" height="4" rx="2" fill="${fill}"/>`,
+    dutch:`<rect x="14" y="22" width="80" height="30" rx="8" fill="${fill}"/><path d="M12 22 Q54 6 96 22 Z" fill="${fill}"/><rect x="48" y="6" width="12" height="7" rx="3" fill="var(--steel2)"/><rect x="4" y="28" width="12" height="7" rx="3" fill="${fill}"/><rect x="92" y="28" width="12" height="7" rx="3" fill="${fill}"/>`,
+    sauce:`<rect x="10" y="20" width="56" height="32" rx="4" fill="${fill}"/><rect x="8" y="18" width="60" height="4" rx="2" fill="${fill}"/><rect x="64" y="22" width="76" height="6" rx="3" fill="${fill}" transform="rotate(-8 64 25)"/>`,
+    wok:`<path d="M6 22 Q50 62 94 22 Z" fill="${fill}"/><rect x="92" y="20" width="54" height="6" rx="3" fill="#8A6A44" transform="rotate(-10 92 23)"/><rect x="2" y="20" width="96" height="4" rx="2" fill="${fill}"/>`,
+    griddle:`<rect x="10" y="34" width="96" height="8" rx="4" fill="${fill}"/><rect x="104" y="34" width="34" height="6" rx="3" fill="${fill}"/><rect x="2" y="35" width="10" height="5" rx="2" fill="${fill}"/>`,
+    grill:`<rect x="8" y="26" width="88" height="24" rx="3" fill="${fill}"/><path d="M20 30v16M34 30v16M48 30v16M62 30v16M76 30v16" stroke="var(--steel2)" stroke-width="2"/><rect x="94" y="28" width="52" height="6" rx="3" fill="${fill}" transform="rotate(-8 94 31)"/>`,
+    braiser:`<rect x="10" y="30" width="88" height="20" rx="7" fill="${fill}"/><path d="M8 30 Q54 12 100 30 Z" fill="${fill}"/><rect x="48" y="13" width="12" height="7" rx="3" fill="var(--steel2)"/><rect x="0" y="34" width="12" height="7" rx="3" fill="${fill}"/><rect x="96" y="34" width="12" height="7" rx="3" fill="${fill}"/>`,
+    stock:`<rect x="16" y="10" width="76" height="44" rx="4" fill="${fill}"/><rect x="14" y="8" width="80" height="4" rx="2" fill="${fill}"/><path d="M6 18 h12 v8 h-12 z M90 18 h12 v8 h-12 z" fill="${fill}"/>`};
+  return `<svg viewBox="0 0 150 58" aria-hidden="true">${s[kind]}</svg>`;
+}
+const amz=q=>"https://www.amazon.com/s?k="+encodeURIComponent(q);
+
+/* coverage: 2 = best tool, 1 = handles it, 0 = not its job. Order: Steak Chicken Fish Burritos Tacos Soups Pasta */
+const SLOTS=[
+ {id:"sear",name:"Workhorse",sub:"12\" stainless skillet",kind:"skillet",cov:[1,2,2,2,2,0,1],options:[
+  {id:"ac-d3",brand:"All-Clad",name:"D3 Stainless 12\" Fry Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/a/c/ac_hero_images_d3_12_in_lid.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:149.99,was:179.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3ply-bonded-cookware-fry-pan-with-lid-12-inch.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Test-kitchen favorite for decades. Lid included."},
+  {id:"mi-ss",brand:"Made In",name:"Stainless Clad Frying Pan 12\"",img:"",fill:"url(#g)",
+   price:149,store:"Made In",url:"https://madeincookware.com/products/stainless-steel-frying-pan/12-inch",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,note:"Thicker, heavier, holds heat longer. No lid."},
+  {id:"tram",brand:"Tramontina",name:"Signature 12\" Tri-Ply Clad Fry Pan with Helper Handle",img:"https://www.tramontina.com/cdn/shop/files/Signature_12_Inch_Tri-Ply-Clad_Stainless_Steel_Fry_Pan_with_Helper_Handle_80116057.jpg?crop=center&height=1200&v=1738020362&width=1200",
+   price:59.95,store:"Tramontina",url:"https://tramontina.com/products/12-inch-tri-ply-clad-stainless-steel-fry-pan-with-helper-handle",
+   build:"Tri-ply stainless",made:"Brazil",oven:"500°F",ind:true,dw:true,value:true,note:"Most of All-Clad's performance for 40% of the price."}
+ ]},
+ {id:"black",name:"Searing pan",sub:"Carbon steel or cast iron",kind:"skillet",cov:[2,1,0,2,2,0,0],options:[
+  {id:"debuyer",brand:"de Buyer",name:"Mineral B 11\" Carbon Steel Fry Pan",img:"https://www.chefsupplies.ca/cdn/shop/files/de-Buyer-Mineral-B-11-Steel-Fry-Pan-28-cm-5614_28-3.jpg?v=1745979484",
+   price:96,priceNote:"C$131 listed",store:"Chef Supplies",url:"https://www.chefsupplies.ca/products/de-buyer-mineral-b-11-steel-fry-pan-28-cm-5614-28",amz:"https://www.amazon.com/dp/B00462QP16",
+   build:"Carbon steel",made:"France",oven:"400°F (10 min)",ind:true,dw:false,pick:true,note:"Heats fast, turns slick with use, lighter than iron."},
+  {id:"matfer",brand:"Matfer Bourgeat",name:"Black Steel 11⅞\" Frying Pan (062005)",img:"",fill:"var(--carbon)",
+   price:113,store:"KaTom",url:"https://www.katom.com/347-062005.html",amz:"https://www.amazon.com/dp/B000KENOTK",
+   build:"Carbon steel",made:"France",oven:"Very high",ind:true,dw:false,note:"Restaurant standard. Season it on the stove first."},
+  {id:"lodge",brand:"Lodge",name:"Chef Collection 12\" Cast Iron Skillet",img:"https://www.lodgecastiron.com/cdn/shop/files/LC12SK_L.jpg?v=1741189190&width=900",
+   price:40,priceNote:"varies by size",store:"Lodge",url:"https://www.lodgecastiron.com/collections/chef-collection/products/chef-collection-skillet?variant=51685749588340",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,value:true,note:"Top pick in several 2026 tests. Lighter than classic Lodge."},
+  {id:"smithey",brand:"Smithey",name:"No. 12 Cast Iron Skillet",img:"https://smithey.com/cdn/shop/files/Smithey_eComm_0124.jpg?v=1742318680",
+   price:220,store:"Smithey",url:"https://smithey.com/products/no-12-cast-iron-skillet",
+   build:"Polished cast iron",made:"USA",oven:"Any",ind:true,dw:false,note:"Machined-smooth heirloom iron. Best heat for thick steaks."}
+ ]},
+ {id:"pot",name:"Braiser",sub:"Enameled Dutch oven",kind:"dutch",cov:[0,1,0,1,2,2,1],options:[
+  {id:"lc",brand:"Le Creuset",name:"Signature 5.5 qt Round Dutch Oven",img:"https://cutleryandmore.com/cdn/shop/products/25069.jpg?v=1646172354",
+   price:454.95,store:"Cutlery and More",url:"https://cutleryandmore.com/collections/le-creuset/products/le-creuset-round-dutch-oven-25069",
+   build:"Enameled cast iron",made:"France",oven:"500°F",ind:true,dw:true,pick:true,note:"Light interior shows browning. Right size for two plus leftovers."},
+  {id:"staub",brand:"Staub",name:"La Cocotte 5.5 qt Round",img:"https://www.zwilling.com/dw/image/v2/BCGV_PRD/on/demandware.static/-/Sites-zwilling-master-catalog/default/dwdd787961/images/large/11026140_02.jpg?sw=720&sh=720&sm=fit",
+   price:420,priceNote:"typical; see site",store:"Zwilling",url:"https://zwilling.com/us/staub-la-cocotte-5.5-qt-round-cocotte-metallic-blue-11026140/40505-306-0.html",
+   build:"Enameled cast iron",made:"France",oven:"900°F",ind:true,dw:true,note:"Better browning. Dark interior hides stains. Self-basting lid."},
+  {id:"lodge-en",brand:"Lodge",name:"6 qt Enameled Cast Iron Dutch Oven",img:"",fill:"var(--enamel)",
+   price:139.99,store:"Target",url:"https://www.target.com/p/-/A-14345909",
+   build:"Enameled cast iron",made:"China",oven:"500°F",ind:true,dw:false,value:true,note:"Bigger and a third of the price. Enamel chips sooner."}
+ ]},
+ {id:"slick",name:"Slick pan",sub:"10\" nonstick, eggs and fish",kind:"skillet",cov:[0,0,2,1,0,0,0],options:[
+  {id:"ac-ns",brand:"All-Clad",name:"HA1 Nonstick Fry Pan 10\"",img:"https://www.all-clad.com/media/catalog/product/m/k/mkjjdv4qotnvj4fztfx3_lz8iztnjmmgzgpym.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:64.99,was:79.99,store:"All-Clad",url:"https://www.all-clad.com/ha1-expert-cookware-nonstick-fry-pan-10-in.html",
+   build:"Hard-anodized, PTFE",made:"China",oven:"500°F",ind:true,dw:false,pick:true,value:true,note:"Sturdy and cheap enough to replace in a few years."},
+  {id:"mi-ns",brand:"Made In",name:"ProCoat Non Stick Frying Pan 10\"",img:"",fill:"var(--nonstick)",
+   price:149,store:"Made In",url:"https://madeincookware.com/products/non-stick-frying-pan/10-inch-graphite",
+   build:"5-ply body, PTFE",made:"USA",oven:"500°F",ind:true,dw:false,note:"Heats like clad stainless. Pricey for a pan that wears out."}
+ ]},
+ {id:"sauce",name:"Saucepan",sub:"3 qt with lid",kind:"sauce",cov:[0,0,0,1,1,1,1],options:[
+  {id:"ac-sp",brand:"All-Clad",name:"D3 Stainless 3 qt Sauce Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/s/a/sauce_pan.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:149.99,was:199.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3-ply-bonded-cookware-sauce-pan-with-lid-3-qt.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Rice and beans for burritos without scorching."}
+ ]},
+ {id:"stock",name:"Stockpot",sub:"8 qt for pasta and stock",kind:"stock",cov:[0,0,0,0,0,2,2],options:[
+  {id:"mi-st",brand:"Made In",name:"Stainless Clad Stock Pot 8 qt",img:"",fill:"url(#g)",
+   price:249,store:"Made In",url:"https://madeincookware.com/products/stainless-steel-stock-pots-us/8-quart",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,pick:true,note:"Clad up the walls, so it browns aromatics for soup too."}
+ ]}
+];
+
+/* Specialty add-ons: optional, off by default, kept when switching presets */
+SLOTS.push(
+ {id:"comal",spec:true,name:"Comal",sub:"Flat griddle for tortillas",kind:"griddle",cov:[0,0,0,2,2,0,0],options:[
+  {id:"lodge-comal",brand:"Lodge",name:"10.5\" Round Cast Iron Griddle",img:"https://www.nfm.com/on/demandware.static/-/Sites-nfm-master-catalog/default/dw135c6220/images/058/58/58581851-1.jpg",
+   price:24.90,priceNote:"~$25 at most stores",store:"Nebraska Furniture Mart",url:"https://nfm.com/lodge-cast-iron-10-5-round-cast-iron-griddle-in-black-58581851/58581851.html",amz:"https://www.amazon.com/s?k=Lodge+L9OG3+round+griddle",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,pick:true,value:true,note:"Warms and chars tortillas in seconds. Also quesadillas, pancakes and toasting chiles."}]},
+ {id:"saute",spec:true,name:"Sauté pan",sub:"Straight sides and a lid",kind:"skillet",cov:[0,2,1,1,1,0,2],options:[
+  {id:"ac-saute",brand:"All-Clad",name:"D3 Stainless 3 qt Sauté Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/8/7/8701004414_hero.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:179.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3-ply-bonded-cookware-saute-pan-with-lid-3-quart.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Sear chicken thighs, then add sauce and simmer covered. Finishing pasta in its sauce."}]},
+ {id:"wok",spec:true,name:"Wok",sub:"Fajitas, fried rice, stir-fry",kind:"wok",cov:[1,2,0,1,2,0,0],options:[
+  {id:"yosukata",brand:"Yosukata",name:"13.5\" Pre-Seasoned Carbon Steel Wok, Flat Bottom",img:"",fill:"var(--carbon)",
+   price:89.99,store:"Walmart",url:"https://www.walmart.com/ip/YOSUKATA-Flat-Bottom-Woks-Stir-Fry-Pans-13-5-Blue-Carbon-Steel-Wok-Preseasoned-Carbon-Steel-Skillet-Wok-for-Electric-Induction-Cooktops/15968956639",
+   build:"Carbon steel",made:"Imported",oven:"Not oven safe",ind:true,dw:false,pick:true,note:"Flat bottom works on any stove. Fajita veg and steak get real char."}]},
+ {id:"saucier",spec:true,name:"Saucier",sub:"Rounded saucepan",kind:"sauce",cov:[0,0,0,1,0,1,2],options:[
+  {id:"mi-saucier",brand:"Made In",name:"Stainless Clad Saucier 3 qt",img:"",fill:"url(#g)",
+   price:179,store:"Made In",url:"https://madeincookware.com/products/saucier/3-qt",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,pick:true,note:"Curved walls so a whisk reaches everything. Queso, pan sauces, risotto."}]},
+ {id:"braiser",spec:true,name:"Braiser",sub:"Wide, shallow enameled pot",kind:"braiser",cov:[0,2,0,1,2,1,1],options:[
+  {id:"lc-braiser",brand:"Le Creuset",name:"Signature Braiser 3.5 qt",img:"https://assets.surlatable.com/m/55e1e5c832a76be9/72_dpi_webp-6825145_0826_vs02",
+   price:399.95,store:"Sur La Table",url:"https://www.surlatable.com/pro-889873-braiser-35qt-rnd/6825145.html",
+   build:"Enameled cast iron",made:"France",oven:"500°F",ind:true,dw:true,pick:true,note:"Sear a whole pan of chicken in one layer, then braise. Birria and chicken tinga."}]},
+ {id:"grill",spec:true,name:"Grill pan",sub:"Indoor grill marks",kind:"grill",cov:[2,2,1,0,1,0,0],options:[
+  {id:"lodge-grill",brand:"Lodge",name:"10.5\" Square Cast Iron Grill Pan",img:"https://www.lodgecastiron.com/cdn/shop/files/L8SGP3-1.20220812182330797.png?v=1743096350",
+   price:24.90,was:29.95,store:"Lodge",url:"https://www.lodgecastiron.com/products/square-cast-iron-grill-pan",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,value:true,note:"Grill marks on steak and chicken when you can't grill outside."}]}
+);
+
+const INFO={
+ "ac-d3":{pros:["Even heat edge to edge","Lid included","Made in the USA, lifetime warranty"],cons:["Food sticks until you learn to preheat","Handle shape bugs some people"]},
+ "mi-ss":{pros:["5-ply holds heat for hard sears","Comfortable handle","Oven safe to 800°F"],cons:["Heavier than All-Clad","No lid"]},
+ "tram":{pros:["Close to All-Clad performance","About $60","Helper handle for lifting"],cons:["Polished finish shows scratches","Shorter track record"]},
+ "debuyer":{pros:["Steakhouse crust at home","Gets slicker every time you cook","Lighter than cast iron"],cons:["Must season and dry after use","Not for tomato sauces until seasoned","Handle limits oven time"]},
+ "matfer":{pros:["Pro-kitchen standard","Rivet-free inside, easy to clean"],cons:["Factory coating must be scrubbed off","Needs seasoning before first use"]},
+ "lodge":{pros:["About $40","Huge heat retention","Lighter than classic Lodge"],cons:["Heavy","Rough surface until seasoning builds"]},
+ "smithey":{pros:["Polished smooth surface","Beautiful heirloom piece","Best heat retention"],cons:["$220","Heavy"]},
+ "lc":{pros:["Light enamel shows browning","Lifetime warranty","Lasts generations"],cons:["Over $400","Enamel can chip if dropped"]},
+ "staub":{pros:["Browns better than Le Creuset","Dark interior hides stains","Self-basting lid"],cons:["Heavier","Hard to see browning on black enamel"]},
+ "lodge-en":{pros:["A third of the price","Bigger 6 qt"],cons:["Enamel chips sooner","Hand wash only"]},
+ "ac-ns":{pros:["Eggs and fish slide right off","Cheap to replace","Works on induction"],cons:["Coating wears out in a few years","No high heat, no metal tools"]},
+ "mi-ns":{pros:["Clad stainless body heats evenly","Nicer to hold"],cons:["$149 for a pan you'll replace","Same coating lifespan"]},
+ "ac-sp":{pros:["Rice and beans won't scorch","Matches your skillet"],cons:["$150 for a saucepan"]},
+ "mi-st":{pros:["Clad up the walls, so it can brown","Big enough for a pound of pasta"],cons:["$249","Bulky to store"]},
+ "lodge-comal":{pros:["$25","Low rim makes flipping tortillas easy","Lasts forever"],cons:["Needs seasoning care","Small for big batches"]},
+ "ac-saute":{pros:["Straight sides hold sauce","Lid included","Pan sauce plus braising in one"],cons:["Overlaps with your skillet if budget is tight"]},
+ "yosukata":{pros:["Real wok char on a home stove","Pre-seasoned","Light and quick"],cons:["Needs seasoning care","Wooden handle, no oven"]},
+ "mi-saucier":{pros:["No corners for sauce to burn in","Great for queso and risotto"],cons:["Overlaps with a saucepan","$179"]},
+ "lc-braiser":{pros:["Fits a whole pan of chicken in one layer","Gorgeous on the table"],cons:["$400","Overlaps with the Dutch oven"]},
+ "lodge-grill":{pros:["$25","Real grill marks"],cons:["Smoky","Ridges are a pain to clean"]}
+};
+const CARE={stainless:"Care: preheat 2 minutes, then oil, then food. Bar Keepers Friend removes stains. Dishwasher safe, but hand washing keeps it nicer.",
+ carbon:"Care: rinse hot, scrub, dry on the burner, wipe a few drops of oil inside. Never soak or dishwasher.",
+ iron:"Care: rinse hot, scrub, dry on the burner, thin coat of oil. Avoid long tomato or wine simmers early on.",
+ enamel:"Care: medium heat is plenty. Wood or silicone tools. Baking-soda paste lifts stains.",
+ ptfe:"Care: low to medium heat, never preheat empty, no metal tools, hand wash. Replace when food starts sticking."};
+const careKey=o=>{const b=o.build.toLowerCase();return b.includes("enamel")?"enamel":b.includes("ptfe")?"ptfe":b.includes("carbon")?"carbon":b.includes("cast iron")?"iron":"stainless";};
+
+const PRESETS={
+  core:{sear:"ac-d3",black:"debuyer",pot:"lc"},
+  rec:{sear:"ac-d3",black:"debuyer",pot:"lc",slick:"ac-ns",sauce:"ac-sp"},
+  full:{sear:"ac-d3",black:"debuyer",pot:"lc",slick:"ac-ns",sauce:"ac-sp",stock:"mi-st"},
+  value:{sear:"tram",black:"lodge",pot:"lodge-en",slick:"ac-ns",sauce:"ac-sp"}
+};
+let state={on:{},pick:{},preset:"rec"};
+const money=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+const optOf=s=>s.options.find(o=>o.id===state.pick[s.id])||s.options[0];
+function thumb(o,s,cls=""){
+  const fb=draw(s.kind,o.fill||"url(#g)");
+  return o.img?`<div class="thumb ${cls}"><img src="${o.img}" alt="${o.brand} ${o.name}" loading="lazy" referrerpolicy="no-referrer" data-fb="${s.kind}|${o.fill||"url(#g)"}"></div>`:`<div class="thumb ${cls}">${fb}</div>`;
+}
+document.addEventListener("error",e=>{const im=e.target;if(im.tagName==="IMG"&&im.dataset.fb){const[k,f]=im.dataset.fb.split("|");im.parentNode.innerHTML=draw(k,f);}},true);
+
+function applyPreset(p){
+  SLOTS.forEach(s=>{if(s.spec){state.on[s.id]=!!state.on[s.id];state.pick[s.id]=s.options[0].id;return;}state.on[s.id]=!!PRESETS[p][s.id];state.pick[s.id]=PRESETS[p][s.id]||state.pick[s.id]||s.options[0].id;});
+  state.preset=p;save();render();
+}
+function save(){try{localStorage.setItem("panrack2",JSON.stringify(state))}catch(e){}}
+
+function render(){
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.preset===state.preset));
+  const rows=SLOTS.map(s=>{
+    const o=optOf(s),on=state.on[s.id],t=traits(o);
+    const div=(s.spec&&!SLOTS[SLOTS.indexOf(s)-1].spec)?`<tr class="divider"><td colspan="14"><b>Specialty pieces</b><span>Optional add-ons. Flip a switch to add one to your set.</span></td></tr>`:"";
+    return div+`<tr class="${on?"":"off"}">
+      <td class="comp"><label style="display:flex;gap:10px;align-items:center;cursor:pointer"><input type="checkbox" class="toggle" id="on-${s.id}" ${on?"checked":""} aria-label="Include ${s.name}"><span><b>${s.name}</b><small>${s.sub}</small></span></label></td>
+      <td><div class="prod"><span data-info="${o.id}" title="Details">${thumb(o,s)}</span><div><div class="brand">${o.brand}${o.pick?' · <span class="pill">Pick</span>':""}${o.value?' · <span class="pill" style="border-color:var(--ok);color:var(--ok)">Value</span>':""}</div><button class="name" type="button" data-info="${o.id}">${o.name}</button><button class="btn ghost" type="button" data-info="${o.id}" style="margin-top:6px;padding:4px 9px;font-size:12px">Details &amp; ask</button></div></div></td>
+      <td class="spec"><span class="mat"><i class="sw" style="background:${t.sw}"></i>${o.build}</span>
+        <div class="badges"><span title="Made in">${icon("pin")}${o.made}</span><span class="${o.ind?"":"no"}" title="Induction">${icon("coil")}Ind.</span><span title="${o.dw?"Dishwasher safe":"Hand wash only"}">${icon(o.dw?"dw":"hand")}${o.dw?"DW":"Hand"}</span></div></td>
+      <td class="spec heat" title="${HEAT_TXT[t.heat]}">${lvl("flame",t.heat,4)}<small>${icon("therm")} Oven ${o.oven}</small></td>
+      <td class="spec care" title="${CARE_TXT[t.care]}">${lvl("sponge",t.care,3)}<small>${CARE_TXT[t.care]}</small></td>
+      ${s.cov.map((c,i)=>`<td class="dish" title="${DISHES[i]}"><i class="dot ${c?"d"+c:""}" aria-label="${DISHES[i]}: ${["no","yes","best"][c]}"></i></td>`).join("")}
+      <td class="price"><b>${money(o.price)}</b><small>${o.was?`<s>${money(o.was)}</s> · `:""}${o.priceNote||o.store}</small></td>
+      <td class="act"><div class="acts">${s.options.length>1?`<button class="btn ghost" data-swap="${s.id}" type="button">Swap (${s.options.length})</button>`:""}<a class="btn buy" href="${o.url}" target="_blank" rel="noopener">Buy ↗</a><a class="btn ghost" href="${o.amz||amz(o.brand+" "+o.name)}" target="_blank" rel="noopener">Amazon</a></div></td>
+    </tr>`}).join("");
+  const chosen=SLOTS.filter(s=>state.on[s.id]);
+  const total=chosen.reduce((a,s)=>a+optOf(s).price,0);
+  const best=DISHES.map((d,i)=>Math.max(0,...chosen.map(s=>s.cov[i])));
+  const covered=best.filter(Boolean).length;
+  document.getElementById("rows").innerHTML=rows+`<tr class="total"><td colspan="5">Coverage for this set</td>${best.map((c,i)=>`<td class="dish"><i class="dot ${c?"d"+c:""}" aria-label="${DISHES[i]}"></i></td>`).join("")}<td class="price"><b>${money(Math.round(total*100)/100)}</b></td><td></td></tr>`;
+  document.getElementById("sCount").textContent=chosen.length;
+  document.getElementById("sTotal").textContent=money(Math.round(total));
+  document.getElementById("sCov").textContent=covered+"/7";
+  document.getElementById("sInd").textContent=chosen.length?(chosen.every(s=>optOf(s).ind)?"All":"Some"):"—";
+  document.getElementById("bTotal").textContent=money(Math.round(total));
+  document.getElementById("bMeta").textContent=chosen.length+" pieces · "+covered+"/7 dishes";
+}
+
+document.getElementById("rows").addEventListener("change",e=>{if(e.target.id?.startsWith("on-")){state.on[e.target.id.slice(3)]=e.target.checked;state.preset=null;save();render();}});
+document.getElementById("rows").addEventListener("click",e=>{const b=e.target.closest("[data-swap]");if(b)return openCmp(b.dataset.swap);const i=e.target.closest("[data-info]");if(i)openInfo(i.dataset.info);});
+
+/* ---- Details panel ---- */
+const info=document.getElementById("info");
+let curInfo=null, askCtl=null, sampleFn=null;
+const findOpt=id=>{for(const s of SLOTS){const o=s.options.find(x=>x.id===id);if(o)return{s,o};}return null;};
+const q=s=>encodeURIComponent(s);
+function openInfo(id){
+  const f=findOpt(id); if(!f)return; const {s,o}=f; curInfo=f; const t=traits(o);
+  if(dlg.open)dlg.close();
+  document.getElementById("infoBrand").textContent=o.brand+" · "+s.name;
+  document.getElementById("infoTitle").textContent=o.name;
+  const img=document.getElementById("infoImg");
+  img.innerHTML=o.img?`<img src="${o.img}" alt="${o.brand} ${o.name}" referrerpolicy="no-referrer" data-fb="${s.kind}|${o.fill||"url(#g)"}">`:draw(s.kind,o.fill||"url(#g)");
+  document.getElementById("infoPrice").textContent=money(o.price);
+  document.getElementById("infoStore").innerHTML=(o.was?`<s>${money(o.was)}</s> · `:"")+(o.priceNote?o.priceNote+" · ":"")+o.store;
+  const full=o.brand+" "+o.name;
+  document.getElementById("infoLinks").innerHTML=
+    `<a class="btn buy" href="${o.url}" target="_blank" rel="noopener">Buy at ${o.store} ↗</a>`+
+    `<a class="btn ghost" href="${o.amz||amz(full)}" target="_blank" rel="noopener">Amazon ↗</a>`+
+    `<a class="btn ghost" href="https://www.google.com/search?q=${q(full+" review")}" target="_blank" rel="noopener">Reviews ↗</a>`+
+    `<a class="btn ghost" href="https://www.youtube.com/results?search_query=${q(full+" review")}" target="_blank" rel="noopener">Videos ↗</a>`+
+    `<a class="btn ghost" href="https://www.reddit.com/search/?q=${q(full)}" target="_blank" rel="noopener">Reddit ↗</a>`;
+  document.getElementById("infoNote").textContent=o.note;
+  document.getElementById("infoSpecs").innerHTML=
+    `<div><span class="eyebrow">Material</span><span class="mat"><i class="sw" style="background:${t.sw}"></i>${o.build}</span></div>`+
+    `<div class="heat"><span class="eyebrow">Max heat</span>${lvl("flame",t.heat,4)}<small style="color:var(--muted)">${HEAT_TXT[t.heat]}</small></div>`+
+    `<div class="care"><span class="eyebrow">Care effort</span>${lvl("sponge",t.care,3)}<small style="color:var(--muted)">${CARE_TXT[t.care]}</small></div>`+
+    `<div><span class="eyebrow">Oven</span><span class="mat">${icon("therm")}${o.oven}</span></div>`+
+    `<div><span class="eyebrow">Made in</span><span class="mat">${icon("pin")}${o.made}</span></div>`+
+    `<div><span class="eyebrow">Stove & wash</span><span class="mat">${icon("coil")}${o.ind?"Induction ok":"No induction"}</span><span class="mat">${icon(o.dw?"dw":"hand")}${o.dw?"Dishwasher ok":"Hand wash"}</span></div>`;
+  document.getElementById("infoDishes").innerHTML=s.cov.map((c,i)=>`<span class="dishchip ${c?"d"+c:""}">${icon(DKEYS[i])}${DISHES[i]}${c===2?" · best":""}</span>`).join("");
+  const inf=INFO[o.id]||{pros:[],cons:[]};
+  document.getElementById("infoPros").innerHTML=inf.pros.map(x=>`<li>${x}</li>`).join("");
+  document.getElementById("infoCons").innerHTML=inf.cons.map(x=>`<li>${x}</li>`).join("");
+  document.getElementById("infoCare").textContent=CARE[careKey(o)];
+  const others=s.options.filter(x=>x.id!==o.id).map(x=>x.brand+" "+x.name);
+  document.getElementById("askQs").innerHTML=[
+    "Is this worth it for how we cook?",
+    others.length?`How does it compare to the ${others[0]}?`:"What would I lose by skipping it?",
+    "How do I use it for the best steak or tacos?",
+    "What should I do the first week I own it?"
+  ].map(x=>`<button type="button">${x}</button>`).join("");
+  const out=document.getElementById("askOut"); out.hidden=true; out.textContent="";
+  askCtl?.abort();
+  document.getElementById("askInput").value="";
+  if(info.showModal)info.showModal();else info.setAttribute("open","");
+}
+document.getElementById("infoClose").addEventListener("click",()=>{askCtl?.abort();info.close();});
+info.addEventListener("click",e=>{if(e.target===info){askCtl?.abort();info.close();}});
+
+(async()=>{try{sampleFn=await window.claude?.use?.("sample");}catch(e){sampleFn=null;}
+  if(sampleFn)document.getElementById("askBox").hidden=false;})();
+
+const ERR={not_granted:"Claude isn't allowed on this page. You can turn it on from the page's Permissions menu.",
+  rate_limited:"Too many questions at once. Try again in a minute.",session_expired:"Sign in again to ask Claude.",
+  refused:"Claude couldn't answer that one. Try asking it differently.",empty_completion:"No answer came back. Try rephrasing."};
+async function ask(question){
+  if(!sampleFn||!curInfo||!question.trim())return;
+  const {s,o}=curInfo, inf=INFO[o.id]||{pros:[],cons:[]};
+  const set=SLOTS.filter(x=>state.on[x.id]).map(x=>{const p=optOf(x);return `${x.name}: ${p.brand} ${p.name} ($${p.price})`;}).join("; ")||"nothing selected yet";
+  const alts=s.options.filter(x=>x.id!==o.id).map(x=>`${x.brand} ${x.name} ($${x.price}, ${x.build})`).join("; ")||"none listed";
+  const prompt=`You are a straight-talking cookware advisor helping a couple who cook at home a lot. They regularly make steaks, chicken, fish, burritos, soups, tacos and pasta. They want high-quality, buy-once pans that are easy to clean and don't scratch or burn.
+
+Product they are looking at:
+- ${o.brand} ${o.name}, about $${o.price} at ${o.store}
+- Slot in their set: ${s.name} (${s.sub})
+- Material: ${o.build}; oven: ${o.oven}; induction: ${o.ind?"yes":"no"}; dishwasher: ${o.dw?"yes":"no"}; made in ${o.made}
+- Notes: ${o.note} Pros: ${inf.pros.join(", ")}. Cons: ${inf.cons.join(", ")}.
+Other options for this slot: ${alts}.
+Their current set: ${set}.
+
+Question: ${question}
+
+Answer in plain text, no markdown headings, under 170 words. Be specific and practical. If you aren't sure about a spec, say so instead of guessing.`;
+  const out=document.getElementById("askOut"), stop=document.getElementById("askStop");
+  askCtl?.abort(); askCtl=new AbortController(); const ctl=askCtl;
+  out.hidden=false; out.dataset.state="wait"; out.textContent="Thinking...";
+  stop.hidden=false;
+  try{
+    await sampleFn(prompt,{signal:ctl.signal,onText:({text})=>{out.dataset.state="";out.textContent=text;}});
+  }catch(e){
+    if(e?.code==="cancelled"){ if(!e.text) out.hidden=true; }
+    else if(e?.code==="not_granted"||e?.code==="sampling_disabled"||e?.code==="not_declared"||e?.code==="capability_disabled"){out.dataset.state="";out.textContent=ERR.not_granted;}
+    else {out.dataset.state="";out.textContent=(e?.text?e.text+"\n\n":"")+(ERR[e?.code]||"Something went wrong. Try again.");}
+  }finally{ if(askCtl===ctl)stop.hidden=true; }
+}
+document.getElementById("askQs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)ask(b.textContent);});
+document.getElementById("askForm").addEventListener("submit",e=>{e.preventDefault();ask(document.getElementById("askInput").value);});
+document.getElementById("askStop").addEventListener("click",()=>askCtl?.abort());
+document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>applyPreset(c.dataset.preset)));
+
+const dlg=document.getElementById("cmp");
+function openCmp(id){
+  const s=SLOTS.find(x=>x.id===id); const cur=optOf(s).id;
+  const minP=Math.min(...s.options.map(o=>o.price));
+  const row=(label,fn)=>`<tr><th scope="row">${label}</th>${s.options.map(o=>`<td class="${o.id===cur?"cur":""}">${fn(o)}</td>`).join("")}</tr>`;
+  document.getElementById("cmpTitle").textContent=s.name+" · "+s.sub;
+  document.getElementById("cmpTable").innerHTML=
+    row("",o=>thumb(o,s,"big"))+
+    row("Product",o=>`<div class="eyebrow">${o.brand}</div><b>${o.name}</b> ${o.pick?'<span class="pill">Pick</span>':""}`)+
+    row("Price",o=>`<span class="mono ${o.price===minP?"best":""}">${money(o.price)}</span>${o.was?` <s class="mono" style="color:var(--muted)">${money(o.was)}</s>`:""}<br><small style="color:var(--muted)">${o.priceNote||o.store}</small>`)+
+    row("Build",o=>`<span class="mat"><i class="sw" style="background:${traits(o).sw}"></i>${o.build}</span>`)+
+    row("Max heat",o=>`<span class="heat">${lvl("flame",traits(o).heat,4)}</span><br><small style="color:var(--muted)">${HEAT_TXT[traits(o).heat]} · oven ${o.oven}</small>`)+
+    row("Care effort",o=>`<span class="care">${lvl("sponge",traits(o).care,3)}</span><br><small style="color:var(--muted)">${CARE_TXT[traits(o).care]}</small>`)+
+    row("Made in",o=>`<span class="mat">${icon("pin")}${o.made}</span>`)+
+    row("Induction",o=>`<span class="mat">${icon("coil")}${o.ind?"Yes":"No"}</span>`)+row("Dishwasher",o=>`<span class="mat">${icon(o.dw?"dw":"hand")}${o.dw?"Yes":"Hand wash"}</span>`)+
+    row("Why it",o=>o.note)+
+    row("",o=>`<div class="acts" style="justify-content:flex-start">${o.id===cur?'<span class="btn" aria-disabled="true">Selected</span>':`<button class="btn buy" type="button" data-choose="${o.id}">Choose</button>`}<button class="btn ghost" type="button" data-info="${o.id}">Details</button></div>`);
+  dlg.dataset.slot=id;
+  if(dlg.showModal)dlg.showModal();else dlg.setAttribute("open","");
+}
+document.getElementById("cmpTable").addEventListener("click",e=>{const d=e.target.closest("[data-info]");if(d)return openInfo(d.dataset.info);const b=e.target.closest("[data-choose]");if(!b)return;
+  state.pick[dlg.dataset.slot]=b.dataset.choose;state.on[dlg.dataset.slot]=true;state.preset=null;save();render();dlg.close();});
+document.getElementById("cmpClose").addEventListener("click",()=>dlg.close());
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close();});
+
+document.getElementById("copyBtn").addEventListener("click",async e=>{
+  const chosen=SLOTS.filter(s=>state.on[s.id]).map(s=>optOf(s));
+  const text=chosen.map(o=>`${o.brand} ${o.name} — ${money(o.price)}\n${o.url}`).join("\n\n")+`\n\nTotal: ${money(Math.round(chosen.reduce((a,o)=>a+o.price,0)))}`;
+  const b=e.currentTarget;
+  try{await navigator.clipboard.writeText(text);b.textContent="Copied";}
+  catch(err){b.textContent="Copy blocked";}
+  setTimeout(()=>b.textContent="Copy list with links",1800);
+});
+
+let saved=null;try{saved=JSON.parse(localStorage.getItem("panrack2")||"null")}catch(e){}
+if(saved&&saved.pick){state=saved;render();}else applyPreset("rec");
+</script>

@@ -1,0 +1,1295 @@
+<title>The Pan Rack</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="panrack-url" content="https://claude.ai/artifact/L7G4euw85hVyW6VAUJ4md7">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a two-person kitchen app. Sticky header, four views (Feed, Set, Read, Saved) behind a bottom tab bar on phones and a top nav on desktop. The Set is a PCPartPicker-style parts list: stacked cards on phones, a table with a dish matrix on desktop. Product details open in a bottom sheet. */
+:root{
+  --bg:#ECEFEF; --surface:#FFFFFF; --sunk:#F4F6F6; --ink:#15181A; --muted:#5B6467; --line:#D3D9DA;
+  --blued:#2B5070; --blued-soft:#E1E9EF; --on-blued:#FFFFFF; --heat:#B96A16; --heat-soft:#F7EADB; --on-heat:#FFFFFF;
+  --ok:#2E7A55; --ok-soft:#E1F0E8; --photo:#FFFFFF; --skel:#E0E5E6; --scrim:rgba(10,12,13,.5);
+  --bar:#15181A; --bar-ink:#ECEFEF; --bar-line:#15181A;
+  --steel1:#D7DCDE; --steel2:#98A1A5; --iron:#26292B; --carbon:#323945; --enamel:#C24A2A; --nonstick:#2A2C2E;
+  --tile-s:30%; --tile-l:86%; --tile-ink-l:26%;
+  --shadow:0 1px 2px rgba(20,24,26,.05),0 10px 30px rgba(20,24,26,.10);
+  --font-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --font-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --tabh:62px; --r:12px;
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111415;--surface:#191D1F;--sunk:#15191A;--ink:#E6EBEC;--muted:#98A2A5;--line:#2B3336;
+  --blued:#86AFD3;--blued-soft:#1C2934;--on-blued:#0D1418;--heat:#E39A48;--heat-soft:#33240F;--on-heat:#1A1206;
+  --ok:#5EC290;--ok-soft:#163024;--photo:#E3E7E8;--skel:#22292B;--scrim:rgba(0,0,0,.62);
+  --bar:#0A0C0D;--bar-ink:#E6EBEC;--bar-line:#2B3336;
+  --steel1:#C3C9CC;--steel2:#7E888C;--iron:#0C0D0D;--carbon:#3B4352;--enamel:#D9603E;--nonstick:#0F1011;
+  --tile-s:22%;--tile-l:22%;--tile-ink-l:78%;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111415;--surface:#191D1F;--sunk:#15191A;--ink:#E6EBEC;--muted:#98A2A5;--line:#2B3336;
+  --blued:#86AFD3;--blued-soft:#1C2934;--on-blued:#0D1418;--heat:#E39A48;--heat-soft:#33240F;--on-heat:#1A1206;
+  --ok:#5EC290;--ok-soft:#163024;--photo:#E3E7E8;--skel:#22292B;--scrim:rgba(0,0,0,.62);
+  --bar:#0A0C0D;--bar-ink:#E6EBEC;--bar-line:#2B3336;
+  --steel1:#C3C9CC;--steel2:#7E888C;--iron:#0C0D0D;--carbon:#3B4352;--enamel:#D9603E;--nonstick:#0F1011;
+  --tile-s:22%;--tile-l:22%;--tile-ink-l:78%;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px rgba(0,0,0,.4);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;text-transform:uppercase;letter-spacing:.01em;font-weight:800}
+p{margin:0}
+a{color:var(--blued)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--blued);outline-offset:2px}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--font-mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:middle}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;margin-inline:calc(-1 * var(--gl)) calc(-1 * var(--gr));padding-left:var(--gl);padding-right:var(--gr);
+  background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--blued),var(--heat));transform-origin:left;animation:sweep 1.4s .15s cubic-bezier(.2,.7,.2,1) both;pointer-events:none}
+@keyframes sweep{0%{transform:scaleX(0);opacity:1}55%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+.top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;height:56px}
+.brand{font:800 25px/1 var(--font-display);text-transform:uppercase;letter-spacing:.01em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand span{color:var(--blued)}
+.topnav{display:none;margin-left:auto;gap:2px}
+.topnav button{display:flex;gap:7px;align-items:center;border:0;background:none;padding:8px 12px;border-radius:8px;font-weight:600;font-size:14px;color:var(--muted);position:relative}
+.topnav button:hover{color:var(--ink)}
+.topnav button[aria-current="page"]{color:var(--ink);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.who{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);min-width:0}
+.who .avs{display:flex}
+.av{width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);object-fit:cover;background:var(--sunk);flex:none}
+.avs .av+.av{margin-left:-9px}
+.who span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:760px){.topnav{display:flex}.who{margin-left:12px}}
+@media (max-width:420px){.who span{display:none}}
+
+/* Shell */
+main.app{max-width:1100px;margin:0 auto;padding-block:20px calc(var(--tabh) + 130px + env(safe-area-inset-bottom,0px))}
+@media (min-width:760px){main.app{padding-block:28px 120px}}
+.vhead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 16px;margin-bottom:16px}
+.vhead h1{font-size:clamp(34px,6vw,46px);line-height:.9}
+.vhead p.lede{color:var(--muted);font-size:14px;max-width:58ch;margin-top:6px}
+.meta{font:500 11.5px var(--font-mono);color:var(--muted);display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta .ic{width:14px;height:14px}
+.quiet{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;margin-bottom:14px;background:var(--sunk)}
+.quiet .ic{margin-top:1px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);min-height:34px;padding:0 13px;border-radius:999px;font-weight:600;font-size:13.5px;color:var(--ink)}
+.chip .ic{width:15px;height:15px;color:var(--muted)}
+.chip i{font-style:normal;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] .ic,.chip[aria-pressed="true"] i{color:var(--bg)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.sec-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 10px}
+.sec-title h2{font-size:22px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:0 12px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);white-space:nowrap}
+.btn .ic{width:16px;height:16px}
+.btn:hover{background:var(--blued-soft)}
+.btn.primary{background:var(--blued);border-color:var(--blued);color:var(--on-blued)}
+.btn.primary:hover{filter:brightness(1.08);background:var(--blued)}
+.btn.sm{min-height:30px;padding:0 9px;font-size:12.5px;border-radius:7px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.iconbtn{width:36px;height:36px;display:inline-grid;place-items:center;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);flex:none}
+.iconbtn:hover{color:var(--ink)}
+.iconbtn.on{color:var(--blued);border-color:var(--blued);background:var(--blued-soft)}
+.iconbtn .ic{width:17px;height:17px}
+.linkbtn{all:unset;cursor:pointer;color:var(--ink);font-weight:700}
+.linkbtn:hover{text-decoration:underline}
+.linkbtn:focus-visible{outline:2px solid var(--blued);outline-offset:2px;border-radius:2px}
+
+/* Reactions */
+.rx{display:flex;gap:4px;flex-wrap:wrap}
+.rxb{display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--muted)}
+.rxb .ic{width:16px;height:16px}
+.rxb i{font-style:normal;font-family:var(--font-mono);font-size:11.5px}
+.rxb:hover{color:var(--ink)}
+.rxb.on{color:var(--blued);border-color:var(--blued);background:var(--blued-soft)}
+.rxb.on[data-v="yes"]{color:var(--heat);border-color:var(--heat);background:var(--heat-soft)}
+.rx.compact .rxb span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.rx.compact .rxb{padding:0 9px}
+
+/* Article card */
+.acard{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px 14px;padding:12px}
+.athumb{position:relative;width:96px;height:96px;border-radius:8px;overflow:hidden;display:block;flex:none}
+.athumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--photo)}
+.tile{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;padding:9px;background:hsl(var(--h) var(--tile-s) var(--tile-l));color:hsl(var(--h) 45% var(--tile-ink-l))}
+.tile b{font:800 44px/.78 var(--font-display);text-transform:uppercase}
+.tile span{font:600 9px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile .ic{position:absolute;right:8px;top:8px;width:16px;height:16px}
+.abody{min-width:0;display:flex;flex-direction:column;gap:5px}
+.ameta{font:500 10.5px var(--font-mono);color:var(--muted);letter-spacing:.05em;text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 8px}
+.ameta b{color:var(--ink);font-weight:600}
+.atitle{font-weight:700;font-size:16.5px;line-height:1.25;color:var(--ink);text-decoration:none;text-wrap:pretty}
+a.atitle:hover{text-decoration:underline}
+a.atitle .ic{width:13px;height:13px;color:var(--muted);margin-left:3px;vertical-align:-1px}
+.asum{color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tagc{font:500 10.5px var(--font-mono);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 6px;letter-spacing:.03em}
+.mention{font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--sunk);border-radius:6px;padding:2px 7px;color:var(--ink);cursor:pointer}
+.mention:hover{border-color:var(--blued);color:var(--blued)}
+.afoot{grid-column:1/-1;display:flex;align-items:center;gap:6px;border-top:1px solid var(--line);padding-top:10px;flex-wrap:wrap}
+.afoot .sp{flex:1}
+@media (max-width:420px){.acard{grid-template-columns:76px minmax(0,1fr)}.athumb{width:76px;height:76px}.tile b{font-size:36px}}
+
+/* Deal + activity */
+.dcard{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px 14px;padding:12px;align-items:center;border-color:color-mix(in srgb,var(--heat) 45%,var(--line))}
+.dcard .eyebrow{color:var(--heat);display:flex;align-items:center;gap:5px}
+.dcard .eyebrow .ic{width:14px;height:14px}
+.dcard .acts{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px}
+.pricepair{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.pricepair s{color:var(--muted);font-size:13px}
+.pricepair b{font-size:20px;font-weight:600}
+.saveamt{color:var(--ok);font-weight:600;font-size:12px}
+.actrow{display:flex;gap:12px;align-items:flex-start;padding:4px 4px}
+.actrow .ai{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--muted);flex:none;border:1px solid var(--line)}
+.actrow .ai .ic{width:16px;height:16px}
+.actrow .ai.heat{color:var(--heat)}
+.actrow .ai.ok{color:var(--ok)}
+.actrow p{font-size:14px;line-height:1.4}
+.actrow .t{font:500 11px var(--font-mono);color:var(--muted);display:block;margin-top:2px}
+.actrow .linkbtn{font-weight:600;color:var(--blued)}
+
+/* Inbox */
+.inbox{border:1px solid var(--blued);background:var(--blued-soft);border-radius:var(--r);padding:12px 14px 6px;margin-bottom:16px}
+.inbox h2{font-size:19px;display:flex;gap:8px;align-items:center;color:var(--blued)}
+.inb{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid color-mix(in srgb,var(--blued) 25%,transparent)}
+.inb:first-of-type{border-top:0}
+.inb .athumb,.inb .thumb{width:44px;height:44px}
+.inb .tile b{font-size:22px}.inb .tile span,.inb .tile .ic{display:none}
+.inb p{font-size:13.5px;min-width:0}
+.inb q{display:block;font-style:italic;color:var(--ink);margin-top:2px}
+.inb .t{font:500 11px var(--font-mono);color:var(--muted)}
+
+/* Thumbs */
+.thumb{width:64px;height:64px;flex:none;border:1px solid var(--line);border-radius:8px;background:var(--photo);display:grid;place-items:center;overflow:hidden;cursor:pointer;padding:0}
+.thumb img{width:100%;height:100%;object-fit:contain}
+.thumb svg{width:86%;height:auto}
+
+/* Set: summary */
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.summary>div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.summary b{font-family:var(--font-mono);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15}
+.summary .okc{color:var(--ok)}
+.prog{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--sunk);margin-top:6px;gap:1px}
+.prog i{display:block;height:100%}
+.prog .p-considering{background:var(--steel2)}.prog .p-agreed{background:var(--blued)}.prog .p-bought{background:var(--ok)}.prog .p-owned{background:var(--ink)}
+.stcount{font-size:11.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 8px}
+@media (max-width:640px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.setctl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:16px 0 12px}
+.setctl .chips{margin:0}
+
+/* Status pill */
+.stw{position:relative;display:inline-flex;border-radius:999px;color:var(--muted)}
+.stw::after{content:"";position:absolute;right:11px;top:50%;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-75%) rotate(45deg);pointer-events:none}
+.stsel{appearance:none;-webkit-appearance:none;border:1px solid var(--line);border-radius:999px;min-height:30px;padding:0 26px 0 11px;font-weight:700;font-size:12px;letter-spacing:.02em;background:var(--surface);color:inherit;cursor:pointer}
+.stsel:disabled{cursor:default;opacity:.75}
+.st-agreed{color:var(--blued)}.st-agreed .stsel{border-color:var(--blued);background:var(--blued-soft)}
+.st-bought{color:var(--ok)}.st-bought .stsel{border-color:var(--ok);background:var(--ok-soft)}
+.st-owned{color:var(--bg)}.st-owned .stsel{border-color:var(--ink);background:var(--ink)}
+.stsel option{color:var(--ink);background:var(--surface)}
+.lastby{display:block;font:500 10.5px var(--font-mono);color:var(--muted);margin-top:4px;white-space:nowrap}
+
+/* Shared bits */
+.lvl{display:inline-flex;gap:1px;align-items:center}
+.lvl .ic{width:16px;height:16px}
+.lvl .ic.dim{opacity:.22}
+.heat .ic{color:var(--heat)}
+.care .ic{color:var(--blued)}
+.badges{display:flex;gap:8px;margin-top:4px;color:var(--muted);flex-wrap:wrap}
+.badges span{display:inline-flex;align-items:center;gap:3px;font-size:11px}
+.badges .ic{width:15px;height:15px}
+.badges .no{opacity:.4;text-decoration:line-through}
+.mat{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);flex:none}
+.pill{display:inline-block;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;padding:1px 5px;border-radius:3px;border:1px solid var(--heat);color:var(--heat);text-transform:uppercase;vertical-align:1px}
+.pill.val{border-color:var(--ok);color:var(--ok)}
+.dropb{display:inline-flex;align-items:center;gap:3px;font:600 10px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--on-heat);background:var(--heat);border-radius:4px;padding:2px 6px;vertical-align:2px}
+.dropb .ic{width:12px;height:12px}
+.brandl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line)}
+.dot.d1{border-color:var(--ok);background:linear-gradient(90deg,var(--ok) 50%,transparent 50%)}
+.dot.d2{border-color:var(--ok);background:var(--ok)}
+
+/* Set: phone cards */
+.pcards{display:flex;flex-direction:column;gap:10px}
+.pcard{padding:12px;display:flex;flex-direction:column;gap:11px}
+.pcard.off .pc-body{opacity:.42}
+.pc-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.slotlbl{display:flex;gap:10px;align-items:center;min-width:0;cursor:pointer}
+.slotlbl b{font:800 19px/1 var(--font-display);text-transform:uppercase;display:block}
+.slotlbl small{color:var(--muted);font-size:12px;display:block;margin-top:2px}
+.pc-body{display:flex;flex-direction:column;gap:11px}
+.pc-prod{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center}
+.pc-prod .linkbtn{display:block;line-height:1.25;margin-top:2px}
+.pc-specs{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:12.5px;color:var(--muted)}
+.dishes{display:flex;gap:4px;flex-wrap:wrap}
+.dic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--line);color:var(--muted)}
+.dic .ic{width:19px;height:19px;opacity:.45}
+.dic.d1{border-color:var(--ok);color:var(--ok)}.dic.d1 .ic{opacity:1}
+.dic.d2{background:var(--ok);border-color:var(--ok);color:var(--surface)}.dic.d2 .ic{opacity:1}
+.pc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+.pc-price b{font:600 18px var(--font-mono);font-variant-numeric:tabular-nums}
+.pc-price small{display:block;color:var(--muted);font-size:11.5px}
+.toggle{width:38px;height:22px;appearance:none;-webkit-appearance:none;background:var(--line);border-radius:999px;position:relative;margin:0;cursor:pointer;flex:none}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.toggle:checked{background:var(--ok)}
+.toggle:checked::after{transform:translateX(16px)}
+.toggle:disabled{opacity:.6;cursor:default}
+.specdiv{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:26px 0 10px;padding-top:14px;border-top:2px solid var(--ink)}
+.specdiv h2{font-size:24px}
+.specdiv span{font-size:13px;color:var(--muted)}
+
+/* Set: desktop table */
+.tablewrap{display:none;overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);-webkit-overflow-scrolling:touch}
+table.parts{border-collapse:collapse;width:100%;min-width:1060px}
+.parts thead th{background:var(--sunk);font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.parts thead th.dish{text-align:center;width:46px;padding:8px 2px;vertical-align:bottom}
+.parts thead th.dish .ic{width:24px;height:24px;color:var(--ink);display:block;margin:0 auto 4px}
+.parts thead th.dish small{font-size:9px;letter-spacing:.04em}
+.parts td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.parts tr.off td:not(.comp):not(.act):not(.stc){opacity:.35}
+.parts td.comp{width:150px}
+.parts td.comp b{font-family:var(--font-display);font-size:19px;text-transform:uppercase;display:block;line-height:1}
+.parts td.comp small{color:var(--muted);font-size:12px}
+.parts .prod{display:flex;gap:12px;align-items:center;min-width:230px}
+.parts .prod .linkbtn{display:block;line-height:1.25;font-size:14px}
+.parts .spec{font-size:13px;white-space:nowrap}
+.parts .spec small{display:block;color:var(--muted);font-size:11.5px}
+.parts td.dish{text-align:center;padding:10px 2px}
+.parts td.price{text-align:right;white-space:nowrap}
+.parts td.price b{font-family:var(--font-mono);font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
+.parts td.price small{display:block;color:var(--muted);font-size:11.5px}
+.parts td.act .acts{justify-content:flex-end;flex-wrap:nowrap}
+.parts tr.total td{background:var(--sunk);font-weight:700;border-bottom:0}
+.parts tr.total td.price b{font-size:19px}
+.parts tr.divider td{background:var(--ink);color:var(--bg);padding:10px 12px;border-bottom:0}
+.parts tr.divider b{font-family:var(--font-display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;margin-right:10px}
+.parts tr.divider span{font-size:12.5px;opacity:.8}
+.parts .tg{display:flex;gap:10px;align-items:center;cursor:pointer}
+@media (min-width:760px){.tablewrap{display:block}.pcards,.specdiv{display:none}}
+.legend{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.notes{margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;border-top:2px solid var(--ink);padding-top:16px}
+.notes h3{font-size:19px;margin-bottom:6px}
+.notes p,.notes li{font-size:13.5px;color:var(--muted);max-width:62ch}
+.notes ul{padding-left:18px;margin:0}
+
+/* Set bar + tab bar */
+.setbar{position:fixed;left:0;right:0;bottom:calc(var(--tabh) + env(safe-area-inset-bottom,0px));z-index:19;background:var(--bar);color:var(--bar-ink);border-top:1px solid var(--bar-line);
+  padding:9px max(16px,env(safe-area-inset-right,0px)) 9px max(16px,env(safe-area-inset-left,0px))}
+.setbar-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.setbar .tot{font:600 20px var(--font-mono);font-variant-numeric:tabular-nums}
+.setbar .sm{font-size:12px;opacity:.75;display:block}
+.setbar button{background:var(--bar-ink);color:var(--bar);border:0;border-radius:8px;min-height:36px;padding:0 12px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.setbar button .ic{width:16px;height:16px}
+@media (min-width:760px){.setbar{bottom:0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  background:color-mix(in srgb,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  padding:0 max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px));height:calc(var(--tabh) + env(safe-area-inset-bottom,0px))}
+.tabbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--muted);position:relative;min-width:0}
+.tabbar button[aria-current="page"]{color:var(--blued)}
+.tabbar button[aria-current="page"]::before{content:"";position:absolute;top:0;left:30%;right:30%;height:2px;border-radius:0 0 2px 2px;background:var(--blued)}
+.tabbar .ic{width:23px;height:23px}
+.badge{position:absolute;top:7px;left:calc(50% + 5px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--heat);color:var(--on-heat);font:700 10px/17px var(--font-mono);text-align:center}
+.topnav .badge{position:static;margin-left:2px}
+@media (min-width:760px){.tabbar{display:none}}
+
+/* Search */
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 12px;min-height:44px;margin-bottom:12px}
+.search .ic{color:var(--muted)}
+.search input{flex:1;min-width:0;border:0;background:none;outline:none;font-size:15px;min-height:42px}
+.search:focus-within{border-color:var(--blued);box-shadow:0 0 0 3px var(--blued-soft)}
+
+/* Empty + skeleton */
+.empty{border:1.5px dashed var(--line);border-radius:var(--r);padding:30px 20px;text-align:center;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:8px}
+.empty .ic{width:30px;height:30px;color:var(--steel2);stroke-width:1.4}
+.empty h3{font-size:21px;color:var(--ink)}
+.empty p{max-width:44ch;font-size:14px}
+.skel{background:var(--skel);border-radius:6px;animation:pulse 1.4s ease-in-out infinite}
+.skcard{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:12px}
+.skcard .skel.th{height:96px;border-radius:8px}
+.skcard .ln{height:11px;margin-bottom:9px}
+@keyframes pulse{50%{opacity:.5}}
+
+/* Sheets */
+dialog.sheet{border:0;padding:0;background:var(--surface);color:var(--ink);width:100%;max-width:100%;margin:auto 0 0;max-height:92dvh;border-radius:18px 18px 0 0;overflow:auto;overscroll-behavior:contain;box-shadow:var(--shadow)}
+dialog.sheet::backdrop{background:var(--scrim)}
+dialog.sheet[open]{animation:sheetUp .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@media (min-width:760px){dialog.sheet{margin:auto;width:min(1000px,calc(100vw - 48px));max-height:calc(100dvh - 48px);border-radius:14px;border:1px solid var(--line)}
+  dialog.sheet.sm{width:min(480px,calc(100vw - 48px))}}
+.shead{position:sticky;top:0;background:var(--surface);z-index:2;padding:8px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 10px}
+.shead-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.shead h2{font-size:clamp(24px,4vw,30px);line-height:.95}
+.sbody{padding:16px max(16px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+@media (min-width:760px){.grab{display:none}.shead{padding-top:16px}}
+
+/* Product detail */
+.info-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+@media (min-width:760px){.info-grid{grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:28px}}
+.hero-img{width:100%;aspect-ratio:4/3;max-width:100%;max-height:300px;border:1px solid var(--line);border-radius:10px;background:var(--photo);display:grid;place-items:center;overflow:hidden}
+@media (min-width:760px){.hero-img{aspect-ratio:1;max-height:none}}
+.hero-img img{width:100%;height:100%;object-fit:contain}
+.hero-img svg{width:78%;height:auto}
+.info-price{display:flex;align-items:baseline;gap:8px;margin-top:14px;flex-wrap:wrap}
+.info-price b{font-family:var(--font-mono);font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
+.info-price s{font-family:var(--font-mono);color:var(--muted)}
+.info-sub{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px}
+.info-sub .ic{width:13px;height:13px}
+.info-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.inset{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:14px;padding:10px 12px;border-radius:10px;background:var(--sunk);border:1px solid var(--line);font-size:13px}
+.side-block{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.rxwho{font-size:12.5px;color:var(--muted)}
+.rxwho b{color:var(--ink);font-weight:600}
+.specgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:14px 0}
+.specgrid div{background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:13.5px;min-width:0}
+.dishrow{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+.dishchip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px 4px 6px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.dishchip.d1{border-color:var(--ok);color:var(--ok)}
+.dishchip.d2{background:var(--ok);border-color:var(--ok);color:var(--surface);font-weight:600}
+.pc2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.pc2 h4{margin:0 0 4px}
+.pc2 ul{margin:0;padding-left:18px;font-size:14px}
+.pc2 li{margin-bottom:3px}
+.pc2 .plus h4{color:var(--ok)}.pc2 .minus h4{color:var(--heat)}
+.carep{font-size:13.5px;color:var(--muted);margin-top:12px}
+.block{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.block>h3{font-size:19px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.block>h3 .ic{color:var(--muted)}
+.rel{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.rel:first-child{border-top:0}
+.rel .athumb{width:52px;height:52px;border-radius:6px}
+.rel .tile b{font-size:26px}.rel .tile span,.rel .tile .ic{display:none}
+.rel a{font-weight:600;color:var(--ink);text-decoration:none;font-size:14px;line-height:1.3}
+.rel a:hover{text-decoration:underline}
+.rel small{display:block;font:500 10.5px var(--font-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.cm{display:flex;gap:10px;padding:8px 0}
+.cm .av{width:30px;height:30px;border-color:var(--surface)}
+.cm .bub{background:var(--sunk);border:1px solid var(--line);border-radius:4px 12px 12px 12px;padding:8px 11px;min-width:0;font-size:14px}
+.cm .bub b{font-size:12.5px}
+.cm .bub time{font:500 10.5px var(--font-mono);color:var(--muted);margin-left:6px}
+.cm .bub p{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:2px}
+.cm.mine .bub{background:var(--blued-soft);border-color:color-mix(in srgb,var(--blued) 30%,var(--line))}
+.cmform{display:flex;gap:6px;margin-top:8px}
+.field{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:9px 11px;font-size:15px}
+.field:focus{outline:none;border-color:var(--blued);box-shadow:0 0 0 3px var(--blued-soft)}
+textarea.field{width:100%;resize:vertical;min-height:80px}
+.ask .qs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.ask .qs button{border:1px solid var(--line);background:var(--sunk);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;text-align:left}
+.ask .qs button:hover{background:var(--blued-soft);border-color:var(--blued)}
+.answer{margin-top:10px;white-space:pre-wrap;font-size:14.5px;background:var(--sunk);border-radius:10px;padding:12px 14px;border:1px solid var(--line);max-width:68ch}
+.answer[data-state="wait"]{color:var(--muted)}
+.answer[data-state="wait"]::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--heat);margin-left:6px;animation:pulse 1s infinite}
+.quietnote{font-size:12.5px;color:var(--muted)}
+
+/* Compare */
+.cmpwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cmp{border-collapse:collapse;min-width:640px;width:100%}
+.cmp th[scope="row"]{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);width:110px;background:var(--sunk);font-weight:600}
+.cmp td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13.5px}
+.cmp td.cur{background:var(--blued-soft)}
+.cmp .thumb{width:110px;height:110px}
+.best{color:var(--ok);font-weight:700}
+
+/* Share */
+.sprev{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--sunk);margin-bottom:14px}
+.sprev .thumb,.sprev .athumb{width:48px;height:48px}
+.sprev .tile b{font-size:24px}.sprev .tile span,.sprev .tile .ic{display:none}
+.sprev .setic{width:48px;height:48px;border-radius:8px;background:var(--blued);color:var(--on-blued);display:grid;place-items:center}
+label.lbl{display:block;font-weight:600;font-size:13.5px;margin-bottom:6px}
+
+/* Toasts */
+.toasts{position:fixed;left:0;right:0;bottom:calc(var(--tabh) + 76px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;z-index:60;padding-inline:16px}
+.toasts[popover]{inset:auto 0 calc(var(--tabh) + 76px + env(safe-area-inset-bottom,0px)) 0;margin:0;border:0;background:transparent;width:auto;height:auto;overflow:visible;color:inherit}
+@media (min-width:760px){.toasts,.toasts[popover]{bottom:84px}}
+.toast{background:var(--bar);color:var(--bar-ink);border:1px solid var(--bar-line);padding:10px 16px;border-radius:999px;font-weight:600;font-size:13.5px;display:flex;gap:8px;align-items:center;box-shadow:var(--shadow);animation:toastIn .22s ease-out}
+.toast .ic{width:16px;height:16px;color:var(--ok)}
+@keyframes toastIn{from{transform:translateY(8px);opacity:0}}
+
+/* Load moment */
+main.intro .view:not([hidden]) .stack>*,main.intro .view:not([hidden]) .pcard,main.intro .view:not([hidden]) .summary{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+main.intro .stack>*:nth-child(2),main.intro .pcard:nth-child(2){animation-delay:.05s}
+main.intro .stack>*:nth-child(3),main.intro .pcard:nth-child(3){animation-delay:.1s}
+main.intro .stack>*:nth-child(4),main.intro .pcard:nth-child(4){animation-delay:.15s}
+main.intro .stack>*:nth-child(n+5),main.intro .pcard:nth-child(n+5){animation-delay:.2s}
+@keyframes rise{from{opacity:.3;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="var(--steel2)"/><stop offset=".5" stop-color="var(--steel1)"/><stop offset="1" stop-color="var(--steel2)"/></linearGradient></defs></svg>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#feed" data-tab="feed">The Pan <span>Rack</span></a>
+    <nav class="topnav" id="topnav" aria-label="Sections"></nav>
+    <div class="who" id="who"></div>
+  </div>
+</header>
+
+<main class="app intro" id="main">
+  <section class="view" id="v-feed" aria-labelledby="h-feed">
+    <div class="vhead">
+      <div><h1 id="h-feed">Feed</h1><p class="lede">New reading, price drops and what you two changed, newest first.</p></div>
+      <span class="meta" id="feedMeta"></span>
+    </div>
+    <div class="quiet" id="feedQuiet" hidden></div>
+    <div id="inbox"></div>
+    <div class="chips" id="feedChips" role="group" aria-label="Filter the feed"></div>
+    <div class="stack" id="feedList"></div>
+  </section>
+
+  <section class="view" id="v-set" aria-labelledby="h-set" hidden>
+    <div class="vhead">
+      <div><h1 id="h-set">Our set</h1><p class="lede">One pan per slot. Mark each piece as you decide and buy. The dish matrix shows what your set can cook.</p></div>
+      <span class="meta" id="setMeta"></span>
+    </div>
+    <div class="quiet" id="setQuiet" hidden></div>
+    <div class="summary" id="summary" aria-live="polite"></div>
+    <div class="setctl">
+      <div class="chips" id="presets" role="group" aria-label="Starting builds"></div>
+      <div class="acts" id="setActs"></div>
+    </div>
+    <div class="pcards" id="pcards"></div>
+    <div class="specdiv"><h2>Specialty pieces</h2><span>Optional add-ons. Flip a switch to add one.</span></div>
+    <div class="pcards" id="pcardsSpec"></div>
+    <div class="tablewrap"><table class="parts"><thead><tr id="partsHead"></tr></thead><tbody id="rows"></tbody></table></div>
+    <div class="legend" id="legend"></div>
+    <section class="notes">
+      <div><h3>How the picks were chosen</h3><p>America's Test Kitchen still rates the All-Clad D3 12" its top stainless skillet. Several 2026 tests pick Lodge's Chef Collection for cast iron. de Buyer and Matfer are the reference French carbon steel pans. Le Creuset and Staub lead enameled Dutch ovens.</p></div>
+      <div><h3>Prices</h3><p>Catalog prices were pulled from each linked store on Oct 24, 2026. A daily check updates them each morning, and a lower price shows a Price drop badge with the date it was checked. The de Buyer price is the Canadian listing converted, so check the Amazon link for the US price.</p></div>
+      <div><h3>Care in one line each</h3><ul>
+        <li>Stainless: preheat, then oil, then food. Bar Keepers Friend for stains.</li>
+        <li>Carbon steel and cast iron: rinse, dry on the burner, thin coat of oil.</li>
+        <li>Enamel: medium heat is plenty. No metal scrapers.</li>
+        <li>Nonstick: low-medium heat, no metal tools, no dishwasher.</li></ul></div>
+    </section>
+  </section>
+
+  <section class="view" id="v-articles" aria-labelledby="h-articles" hidden>
+    <div class="vhead">
+      <div><h1 id="h-articles">Read</h1><p class="lede">Reviews, tests and technique worth your time. Each card links to the original article.</p></div>
+      <span class="meta" id="artMeta"></span>
+    </div>
+    <label class="search" for="artSearch"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg><span class="sr">Search articles</span><input id="artSearch" type="search" placeholder="Search carbon steel, searing, Le Creuset..." autocomplete="off"></label>
+    <div class="chips" id="artChips" role="group" aria-label="Filter by topic"></div>
+    <div class="stack" id="artList"></div>
+  </section>
+
+  <section class="view" id="v-saved" aria-labelledby="h-saved" hidden>
+    <div class="vhead">
+      <div><h1 id="h-saved">Saved</h1><p class="lede">Everything either of you bookmarked, with who saved it.</p></div>
+    </div>
+    <div class="stack" id="savedList"></div>
+  </section>
+</main>
+
+<div class="setbar" id="setbar" hidden><div class="setbar-in">
+  <div><span class="tot" id="bTotal">$0</span><span class="sm" id="bMeta"></span></div>
+  <button type="button" data-copylist><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>Copy list</button>
+</div></div>
+
+<nav class="tabbar" id="tabbar" aria-label="Sections"></nav>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<dialog class="sheet" id="info" aria-labelledby="infoTitle">
+  <div class="shead"><div class="grab"></div><div class="shead-row">
+    <div style="min-width:0"><div class="eyebrow" id="infoBrand"></div><h2 id="infoTitle"></h2></div>
+    <button class="iconbtn" type="button" data-close="info" aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div></div>
+  <div class="sbody"><div class="info-grid">
+    <div style="min-width:0">
+      <div class="hero-img" id="infoImg"></div>
+      <div id="infoPrice"></div>
+      <div class="info-links" id="infoLinks"></div>
+      <div id="infoInSet"></div>
+      <div class="side-block" id="infoSocial"></div>
+    </div>
+    <div style="min-width:0">
+      <p id="infoNote" style="font-size:16px"></p>
+      <div class="specgrid" id="infoSpecs"></div>
+      <div class="eyebrow">Good for</div>
+      <div class="dishrow" id="infoDishes"></div>
+      <div class="pc2"><div class="plus"><h4 class="eyebrow">Why buy it</h4><ul id="infoPros"></ul></div><div class="minus"><h4 class="eyebrow">Watch out for</h4><ul id="infoCons"></ul></div></div>
+      <p class="carep" id="infoCare"></p>
+      <div class="block ask" id="askBox" hidden>
+        <h3><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11v8H8l-4 3.5z"/><path d="M15 9h5v8h-1.5v3l-3.5-3h-5v-1.5"/></svg>Ask Claude about this pan</h3>
+        <div class="qs" id="askQs"></div>
+        <form class="cmform" id="askForm"><label class="sr" for="askInput">Your question</label><input class="field" id="askInput" placeholder="Is this good for smash burgers?" autocomplete="off"><button class="btn primary" type="submit" id="askGo">Ask</button><button class="btn" type="button" id="askStop" hidden>Stop</button></form>
+        <div class="answer" id="askOut" hidden></div>
+        <p class="quietnote" id="askNote" hidden></p>
+      </div>
+      <div class="block" id="cmBlock" hidden>
+        <h3><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10H10l-4.5 4v-4H4z"/></svg>Notes between you</h3>
+        <div id="infoCm"></div>
+        <form class="cmform" id="cmForm"><label class="sr" for="cmInput">Add a note</label><input class="field" id="cmInput" maxlength="500" placeholder="Leave a note for each other" autocomplete="off"><button class="btn primary" type="submit">Post</button></form>
+      </div>
+      <div class="block" id="relBlock" hidden>
+        <h3><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Related reading</h3>
+        <div id="infoRel"></div>
+      </div>
+    </div>
+  </div></div>
+</dialog>
+
+<dialog class="sheet" id="cmp" aria-labelledby="cmpTitle">
+  <div class="shead"><div class="grab"></div><div class="shead-row">
+    <div style="min-width:0"><div class="eyebrow">Compare and swap</div><h2 id="cmpTitle"></h2></div>
+    <button class="iconbtn" type="button" data-close="cmp" aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div></div>
+  <div class="cmpwrap"><table class="cmp" id="cmpTable"></table></div>
+</dialog>
+
+<dialog class="sheet sm" id="share" aria-labelledby="shTitle">
+  <div class="shead"><div class="grab"></div><div class="shead-row">
+    <div style="min-width:0"><div class="eyebrow">Share</div><h2 id="shTitle">Send to partner</h2></div>
+    <button class="iconbtn" type="button" data-close="share" aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div></div>
+  <form class="sbody" id="shForm">
+    <div class="sprev" id="shPrev"></div>
+    <div id="shNoteWrap"><label class="lbl" for="shNote">Add a note <span class="quietnote">(optional)</span></label>
+    <textarea class="field" id="shNote" maxlength="280" rows="3" placeholder="Thoughts on this for taco night?"></textarea></div>
+    <p class="quietnote" id="shQuiet" hidden style="margin-top:10px"></p>
+    <div class="acts" style="margin-top:14px"><button class="btn primary" type="submit" id="shSend">Send</button><button class="btn" type="button" id="shCopy">Copy link</button></div>
+  </form>
+</dialog>
+
+<script>
+const DISHES=["Steak","Chicken","Fish","Burritos","Tacos","Soups","Pasta"];
+const P={
+ steak:'<path d="M4 10c0-3.5 3.5-6 8-6s8 2.5 8 6.5S16.5 20 11 20 4 15 4 10z"/><circle cx="14" cy="10" r="2.2"/><path d="M7 13c1 1.5 2.5 2.5 4.5 2.5"/>',
+ chicken:'<ellipse cx="15" cy="9" rx="5" ry="6.2" transform="rotate(45 15 9)"/><path d="M10.5 13.5 6 18"/><circle cx="4.6" cy="18.2" r="1.5"/><circle cx="6.2" cy="20" r="1.3"/>',
+ fish:'<path d="M2.5 12c3-4.5 9-6 14-2l4.5-3.5v11L16.5 14c-5 4-11 2.5-14-2z"/><circle cx="7.5" cy="11" r=".9" fill="currentColor"/><path d="M11 9.5c.8 1.6.8 3.4 0 5"/>',
+ burrito:'<rect x="2.5" y="8" width="19" height="8" rx="4" transform="rotate(-18 12 12)"/><path d="M7.5 9.7c.9 2.2 1.4 4.3 1.2 6.4M12 8.4c.9 2.2 1.4 4.3 1.2 6.4"/>',
+ taco:'<path d="M2.5 17a9.5 9.5 0 0 1 19 0z"/><path d="M6 11.5c1-1.2 2.4-.6 3-1.8M11 8.6c1-.9 2.3 0 3.2-1M15.6 9.6c1 .2 1.8 1 2.6.6"/>',
+ soup:'<path d="M3 12h18a9 8 0 0 1-18 0z"/><path d="M9 4c-1.2 1.3 1.2 2.4 0 4M13.5 4c-1.2 1.3 1.2 2.4 0 4"/>',
+ pasta:'<path d="M3 13h18a9 7 0 0 1-18 0z"/><path d="M6 13c1-2.5 2.6.4 4-2s2.8.6 4-1.6 2.6.9 4 .6"/><path d="M17 3v7M15.5 3v3M18.5 3v3"/>',
+ flame:'<path d="M12 3c.6 3.6 5 5 5 10a5 5 0 0 1-10 0c0-2.6 1.6-3.8 2.4-6 .9 1.4 1.7 2.4 1.6 4 1.5-1.6 1.6-4.6 1-8z"/>',
+ sponge:'<rect x="3.5" y="8" width="17" height="10" rx="2.5"/><path d="M3.5 11.5h17"/><circle cx="8" cy="14.8" r=".8" fill="currentColor"/><circle cx="12" cy="15.3" r=".8" fill="currentColor"/><circle cx="16" cy="14.6" r=".8" fill="currentColor"/>',
+ therm:'<path d="M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0z"/><path d="M12 9v7"/>',
+ coil:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+ dw:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 7.5h16"/><circle cx="12" cy="14.5" r="4"/>',
+ hand:'<path d="M12 3.5c3 4 5 6.5 5 9.5a5 5 0 0 1-10 0c0-3 2-5.5 5-9.5z"/>',
+ pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.2"/>'
+};
+const DKEYS=["steak","chicken","fish","burrito","taco","soup","pasta"];
+const icon=(k,cls="")=>`<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[k]}</svg>`;
+const lvl=(k,n,max)=>`<span class="lvl">${Array.from({length:max},(_,i)=>icon(k,i<n?"":"dim")).join("")}</span>`;
+const HEAT_TXT=["","Low to medium","Medium-high","High","Ripping hot"];
+const CARE_TXT=["","Wash and go","Easy, some scrubbing","Season and dry"];
+function traits(o){
+  const b=o.build.toLowerCase();
+  if(b.includes("enamel"))return{heat:2,care:1,sw:"var(--enamel)"};
+  if(b.includes("ptfe"))return{heat:1,care:1,sw:"var(--nonstick)"};
+  if(b.includes("carbon"))return{heat:4,care:3,sw:"var(--carbon)"};
+  if(b.includes("cast iron"))return{heat:4,care:3,sw:"var(--iron)"};
+  return{heat:3,care:2,sw:"var(--steel2)"};
+}
+function draw(kind,fill){
+  const s={
+    skillet:`<path d="M8 30 L14 46 Q16 50 22 50 L74 50 Q80 50 82 46 L88 30 Z" fill="${fill}"/><rect x="86" y="30" width="58" height="6" rx="3" fill="${fill}" transform="rotate(-8 86 33)"/><rect x="6" y="28" width="84" height="4" rx="2" fill="${fill}"/>`,
+    dutch:`<rect x="14" y="22" width="80" height="30" rx="8" fill="${fill}"/><path d="M12 22 Q54 6 96 22 Z" fill="${fill}"/><rect x="48" y="6" width="12" height="7" rx="3" fill="var(--steel2)"/><rect x="4" y="28" width="12" height="7" rx="3" fill="${fill}"/><rect x="92" y="28" width="12" height="7" rx="3" fill="${fill}"/>`,
+    sauce:`<rect x="10" y="20" width="56" height="32" rx="4" fill="${fill}"/><rect x="8" y="18" width="60" height="4" rx="2" fill="${fill}"/><rect x="64" y="22" width="76" height="6" rx="3" fill="${fill}" transform="rotate(-8 64 25)"/>`,
+    wok:`<path d="M6 22 Q50 62 94 22 Z" fill="${fill}"/><rect x="92" y="20" width="54" height="6" rx="3" fill="#8A6A44" transform="rotate(-10 92 23)"/><rect x="2" y="20" width="96" height="4" rx="2" fill="${fill}"/>`,
+    griddle:`<rect x="10" y="34" width="96" height="8" rx="4" fill="${fill}"/><rect x="104" y="34" width="34" height="6" rx="3" fill="${fill}"/><rect x="2" y="35" width="10" height="5" rx="2" fill="${fill}"/>`,
+    grill:`<rect x="8" y="26" width="88" height="24" rx="3" fill="${fill}"/><path d="M20 30v16M34 30v16M48 30v16M62 30v16M76 30v16" stroke="var(--steel2)" stroke-width="2"/><rect x="94" y="28" width="52" height="6" rx="3" fill="${fill}" transform="rotate(-8 94 31)"/>`,
+    braiser:`<rect x="10" y="30" width="88" height="20" rx="7" fill="${fill}"/><path d="M8 30 Q54 12 100 30 Z" fill="${fill}"/><rect x="48" y="13" width="12" height="7" rx="3" fill="var(--steel2)"/><rect x="0" y="34" width="12" height="7" rx="3" fill="${fill}"/><rect x="96" y="34" width="12" height="7" rx="3" fill="${fill}"/>`,
+    stock:`<rect x="16" y="10" width="76" height="44" rx="4" fill="${fill}"/><rect x="14" y="8" width="80" height="4" rx="2" fill="${fill}"/><path d="M6 18 h12 v8 h-12 z M90 18 h12 v8 h-12 z" fill="${fill}"/>`};
+  return `<svg viewBox="0 0 150 58" aria-hidden="true">${s[kind]}</svg>`;
+}
+const amz=q=>"https://www.amazon.com/s?k="+encodeURIComponent(q);
+/* coverage: 2 = best tool, 1 = handles it, 0 = not its job. Order: Steak Chicken Fish Burritos Tacos Soups Pasta */
+const SLOTS=[
+ {id:"sear",name:"Workhorse",sub:"12\" stainless skillet",kind:"skillet",cov:[1,2,2,2,2,0,1],options:[
+  {id:"ac-d3",brand:"All-Clad",name:"D3 Stainless 12\" Fry Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/a/c/ac_hero_images_d3_12_in_lid.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:149.99,was:179.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3ply-bonded-cookware-fry-pan-with-lid-12-inch.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Test-kitchen favorite for decades. Lid included."},
+  {id:"mi-ss",brand:"Made In",name:"Stainless Clad Frying Pan 12\"",img:"",fill:"url(#g)",
+   price:149,store:"Made In",url:"https://madeincookware.com/products/stainless-steel-frying-pan/12-inch",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,note:"Thicker, heavier, holds heat longer. No lid."},
+  {id:"tram",brand:"Tramontina",name:"Signature 12\" Tri-Ply Clad Fry Pan with Helper Handle",img:"https://www.tramontina.com/cdn/shop/files/Signature_12_Inch_Tri-Ply-Clad_Stainless_Steel_Fry_Pan_with_Helper_Handle_80116057.jpg?crop=center&height=1200&v=1738020362&width=1200",
+   price:59.95,store:"Tramontina",url:"https://tramontina.com/products/12-inch-tri-ply-clad-stainless-steel-fry-pan-with-helper-handle",
+   build:"Tri-ply stainless",made:"Brazil",oven:"500°F",ind:true,dw:true,value:true,note:"Most of All-Clad's performance for 40% of the price."}
+ ]},
+ {id:"black",name:"Searing pan",sub:"Carbon steel or cast iron",kind:"skillet",cov:[2,1,0,2,2,0,0],options:[
+  {id:"debuyer",brand:"de Buyer",name:"Mineral B 11\" Carbon Steel Fry Pan",img:"https://www.chefsupplies.ca/cdn/shop/files/de-Buyer-Mineral-B-11-Steel-Fry-Pan-28-cm-5614_28-3.jpg?v=1745979484",
+   price:96,priceNote:"C$131 listed",store:"Chef Supplies",url:"https://www.chefsupplies.ca/products/de-buyer-mineral-b-11-steel-fry-pan-28-cm-5614-28",amz:"https://www.amazon.com/dp/B00462QP16",
+   build:"Carbon steel",made:"France",oven:"400°F (10 min)",ind:true,dw:false,pick:true,note:"Heats fast, turns slick with use, lighter than iron."},
+  {id:"matfer",brand:"Matfer Bourgeat",name:"Black Steel 11⅞\" Frying Pan (062005)",img:"",fill:"var(--carbon)",
+   price:113,store:"KaTom",url:"https://www.katom.com/347-062005.html",amz:"https://www.amazon.com/dp/B000KENOTK",
+   build:"Carbon steel",made:"France",oven:"Very high",ind:true,dw:false,note:"Restaurant standard. Season it on the stove first."},
+  {id:"lodge",brand:"Lodge",name:"Chef Collection 12\" Cast Iron Skillet",img:"https://www.lodgecastiron.com/cdn/shop/files/LC12SK_L.jpg?v=1741189190&width=900",
+   price:40,priceNote:"varies by size",store:"Lodge",url:"https://www.lodgecastiron.com/collections/chef-collection/products/chef-collection-skillet?variant=51685749588340",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,value:true,note:"Top pick in several 2026 tests. Lighter than classic Lodge."},
+  {id:"smithey",brand:"Smithey",name:"No. 12 Cast Iron Skillet",img:"https://smithey.com/cdn/shop/files/Smithey_eComm_0124.jpg?v=1742318680",
+   price:220,store:"Smithey",url:"https://smithey.com/products/no-12-cast-iron-skillet",
+   build:"Polished cast iron",made:"USA",oven:"Any",ind:true,dw:false,note:"Machined-smooth heirloom iron. Best heat for thick steaks."}
+ ]},
+ {id:"pot",name:"Braiser",sub:"Enameled Dutch oven",kind:"dutch",cov:[0,1,0,1,2,2,1],options:[
+  {id:"lc",brand:"Le Creuset",name:"Signature 5.5 qt Round Dutch Oven",img:"https://cutleryandmore.com/cdn/shop/products/25069.jpg?v=1646172354",
+   price:454.95,store:"Cutlery and More",url:"https://cutleryandmore.com/collections/le-creuset/products/le-creuset-round-dutch-oven-25069",
+   build:"Enameled cast iron",made:"France",oven:"500°F",ind:true,dw:true,pick:true,note:"Light interior shows browning. Right size for two plus leftovers."},
+  {id:"staub",brand:"Staub",name:"La Cocotte 5.5 qt Round",img:"https://www.zwilling.com/dw/image/v2/BCGV_PRD/on/demandware.static/-/Sites-zwilling-master-catalog/default/dwdd787961/images/large/11026140_02.jpg?sw=720&sh=720&sm=fit",
+   price:420,priceNote:"typical; see site",store:"Zwilling",url:"https://zwilling.com/us/staub-la-cocotte-5.5-qt-round-cocotte-metallic-blue-11026140/40505-306-0.html",
+   build:"Enameled cast iron",made:"France",oven:"900°F",ind:true,dw:true,note:"Better browning. Dark interior hides stains. Self-basting lid."},
+  {id:"lodge-en",brand:"Lodge",name:"6 qt Enameled Cast Iron Dutch Oven",img:"",fill:"var(--enamel)",
+   price:139.99,store:"Target",url:"https://www.target.com/p/-/A-14345909",
+   build:"Enameled cast iron",made:"China",oven:"500°F",ind:true,dw:false,value:true,note:"Bigger and a third of the price. Enamel chips sooner."}
+ ]},
+ {id:"slick",name:"Slick pan",sub:"10\" nonstick, eggs and fish",kind:"skillet",cov:[0,0,2,1,0,0,0],options:[
+  {id:"ac-ns",brand:"All-Clad",name:"HA1 Nonstick Fry Pan 10\"",img:"https://www.all-clad.com/media/catalog/product/m/k/mkjjdv4qotnvj4fztfx3_lz8iztnjmmgzgpym.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:64.99,was:79.99,store:"All-Clad",url:"https://www.all-clad.com/ha1-expert-cookware-nonstick-fry-pan-10-in.html",
+   build:"Hard-anodized, PTFE",made:"China",oven:"500°F",ind:true,dw:false,pick:true,value:true,note:"Sturdy and cheap enough to replace in a few years."},
+  {id:"mi-ns",brand:"Made In",name:"ProCoat Non Stick Frying Pan 10\"",img:"",fill:"var(--nonstick)",
+   price:149,store:"Made In",url:"https://madeincookware.com/products/non-stick-frying-pan/10-inch-graphite",
+   build:"5-ply body, PTFE",made:"USA",oven:"500°F",ind:true,dw:false,note:"Heats like clad stainless. Pricey for a pan that wears out."}
+ ]},
+ {id:"sauce",name:"Saucepan",sub:"3 qt with lid",kind:"sauce",cov:[0,0,0,1,1,1,1],options:[
+  {id:"ac-sp",brand:"All-Clad",name:"D3 Stainless 3 qt Sauce Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/s/a/sauce_pan.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:149.99,was:199.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3-ply-bonded-cookware-sauce-pan-with-lid-3-qt.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Rice and beans for burritos without scorching."}
+ ]},
+ {id:"stock",name:"Stockpot",sub:"8 qt for pasta and stock",kind:"stock",cov:[0,0,0,0,0,2,2],options:[
+  {id:"mi-st",brand:"Made In",name:"Stainless Clad Stock Pot 8 qt",img:"",fill:"url(#g)",
+   price:249,store:"Made In",url:"https://madeincookware.com/products/stainless-steel-stock-pots-us/8-quart",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,pick:true,note:"Clad up the walls, so it browns aromatics for soup too."}
+ ]}
+];
+
+/* Specialty add-ons: optional, off by default, kept when switching presets */
+SLOTS.push(
+ {id:"comal",spec:true,name:"Comal",sub:"Flat griddle for tortillas",kind:"griddle",cov:[0,0,0,2,2,0,0],options:[
+  {id:"lodge-comal",brand:"Lodge",name:"10.5\" Round Cast Iron Griddle",img:"https://www.nfm.com/on/demandware.static/-/Sites-nfm-master-catalog/default/dw135c6220/images/058/58/58581851-1.jpg",
+   price:24.90,priceNote:"~$25 at most stores",store:"Nebraska Furniture Mart",url:"https://nfm.com/lodge-cast-iron-10-5-round-cast-iron-griddle-in-black-58581851/58581851.html",amz:"https://www.amazon.com/s?k=Lodge+L9OG3+round+griddle",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,pick:true,value:true,note:"Warms and chars tortillas in seconds. Also quesadillas, pancakes and toasting chiles."}]},
+ {id:"saute",spec:true,name:"Sauté pan",sub:"Straight sides and a lid",kind:"skillet",cov:[0,2,1,1,1,0,2],options:[
+  {id:"ac-saute",brand:"All-Clad",name:"D3 Stainless 3 qt Sauté Pan with Lid",img:"https://www.all-clad.com/media/catalog/product/8/7/8701004414_hero.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=265&width=265&canvas=265:265",
+   price:179.99,store:"All-Clad",url:"https://www.all-clad.com/d3-stainless-3-ply-bonded-cookware-saute-pan-with-lid-3-quart.html",
+   build:"Tri-ply stainless",made:"USA",oven:"600°F",ind:true,dw:true,pick:true,note:"Sear chicken thighs, then add sauce and simmer covered. Finishing pasta in its sauce."}]},
+ {id:"wok",spec:true,name:"Wok",sub:"Fajitas, fried rice, stir-fry",kind:"wok",cov:[1,2,0,1,2,0,0],options:[
+  {id:"yosukata",brand:"Yosukata",name:"13.5\" Pre-Seasoned Carbon Steel Wok, Flat Bottom",img:"",fill:"var(--carbon)",
+   price:89.99,store:"Walmart",url:"https://www.walmart.com/ip/YOSUKATA-Flat-Bottom-Woks-Stir-Fry-Pans-13-5-Blue-Carbon-Steel-Wok-Preseasoned-Carbon-Steel-Skillet-Wok-for-Electric-Induction-Cooktops/15968956639",
+   build:"Carbon steel",made:"Imported",oven:"Not oven safe",ind:true,dw:false,pick:true,note:"Flat bottom works on any stove. Fajita veg and steak get real char."}]},
+ {id:"saucier",spec:true,name:"Saucier",sub:"Rounded saucepan",kind:"sauce",cov:[0,0,0,1,0,1,2],options:[
+  {id:"mi-saucier",brand:"Made In",name:"Stainless Clad Saucier 3 qt",img:"",fill:"url(#g)",
+   price:179,store:"Made In",url:"https://madeincookware.com/products/saucier/3-qt",
+   build:"5-ply stainless",made:"Italy / USA",oven:"800°F",ind:true,dw:true,pick:true,note:"Curved walls so a whisk reaches everything. Queso, pan sauces, risotto."}]},
+ {id:"braiser",spec:true,name:"Braiser",sub:"Wide, shallow enameled pot",kind:"braiser",cov:[0,2,0,1,2,1,1],options:[
+  {id:"lc-braiser",brand:"Le Creuset",name:"Signature Braiser 3.5 qt",img:"https://assets.surlatable.com/m/55e1e5c832a76be9/72_dpi_webp-6825145_0826_vs02",
+   price:399.95,store:"Sur La Table",url:"https://www.surlatable.com/pro-889873-braiser-35qt-rnd/6825145.html",
+   build:"Enameled cast iron",made:"France",oven:"500°F",ind:true,dw:true,pick:true,note:"Sear a whole pan of chicken in one layer, then braise. Birria and chicken tinga."}]},
+ {id:"grill",spec:true,name:"Grill pan",sub:"Indoor grill marks",kind:"grill",cov:[2,2,1,0,1,0,0],options:[
+  {id:"lodge-grill",brand:"Lodge",name:"10.5\" Square Cast Iron Grill Pan",img:"https://www.lodgecastiron.com/cdn/shop/files/L8SGP3-1.20220812182330797.png?v=1743096350",
+   price:24.90,was:29.95,store:"Lodge",url:"https://www.lodgecastiron.com/products/square-cast-iron-grill-pan",
+   build:"Cast iron",made:"USA",oven:"Any",ind:true,dw:false,value:true,note:"Grill marks on steak and chicken when you can't grill outside."}]}
+);
+
+const INFO={
+ "ac-d3":{pros:["Even heat edge to edge","Lid included","Made in the USA, lifetime warranty"],cons:["Food sticks until you learn to preheat","Handle shape bugs some people"]},
+ "mi-ss":{pros:["5-ply holds heat for hard sears","Comfortable handle","Oven safe to 800°F"],cons:["Heavier than All-Clad","No lid"]},
+ "tram":{pros:["Close to All-Clad performance","About $60","Helper handle for lifting"],cons:["Polished finish shows scratches","Shorter track record"]},
+ "debuyer":{pros:["Steakhouse crust at home","Gets slicker every time you cook","Lighter than cast iron"],cons:["Must season and dry after use","Not for tomato sauces until seasoned","Handle limits oven time"]},
+ "matfer":{pros:["Pro-kitchen standard","Rivet-free inside, easy to clean"],cons:["Factory coating must be scrubbed off","Needs seasoning before first use"]},
+ "lodge":{pros:["About $40","Huge heat retention","Lighter than classic Lodge"],cons:["Heavy","Rough surface until seasoning builds"]},
+ "smithey":{pros:["Polished smooth surface","Beautiful heirloom piece","Best heat retention"],cons:["$220","Heavy"]},
+ "lc":{pros:["Light enamel shows browning","Lifetime warranty","Lasts generations"],cons:["Over $400","Enamel can chip if dropped"]},
+ "staub":{pros:["Browns better than Le Creuset","Dark interior hides stains","Self-basting lid"],cons:["Heavier","Hard to see browning on black enamel"]},
+ "lodge-en":{pros:["A third of the price","Bigger 6 qt"],cons:["Enamel chips sooner","Hand wash only"]},
+ "ac-ns":{pros:["Eggs and fish slide right off","Cheap to replace","Works on induction"],cons:["Coating wears out in a few years","No high heat, no metal tools"]},
+ "mi-ns":{pros:["Clad stainless body heats evenly","Nicer to hold"],cons:["$149 for a pan you'll replace","Same coating lifespan"]},
+ "ac-sp":{pros:["Rice and beans won't scorch","Matches your skillet"],cons:["$150 for a saucepan"]},
+ "mi-st":{pros:["Clad up the walls, so it can brown","Big enough for a pound of pasta"],cons:["$249","Bulky to store"]},
+ "lodge-comal":{pros:["$25","Low rim makes flipping tortillas easy","Lasts forever"],cons:["Needs seasoning care","Small for big batches"]},
+ "ac-saute":{pros:["Straight sides hold sauce","Lid included","Pan sauce plus braising in one"],cons:["Overlaps with your skillet if budget is tight"]},
+ "yosukata":{pros:["Real wok char on a home stove","Pre-seasoned","Light and quick"],cons:["Needs seasoning care","Wooden handle, no oven"]},
+ "mi-saucier":{pros:["No corners for sauce to burn in","Great for queso and risotto"],cons:["Overlaps with a saucepan","$179"]},
+ "lc-braiser":{pros:["Fits a whole pan of chicken in one layer","Gorgeous on the table"],cons:["$400","Overlaps with the Dutch oven"]},
+ "lodge-grill":{pros:["$25","Real grill marks"],cons:["Smoky","Ridges are a pain to clean"]}
+};
+const CARE={stainless:"Care: preheat 2 minutes, then oil, then food. Bar Keepers Friend removes stains. Dishwasher safe, but hand washing keeps it nicer.",
+ carbon:"Care: rinse hot, scrub, dry on the burner, wipe a few drops of oil inside. Never soak or dishwasher.",
+ iron:"Care: rinse hot, scrub, dry on the burner, thin coat of oil. Avoid long tomato or wine simmers early on.",
+ enamel:"Care: medium heat is plenty. Wood or silicone tools. Baking-soda paste lifts stains.",
+ ptfe:"Care: low to medium heat, never preheat empty, no metal tools, hand wash. Replace when food starts sticking."};
+const careKey=o=>{const b=o.build.toLowerCase();return b.includes("enamel")?"enamel":b.includes("ptfe")?"ptfe":b.includes("carbon")?"carbon":b.includes("cast iron")?"iron":"stainless";};
+
+const PRESETS={
+  core:{sear:"ac-d3",black:"debuyer",pot:"lc"},
+  rec:{sear:"ac-d3",black:"debuyer",pot:"lc",slick:"ac-ns",sauce:"ac-sp"},
+  full:{sear:"ac-d3",black:"debuyer",pot:"lc",slick:"ac-ns",sauce:"ac-sp",stock:"mi-st"},
+  value:{sear:"tram",black:"lodge",pot:"lodge-en",slick:"ac-ns",sauce:"ac-sp"}
+};
+
+/* ---------- Extra icons ---------- */
+Object.assign(P,{
+ home:'<path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/>',
+ list:'<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/>',
+ article:'<rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+ bookmark:'<path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/>',
+ bookmarkf:'<path d="M6.5 3.5h11v17l-5.5-4-5.5 4z" fill="currentColor"/>',
+ send:'<path d="M20.5 3.5 10 14"/><path d="M20.5 3.5 14 20.5l-4-6.5-6.5-4z"/>',
+ heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.5 2.8C19.5 15.4 12 20 12 20z"/>',
+ maybe:'<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.6a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.8"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ comment:'<path d="M4 5.5h16v10H10l-4.5 4v-4H4z"/>',
+ tag:'<path d="M3.5 12.5V4h8.5l8.5 8.5-8.5 8.5z"/><circle cx="8" cy="8.5" r="1.3"/>',
+ pricetag:'<path d="M3.5 12.5V4h8.5l8.5 8.5-8.5 8.5z"/><path d="M14 10.3c-.4-.6-1.2-.9-2-.8-1 .2-1.4 1-1 1.7.5.8 2.5.6 2.9 1.5.4.8-.2 1.6-1.2 1.7-.8.1-1.6-.2-2-.8"/>',
+ clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+ search:'<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/>',
+ copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/>',
+ ext:'<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+ swap:'<path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/>',
+ check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+ layers:'<path d="m12 4 8.5 4.5L12 13 3.5 8.5z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/><path d="m3.5 16.5 8.5 4.5 8.5-4.5"/>',
+ star:'<path d="m12 3.8 2.5 5.2 5.7.8-4.1 4 1 5.7-5.1-2.7-5.1 2.7 1-5.7-4.1-4 5.7-.8z"/>',
+ down:'<path d="M3.5 7 10 13.5l3.5-3.5 7 7"/><path d="M14.5 17h6v-6"/>',
+ us:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.3 2.8-5 5.5-5s4.9 1.7 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.5 14.3c2.6-.3 4.6 1.3 5 4.7"/>',
+ link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+ info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/>'
+});
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl=u=>{u=String(u||"");return /^https?:\/\//i.test(u)?u:"";};
+const str=v=>typeof v==="string"?v:"";
+const arr=v=>Array.isArray(v)?v.filter(x=>typeof x==="string"):[];
+const nowISO=()=>new Date().toISOString();
+const eid=()=>Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8);
+const money=n=>"$"+Number(n).toLocaleString(undefined,{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+const ts=iso=>{const t=Date.parse(iso||"");return isNaN(t)?0:t;};
+const fmtDate=iso=>ts(iso)?new Date(ts(iso)).toLocaleDateString(undefined,{month:"short",day:"numeric"}):"";
+function ago(iso){const t=ts(iso);if(!t)return"";const s=(Date.now()-t)/1000;if(s<60)return"just now";if(s<3600)return Math.floor(s/60)+"m ago";if(s<86400)return Math.floor(s/3600)+"h ago";if(s<7*86400)return Math.floor(s/86400)+"d ago";return fmtDate(iso);}
+const hue=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h%360;};
+const PAGE_URL=(document.querySelector('meta[name="panrack-url"]')||{}).content||(location.origin+location.pathname);
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+const SLOT={},PROD={};
+SLOTS.forEach(s=>{SLOT[s.id]=s;s.options.forEach(o=>PROD[o.id]={s,o});});
+const STATUSES=["considering","agreed","bought","owned"];
+const STL={considering:"Considering",agreed:"Agreed",bought:"Bought",owned:"Owned"};
+const PRESET_NAMES={core:"Core 3",rec:"Recommended 5",full:"Full 6",value:"Value"};
+const TABS=[{id:"feed",label:"Feed",ic:"home"},{id:"set",label:"Our set",ic:"list"},{id:"articles",label:"Read",ic:"article"},{id:"saved",label:"Saved",ic:"bookmark"}];
+const RX=[["yes","heart","Love it"],["maybe","maybe","Maybe"],["no","x","Pass"]];
+const ART_TAGS=[["all","All"],["materials","Materials"],["technique","Technique"],["dishes","Dishes"],["reviews","Reviews"],["deals","Deals"]];
+const TAG_SYN={materials:["materials","material","stainless","stainless steel","carbon steel","carbon","cast iron","enamel","enameled","nonstick","non-stick","clad"],
+  technique:["technique","techniques","searing","sear","seasoning","care","how-to","cooking"],
+  dishes:["dishes","dish","recipe","recipes","steak","chicken","fish","tacos","burritos","soup","soups","pasta"],
+  reviews:["reviews","review","tested","testing","best"],deals:["deals","deal","sale","price","prices"]};
+const MAT_TAGS={stainless:["stainless","stainless steel","clad"],carbon:["carbon steel","carbon"],iron:["cast iron"],enamel:["enamel","enameled","dutch oven","enameled cast iron"],ptfe:["nonstick","non-stick"]};
+const hasTag=(a,key)=>{const t=a.tags.map(x=>x.toLowerCase());return (TAG_SYN[key]||[key]).some(k=>t.includes(k));};
+const tagIcon=a=>hasTag(a,"deals")?"pricetag":hasTag(a,"reviews")?"star":hasTag(a,"technique")?"flame":hasTag(a,"materials")?"layers":hasTag(a,"dishes")?"soup":"article";
+
+/* ---------- State ---------- */
+let DB=null,U=null,SAMPLE=null,ME=null,MEPROF=null,READONLY=false,DB_PENDING=true;
+let ARTICLES=[],ART_BY_ID={},PRICES={},EVENTS=[],DBSET={},REACT=[],COMMENTS=[],SAVED=[],SHARES=[];
+const LOADED={};
+const NAMES={},AVATARS={},NAME_PENDING=new Set();
+const OVR={};let SEEDED=false;
+let PARTNER=null;
+let VIEW="feed";
+let FEED_F=(lsGet("pr_ff")||"all"),ART_F=(lsGet("pr_af")||"all"),ART_Q="";
+let LOCAL=lsGet("pr_set3");
+const SOCIAL=()=>!!(DB&&ME);
+
+function defaultSet(){const r={};SLOTS.forEach(s=>{const pid=PRESETS.rec[s.id];r[s.id]={productId:pid||s.options[0].id,on:!!pid,status:"considering",updatedBy:null,updatedAt:null};});return r;}
+if(!LOCAL||typeof LOCAL!=="object")LOCAL=defaultSet();
+function cleanSlot(s,d){d=d||{};const pid=s.options.some(o=>o.id===d.productId)?d.productId:s.options[0].id;
+  return {productId:pid,on:!!d.on,status:STATUSES.includes(d.status)?d.status:"considering",updatedBy:str(d.updatedBy)||null,updatedAt:str(d.updatedAt)||null};}
+function eff(){const useDb=DB&&Object.keys(DBSET).length;const def=defaultSet();const base=useDb?DBSET:(DB?def:LOCAL);const r={};
+  SLOTS.forEach(s=>{r[s.id]=cleanSlot(s,OVR[s.id]||base[s.id]||def[s.id]);});return r;}
+const optOf=(s,d)=>s.options.find(o=>o.id===d.productId)||s.options[0];
+
+function priceOf(o){const p=PRICES[o.id];const has=p&&typeof p.price==="number";const price=has?p.price:o.price;
+  let was=null;if(has){was=typeof p.was==="number"?p.was:(p.price<o.price?o.price:null);}else was=o.was||null;
+  return {price,was:was&&was>price?was:null,drop:has&&p.price<o.price,store:(has&&str(p.store))||o.store,url:(has&&safeUrl(p.url))||o.url,checked:has?str(p.checkedAt):null,note:has?"":(o.priceNote||"")};}
+
+const whoName=id=>!id?"Someone":id===ME?"You":(NAMES[id]||"Someone");
+const firstName=id=>{const n=NAMES[id];return n?n.split(" ")[0]:"";};
+const partnerLabel=()=>PARTNER&&firstName(PARTNER)?firstName(PARTNER):"your partner";
+const partnerShort=()=>PARTNER&&firstName(PARTNER)?firstName(PARTNER):"partner";
+const icon2=(k,c="")=>icon(k,c);
+function avatar(id,cls="av"){const src=id===ME&&MEPROF?MEPROF.avatarUrl:AVATARS[id];return src?`<img class="${cls}" src="${esc(src)}" alt="" onerror="this.style.visibility='hidden'">`:`<span class="${cls}" style="display:inline-grid;place-items:center;font:700 11px var(--font-body);color:var(--muted)">${esc((whoName(id)[0]||"?").toUpperCase())}</span>`;}
+
+/* ---------- Names ---------- */
+function collectIds(){const s=new Set();
+  Object.values(DBSET).forEach(d=>d.updatedBy&&s.add(d.updatedBy));
+  EVENTS.forEach(e=>e.actor&&e.actor!=="feed"&&s.add(e.actor));
+  REACT.forEach(r=>s.add(r.user));COMMENTS.forEach(c=>s.add(c.user));SAVED.forEach(x=>s.add(x.user));SHARES.forEach(x=>s.add(x.from));
+  s.delete(null);s.delete("");return [...s];}
+async function ensureNames(ids){if(!U)return;const need=ids.filter(id=>id!==ME&&!(id in NAMES)&&!NAME_PENDING.has(id));if(!need.length)return;
+  need.forEach(id=>NAME_PENDING.add(id));
+  try{const ps=await U.profiles(need);need.forEach(id=>{const p=ps&&ps[id];NAMES[id]=(p&&p.name)||"";if(p&&p.avatarUrl)AVATARS[id]=p.avatarUrl;});}catch(e){need.forEach(id=>NAMES[id]="");}
+  need.forEach(id=>NAME_PENDING.delete(id));schedule();}
+function findPartner(ids){if(!ME)return ids[0]||null;return ids.find(id=>id!==ME)||null;}
+
+/* ---------- Writes ---------- */
+const chains={};
+function write(path,data,op){if(!DB)return Promise.reject({code:"not_granted"});
+  const run=()=>{const ref=DB.doc(path);return op==="delete"?ref.delete():op==="update"?ref.update(data):ref.set(data);};
+  const p=(chains[path]||Promise.resolve()).catch(()=>{}).then(run);chains[path]=p;
+  return p.catch(e=>{writeErr(e);throw e;});}
+let lastErrToast=0;
+function writeErr(e){const c=e&&e.code;if(Date.now()-lastErrToast<1500)return;lastErrToast=Date.now();
+  if(c==="invalid_argument"){READONLY=true;toast("This view can look but not make changes.");schedule();}
+  else if(c==="quota_exceeded")toast("Storage is full. Remove a few old notes or saves and try again.");
+  else if(c==="resource_exhausted")toast("Too many changes at once. Wait a moment and try again.");
+  else if(c==="revoked"){toast("Access to shared data ended for this view.");}
+  else toast("Couldn't save that. Check your connection and try again.");}
+function logEvent(type,text,extra){if(!SOCIAL())return;const d={type,actor:ME,text,createdAt:nowISO()};
+  if(extra&&extra.productId)d.productId=extra.productId;if(extra&&extra.articleId)d.articleId=extra.articleId;
+  write("events/"+eid(),d).catch(()=>{});}
+
+async function changeSlots(patches,ev){
+  if(READONLY){toast("This view can look but not make changes.");schedule();return;}
+  const cur=eff(),t=nowISO(),changed={};
+  for(const [id,p] of Object.entries(patches)){const n={...cur[id],...p,updatedBy:ME||null,updatedAt:t};
+    if(n.on===cur[id].on&&n.productId===cur[id].productId&&n.status===cur[id].status)continue;changed[id]=n;}
+  if(!Object.keys(changed).length)return;
+  if(!DB){Object.assign(LOCAL,changed);lsSet("pr_set3",LOCAL);renderAll();if(ev&&ev.toast)toast(ev.toast);return;}
+  Object.assign(OVR,changed);renderAll();
+  try{
+    if(!Object.keys(DBSET).length&&!SEEDED){SEEDED=true;
+      await Promise.all(SLOTS.filter(s=>!changed[s.id]).map(s=>write("set/"+s.id,{...cur[s.id]})));}
+    for(const [id,n] of Object.entries(changed))await write("set/"+id,{productId:n.productId,on:!!n.on,status:n.status,updatedBy:n.updatedBy,updatedAt:n.updatedAt});
+    if(ev)logEvent(ev.type,ev.text,{productId:ev.productId});
+    if(ev&&ev.toast)toast(ev.toast);
+  }catch(e){Object.keys(changed).forEach(id=>delete OVR[id]);renderAll();}
+}
+
+/* ---------- Social actions ---------- */
+function titleOf(target){const i=targetInfo(target);return i?i.title:"something";}
+function targetInfo(t){t=String(t||"");if(t==="set"){const S=eff();const on=SLOTS.filter(s=>S[s.id].on);return {kind:"set",title:"Our set",sub:on.length+" pieces · "+money(Math.round(on.reduce((a,s)=>a+priceOf(optOf(s,S[s.id])).price,0)))};}
+  const i=t.indexOf(":");const k=t.slice(0,i),id=t.slice(i+1);
+  if(k==="product"){const f=PROD[id];return f?{kind:"product",id,f,title:f.o.brand+" "+f.o.name}:null;}
+  if(k==="article"){const a=ART_BY_ID[id];return {kind:"article",id,a,title:a?a.title:"An article"};}
+  return null;}
+async function react(target,value){if(!SOCIAL()){return;}if(READONLY){toast("This view can look but not make changes.");return;}
+  const mine=REACT.find(r=>r.target===target&&r.user===ME);
+  try{if(mine&&mine.value===value)await write("reactions/"+target+"__"+ME,null,"delete");
+    else await write("reactions/"+target+"__"+ME,{target,user:ME,value,at:nowISO()});}catch(e){}}
+async function toggleSave(target){if(!SOCIAL())return;if(READONLY){toast("This view can look but not make changes.");return;}
+  const mine=SAVED.find(x=>x.target===target&&x.user===ME);
+  try{if(mine){await write("saved/"+target+"__"+ME,null,"delete");toast("Removed from Saved");}
+    else{await write("saved/"+target+"__"+ME,{target,user:ME,at:nowISO()});toast("Saved");
+      const i=targetInfo(target);logEvent("save","saved "+(i?i.title:"an item"),i&&i.kind==="product"?{productId:i.id}:i&&i.kind==="article"?{articleId:i.id}:null);}}catch(e){}}
+
+/* ---------- Toast ---------- */
+const toastsEl=$("#toasts");
+try{toastsEl.setAttribute("popover","manual");}catch(e){}
+function toast(msg){const el=document.createElement("div");el.className="toast";el.innerHTML=icon("check");el.append(document.createTextNode(msg));
+  toastsEl.appendChild(el);try{if(toastsEl.showPopover){if(toastsEl.matches(":popover-open"))toastsEl.hidePopover();toastsEl.showPopover();}}catch(e){}
+  setTimeout(()=>{el.remove();try{if(!toastsEl.children.length&&toastsEl.hidePopover&&toastsEl.matches(":popover-open"))toastsEl.hidePopover();}catch(e){}},2600);}
+async function copyText(t){try{await navigator.clipboard.writeText(t);return true;}catch(e){
+  try{const ta=document.createElement("textarea");ta.value=t;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;opacity:0;top:0";document.body.appendChild(ta);ta.select();const ok=document.execCommand("copy");ta.remove();return ok;}catch(_){return false;}}}
+
+/* ---------- Components ---------- */
+function thumb(o,s,cls=""){const fb=draw(s.kind,o.fill||"url(#g)");const alt=esc(o.brand+" "+o.name);
+  return `<button type="button" class="thumb ${cls}" data-info="${o.id}" aria-label="Details for ${alt}">${o.img?`<img src="${esc(o.img)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-fb="${s.kind}|${esc(o.fill||"url(#g)")}">`:fb}</button>`;}
+document.addEventListener("error",e=>{const im=e.target;if(!im||im.tagName!=="IMG")return;
+  if(im.dataset.fb){const[k,f]=im.dataset.fb.split("|");im.outerHTML=draw(k,f);}
+  else if(im.dataset.art!==undefined){im.remove();}},true);
+function artTile(a){const src=a.source||"Article";const h=hue(src);
+  return `<span class="tile" style="--h:${h}" aria-hidden="true">${icon(tagIcon(a))}<b>${esc(src.replace(/^the\s+/i,"")[0]||"A")}</b><span>${esc(src)}</span></span>`;}
+function artThumb(a){const img=safeUrl(a.image);const inner=artTile(a)+(img?`<img src="${esc(img)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-art="">`:"");
+  return a.url?`<a class="athumb" href="${esc(a.url)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">${inner}</a>`:`<span class="athumb">${inner}</span>`;}
+function rxBar(target,compact){if(!SOCIAL())return"";const list=REACT.filter(r=>r.target===target);const mine=(list.find(r=>r.user===ME)||{}).value;
+  return `<div class="rx${compact?" compact":""}" role="group" aria-label="Reactions">${RX.map(([v,ic,l])=>{const who=list.filter(r=>r.value===v);
+    const tip=who.length?who.map(r=>whoName(r.user)).join(", ")+": "+l:l;
+    return `<button type="button" class="rxb${mine===v?" on":""}" data-rx="${esc(target)}" data-v="${v}" aria-pressed="${mine===v}" title="${esc(tip)}" aria-label="${esc(tip)}">${icon(ic)}<span>${l}</span>${who.length?`<i>${who.length}</i>`:""}</button>`;}).join("")}</div>`;}
+function saveBtn(target){if(!SOCIAL())return"";const on=SAVED.some(x=>x.target===target&&x.user===ME);
+  return `<button type="button" class="iconbtn${on?" on":""}" data-save="${esc(target)}" aria-pressed="${on}" aria-label="${on?"Remove from Saved":"Save"}" title="${on?"Saved":"Save"}">${icon(on?"bookmarkf":"bookmark")}</button>`;}
+function shareBtn(target){return `<button type="button" class="iconbtn" data-share="${esc(target)}" aria-label="Send to ${esc(partnerLabel())}" title="Send to ${esc(partnerLabel())}">${icon("send")}</button>`;}
+function mentions(a){const ps=a.products.filter(id=>PROD[id]);if(!ps.length)return"";
+  return `<div class="tags">${ps.slice(0,3).map(id=>`<button type="button" class="mention" data-info="${id}">${esc(PROD[id].o.brand+" "+PROD[id].s.name)}</button>`).join("")}</div>`;}
+function articleCard(a){const target="article:"+a.id;const when=a.publishedAt||a.addedAt;
+  const title=a.url?`<a class="atitle" href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}${icon("ext")}</a>`:`<span class="atitle">${esc(a.title)}</span>`;
+  return `<article class="card acard">${artThumb(a)}<div class="abody">
+    <div class="ameta"><b>${esc(a.source)}</b>${when?`<span>${esc(ago(when))}</span>`:""}${a.readMinutes?`<span>${a.readMinutes} min read</span>`:""}</div>
+    ${title}${a.summary?`<p class="asum">${esc(a.summary)}</p>`:""}
+    ${a.tags.length?`<div class="tags">${a.tags.slice(0,4).map(t=>`<span class="tagc">${esc(t)}</span>`).join("")}</div>`:""}${mentions(a)}</div>
+    <div class="afoot">${rxBar(target,true)}<span class="sp"></span>${saveBtn(target)}${shareBtn(target)}</div></article>`;}
+function dealCard(pid,t,ev){const {s,o}=PROD[pid];const p=priceOf(o);const was=p.was||(p.price<o.price?o.price:null);
+  return `<article class="card dcard">${thumb(o,s)}<div style="min-width:0">
+    <div class="eyebrow">${icon("down")}Price drop${t?` · ${esc(ago(t))}`:""}</div>
+    <button type="button" class="linkbtn" data-info="${o.id}" style="display:block;margin:3px 0 4px;line-height:1.25">${esc(o.brand+" "+o.name)}</button>
+    <div class="pricepair">${was?`<s>${money(was)}</s><span aria-hidden="true">→</span>`:""}<b>${money(p.price)}</b>${was?`<span class="saveamt">Save ${money(Math.round((was-p.price)*100)/100)}</span>`:""}</div>
+    <div class="info-sub">${esc(p.store)}${p.checked?` · ${icon("clock")} checked ${esc(fmtDate(p.checked))}`:""}</div></div>
+    <div class="acts"><a class="btn primary sm" href="${esc(p.url)}" target="_blank" rel="noopener">Buy at ${esc(p.store)} ${icon("ext")}</a><button type="button" class="btn sm" data-info="${o.id}">Details</button><span style="flex:1"></span>${saveBtn("product:"+o.id)}${shareBtn("product:"+o.id)}</div></article>`;}
+const EV_IC={set_change:["swap",""],status:["check","ok"],share:["send",""],save:["bookmark",""],article:["article",""],price_drop:["down","heat"]};
+function actRow(e){const [ic,c]=EV_IC[e.type]||["info",""];const who=e.actor&&e.actor!=="feed"?`<b>${esc(whoName(e.actor))}</b> `:"";
+  const prod=e.productId&&PROD[e.productId]?` <button type="button" class="linkbtn" data-info="${e.productId}">View pan</button>`:"";
+  const art=e.articleId&&ART_BY_ID[e.articleId]&&ART_BY_ID[e.articleId].url?` <a class="linkbtn" style="color:var(--blued);font-weight:600" href="${esc(ART_BY_ID[e.articleId].url)}" target="_blank" rel="noopener">Read</a>`:"";
+  return `<div class="actrow"><span class="ai ${c}">${icon(ic)}</span><p>${who}${esc(e.text)}${prod}${art}<span class="t">${esc(ago(e.createdAt))}</span></p></div>`;}
+function emptyState(ic,h,p){return `<div class="empty">${icon(ic)}<h3>${esc(h)}</h3><p>${esc(p)}</p></div>`;}
+function skeletons(n){return Array.from({length:n},()=>`<div class="card skcard" aria-hidden="true"><div class="skel th"></div><div><div class="skel ln" style="width:40%"></div><div class="skel ln" style="width:90%;height:15px"></div><div class="skel ln" style="width:75%"></div><div class="skel ln" style="width:60%"></div></div></div>`).join("");}
+
+/* ---------- Header + tabs ---------- */
+function unseenShares(){if(!ME)return[];return SHARES.filter(x=>x.from&&x.from!==ME&&!(x.seenBy||[]).includes(ME));}
+function renderNav(){const n=unseenShares().length;
+  const html=TABS.map(t=>`<button type="button" data-tab="${t.id}" ${VIEW===t.id?'aria-current="page"':""}>${icon(t.ic)}<span>${t.label}</span>${t.id==="feed"&&n?`<span class="badge" aria-label="${n} new from ${esc(partnerLabel())}">${n}</span>`:""}</button>`).join("");
+  $("#topnav").innerHTML=html;$("#tabbar").innerHTML=html;
+  const who=$("#who");
+  if(U&&ME){who.innerHTML=`<span class="avs">${avatar(ME)}${PARTNER?avatar(PARTNER):""}</span><span>${PARTNER?"You &amp; "+esc(partnerLabel()):"Just you so far"}</span>`;}
+  else who.innerHTML="";}
+function go(v,push=true){if(!TABS.some(t=>t.id===v))v="feed";VIEW=v;
+  TABS.forEach(t=>{$("#v-"+t.id).hidden=t.id!==v;});
+  $("#setbar").hidden=v!=="set";
+  if(push){try{history.replaceState(null,"","#"+v);}catch(e){}window.scrollTo({top:0});}
+  renderAll();}
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h&&h!==VIEW)go(h,false);});
+
+/* ---------- Feed ---------- */
+const seenMarked=new Set(),inboxShown=new Set();
+function renderFeed(){
+  const q=$("#feedQuiet");
+  if(!DB&&!DB_PENDING){q.hidden=false;q.innerHTML=icon("info")+"<span>Sharing is off in this view, so the feed has nothing to show. Your set is saved on this device only.</span>";}
+  else if(DB&&!ME&&!DB_PENDING){q.hidden=false;q.innerHTML=icon("info")+"<span>Sign in to react, save and send things to each other.</span>";}
+  else q.hidden=true;
+  const last=ARTICLES.reduce((m,a)=>Math.max(m,ts(a.addedAt)),0);
+  $("#feedMeta").innerHTML=icon("clock")+"Updated daily at 7am"+(last?" · last "+esc(new Date(last).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})):"");
+  /* inbox */
+  const un=unseenShares();un.forEach(x=>inboxShown.add(x.id));
+  const inbox=SHARES.filter(x=>inboxShown.has(x.id)).sort((a,b)=>ts(b.at)-ts(a.at));
+  const ib=$("#inbox");
+  if(inbox.length&&VIEW==="feed"){
+    ib.innerHTML=`<section class="inbox" aria-label="From ${esc(partnerLabel())}"><h2>${icon("send")}From ${esc(whoName(inbox[0].from))}</h2>${inbox.map(shareItem).join("")}</section>`;
+    const toMark=un.filter(x=>!seenMarked.has(x.id));
+    if(toMark.length)setTimeout(()=>{if(VIEW!=="feed")return;toMark.forEach(x=>{if(seenMarked.has(x.id))return;seenMarked.add(x.id);
+      write("shares/"+x.id,{seenBy:[...(x.seenBy||[]),ME]},"update").catch(()=>{});});},1500);
+  }else ib.innerHTML="";
+  /* chips */
+  const F=[["all","All","home"],["articles","Articles","article"],["deals","Deals","pricetag"],["us","Us","us"]];
+  $("#feedChips").innerHTML=F.map(([k,l,ic])=>`<button type="button" class="chip" data-ff="${k}" aria-pressed="${FEED_F===k}">${icon(ic)}${l}</button>`).join("");
+  /* items */
+  const items=[];
+  ARTICLES.forEach(a=>items.push({k:"articles",t:ts(a.addedAt||a.publishedAt),h:()=>articleCard(a)}));
+  const dropSeen=new Set();
+  EVENTS.filter(e=>e.type==="price_drop"&&PROD[e.productId]).forEach(e=>{if(dropSeen.has(e.productId))return;dropSeen.add(e.productId);items.push({k:"deals",t:ts(e.createdAt),h:()=>dealCard(e.productId,e.createdAt,e)});});
+  Object.keys(PRICES).forEach(pid=>{const f=PROD[pid];if(!f||dropSeen.has(pid))return;const p=PRICES[pid];if(typeof p.price==="number"&&p.price<f.o.price)items.push({k:"deals",t:ts(p.checkedAt),h:()=>dealCard(pid,p.checkedAt)});});
+  EVENTS.forEach(e=>{if(["set_change","status","share","save"].includes(e.type))items.push({k:"us",t:ts(e.createdAt),h:()=>actRow(e)});
+    else if(e.type==="article"&&!(e.articleId&&ART_BY_ID[e.articleId]))items.push({k:"articles",t:ts(e.createdAt),h:()=>actRow(e)});});
+  items.sort((a,b)=>b.t-a.t);
+  const shown=items.filter(i=>FEED_F==="all"||i.k===FEED_F).slice(0,80);
+  const list=$("#feedList");
+  const loading=DB_PENDING||(DB&&(!LOADED.articles||!LOADED.events));
+  if(!shown.length){
+    if(loading)list.innerHTML=skeletons(3);
+    else if(FEED_F==="deals")list.innerHTML=emptyState("pricetag","No price drops yet","Prices are checked every morning. When a pan in the catalog gets cheaper, it shows up here with the old and new price.");
+    else if(FEED_F==="us")list.innerHTML=emptyState("us","Nothing from you two yet","When either of you marks a pan Agreed or Bought, swaps a piece, saves or sends something, it lands here.");
+    else list.innerHTML=emptyState("article","Articles land here every morning at 7","Reviews, tests and technique pieces about the pans in your set, plus any price drops. Meanwhile, start on Our set.");
+  }else list.innerHTML=shown.map(i=>i.h()).join("");
+}
+function shareItem(x){const i=targetInfo(x.target);if(!i)return"";
+  let th="",open="";
+  if(i.kind==="product"){th=thumb(i.f.o,i.f.s);open=`<button type="button" class="btn sm" data-info="${i.id}">Open</button>`;}
+  else if(i.kind==="article"){th=i.a?artThumb(i.a):`<span class="athumb">${artTile({source:"Article",tags:[]})}</span>`;open=i.a&&i.a.url?`<a class="btn sm" href="${esc(i.a.url)}" target="_blank" rel="noopener">Read ${icon("ext")}</a>`:"";}
+  else {th=`<span class="sprev" style="display:grid;place-items:center;width:44px;height:44px;padding:0;margin:0;border-radius:8px;background:var(--blued);color:var(--on-blued)">${icon("list")}</span>`;open=`<button type="button" class="btn sm" data-tab="set">Open</button>`;}
+  return `<div class="inb">${th}<p><b>${esc(whoName(x.from))}</b> sent you ${esc(i.kind==="set"?"the set":i.title)}${x.note?`<q>${esc(x.note)}</q>`:""}<span class="t">${esc(ago(x.at))}</span></p>${open}</div>`;}
+
+/* ---------- Set ---------- */
+const DKEYS7=DKEYS;
+function lastBy(d){return d.updatedBy&&d.updatedAt?`${esc(whoName(d.updatedBy))} · ${esc(ago(d.updatedAt))}`:"";}
+function stSel(s,d,id){return `<span class="stw st-${d.status}"><select class="stsel" data-status="${s.id}" ${id?`id="${id}"`:""} aria-label="Status for ${esc(s.name)}"${READONLY?" disabled":""}>${STATUSES.map(v=>`<option value="${v}"${v===d.status?" selected":""}>${STL[v]}</option>`).join("")}</select></span>`;}
+function priceCell(o){const p=priceOf(o);return `<b class="mono">${money(p.price)}</b>${p.drop?` <span class="dropb">Price drop</span>`:""}<small>${p.was?`<s>${money(p.was)}</s> · `:""}${esc(p.note||p.store)}${p.checked?` · ${esc(fmtDate(p.checked))}`:""}</small>`;}
+function pills(o){return (o.pick?' <span class="pill">Pick</span>':"")+(o.value?' <span class="pill val">Value</span>':"");}
+function badges(o){return `<div class="badges"><span title="Made in">${icon("pin")}${esc(o.made)}</span><span class="${o.ind?"":"no"}" title="Induction">${icon("coil")}Ind.</span><span title="${o.dw?"Dishwasher safe":"Hand wash only"}">${icon(o.dw?"dw":"hand")}${o.dw?"DW":"Hand"}</span></div>`;}
+function pcard(s,S){const d=S[s.id],o=optOf(s,d),t=traits(o),p=priceOf(o);
+  return `<article class="card pcard ${d.on?"":"off"}">
+   <div class="pc-top"><label class="slotlbl"><input type="checkbox" class="toggle" data-on="${s.id}" ${d.on?"checked":""}${READONLY?" disabled":""} aria-label="Include ${esc(s.name)}"><span><b>${esc(s.name)}</b><small>${esc(s.sub)}</small></span></label>${stSel(s,d)}</div>
+   <div class="pc-body">
+    <div class="pc-prod">${thumb(o,s)}<div style="min-width:0"><div class="brandl">${esc(o.brand)}${pills(o)}</div><button type="button" class="linkbtn" data-info="${o.id}">${esc(o.name)}</button></div></div>
+    <div class="pc-specs"><span class="mat"><i class="sw" style="background:${t.sw}"></i>${esc(o.build)}</span><span class="heat" title="Max heat: ${HEAT_TXT[t.heat]}">${lvl("flame",t.heat,4)}</span><span class="care" title="Care: ${CARE_TXT[t.care]}">${lvl("sponge",t.care,3)}</span>${badges(o).replace('class="badges"','class="badges" style="margin:0"')}</div>
+    <div class="dishes" aria-label="Dishes it handles">${s.cov.map((c,i)=>`<span class="dic ${c?"d"+c:""}" title="${DISHES[i]}: ${["not its job","handles it","best tool"][c]}" role="img" aria-label="${DISHES[i]}: ${["not its job","handles it","best tool"][c]}">${icon(DKEYS7[i])}</span>`).join("")}</div>
+   </div>
+   <div class="pc-foot"><div class="pc-price">${priceCell(o)}</div><div class="acts">${s.options.length>1?`<button class="btn sm" type="button" data-swap="${s.id}">${icon("swap")}Swap</button>`:""}<a class="btn primary sm" href="${esc(p.url)}" target="_blank" rel="noopener">Buy ${icon("ext")}</a></div></div>
+   ${lastBy(d)?`<span class="lastby" style="margin-top:-4px">Last change: ${lastBy(d)}</span>`:""}
+  </article>`;}
+function trow(s,S,first){const d=S[s.id],o=optOf(s,d),t=traits(o),p=priceOf(o);
+  const div=first?`<tr class="divider"><td colspan="15"><b>Specialty pieces</b><span>Optional add-ons. Flip a switch to add one to your set.</span></td></tr>`:"";
+  return div+`<tr class="${d.on?"":"off"}">
+   <td class="comp"><label class="tg"><input type="checkbox" class="toggle" data-on="${s.id}" ${d.on?"checked":""}${READONLY?" disabled":""} aria-label="Include ${esc(s.name)}"><span><b>${esc(s.name)}</b><small>${esc(s.sub)}</small></span></label></td>
+   <td><div class="prod">${thumb(o,s)}<div style="min-width:0"><div class="brandl">${esc(o.brand)}${pills(o)}</div><button type="button" class="linkbtn" data-info="${o.id}">${esc(o.name)}</button></div></div></td>
+   <td class="stc">${stSel(s,d)}${lastBy(d)?`<span class="lastby">${lastBy(d)}</span>`:""}</td>
+   <td class="spec"><span class="mat"><i class="sw" style="background:${t.sw}"></i>${esc(o.build)}</span>${badges(o)}</td>
+   <td class="spec"><span class="heat" title="${HEAT_TXT[t.heat]}">${lvl("flame",t.heat,4)}</span><small class="care" title="${CARE_TXT[t.care]}">${lvl("sponge",t.care,3)}</small></td>
+   ${s.cov.map((c,i)=>`<td class="dish" title="${DISHES[i]}"><i class="dot ${c?"d"+c:""}" role="img" aria-label="${DISHES[i]}: ${["no","yes","best"][c]}"></i></td>`).join("")}
+   <td class="price">${priceCell(o)}</td>
+   <td class="act"><div class="acts">${s.options.length>1?`<button class="btn sm" data-swap="${s.id}" type="button">${icon("swap")}Swap (${s.options.length})</button>`:""}<a class="btn primary sm" href="${esc(p.url)}" target="_blank" rel="noopener">Buy ${icon("ext")}</a></div></td></tr>`;}
+function matchPreset(S){return Object.keys(PRESETS).find(p=>SLOTS.filter(s=>!s.spec).every(s=>{const want=PRESETS[p][s.id];return S[s.id].on===!!want&&(!want||S[s.id].productId===want);}))||null;}
+function setTotals(S){const chosen=SLOTS.filter(s=>S[s.id].on);const total=chosen.reduce((a,s)=>a+priceOf(optOf(s,S[s.id])).price,0);
+  const best=DISHES.map((d,i)=>Math.max(0,...chosen.map(s=>s.cov[i])));const counts={};STATUSES.forEach(v=>counts[v]=chosen.filter(s=>S[s.id].status===v).length);
+  return {chosen,total,best,covered:best.filter(Boolean).length,counts};}
+let headDone=false;
+function renderSet(){const S=eff();const T=setTotals(S);
+  const q=$("#setQuiet");
+  if(!DB&&!DB_PENDING){q.hidden=false;q.innerHTML=icon("info")+"<span>Sharing is off in this view. Changes are saved on this device only.</span>";}
+  else if(READONLY){q.hidden=false;q.innerHTML=icon("info")+"<span>You can browse the set here, but changes won't save from this view.</span>";}
+  else q.hidden=true;
+  const lastT=Object.values(S).reduce((m,d)=>ts(d.updatedAt)>ts(m&&m.updatedAt)?d:m,null);
+  $("#setMeta").innerHTML=lastT&&lastT.updatedAt?icon("clock")+"Last change: "+lastBy(lastT):"";
+  const n=T.chosen.length||1;
+  $("#summary").innerHTML=`<div><span class="eyebrow">Pieces</span><b>${T.chosen.length}</b></div>
+   <div><span class="eyebrow">Total</span><b>${money(Math.round(T.total))}</b></div>
+   <div><span class="eyebrow">Dishes covered</span><b class="okc">${T.covered}/7</b></div>
+   <div><span class="eyebrow">Progress</span><b>${T.counts.bought+T.counts.owned}/${T.chosen.length} <span style="font-size:12px;color:var(--muted)">in hand</span></b>
+    <div class="prog" aria-hidden="true">${STATUSES.map(v=>T.counts[v]?`<i class="p-${v}" style="width:${T.counts[v]/n*100}%"></i>`:"").join("")}</div>
+    <span class="stcount">${STATUSES.filter(v=>T.counts[v]).map(v=>`${T.counts[v]} ${STL[v].toLowerCase()}`).join(" · ")||"Nothing picked"}</span></div>`;
+  const mp=matchPreset(S);
+  $("#presets").innerHTML=Object.keys(PRESETS).map(p=>`<button type="button" class="chip" data-preset="${p}" aria-pressed="${mp===p}"${READONLY?" disabled":""}>${PRESET_NAMES[p]}</button>`).join("");
+  $("#setActs").innerHTML=`<button type="button" class="btn" data-copylist>${icon("copy")}Copy list with links</button><button type="button" class="btn primary" data-share="set">${icon("send")}Send set to ${esc(partnerShort())}</button>`;
+  const core=SLOTS.filter(s=>!s.spec),spec=SLOTS.filter(s=>s.spec);
+  $("#pcards").innerHTML=core.map(s=>pcard(s,S)).join("");
+  $("#pcardsSpec").innerHTML=spec.map(s=>pcard(s,S)).join("");
+  if(!headDone){headDone=true;$("#partsHead").innerHTML=`<th>Slot</th><th>Selection</th><th>Status</th><th>Build</th><th>Heat · Care</th>${DISHES.map((d,i)=>`<th class="dish"><span title="${d}">${icon(DKEYS7[i])}<small>${d}</small></span></th>`).join("")}<th style="text-align:right">Price</th><th style="text-align:right">Buy</th>`;
+    $("#legend").innerHTML=`<span><i class="dot d2"></i> Best tool for it</span><span><i class="dot d1"></i> Handles it</span><span><i class="dot"></i> Not its job</span><span class="heat">${icon("flame")} Max heat (1–4)</span><span class="care">${icon("sponge")} Care effort (1–3)</span><span>${icon("coil")} Induction · ${icon("dw")} Dishwasher · ${icon("hand")} Hand wash · ${icon("pin")} Made in</span>`;}
+  $("#rows").innerHTML=core.map(s=>trow(s,S)).join("")+spec.map((s,i)=>trow(s,S,i===0)).join("")+
+    `<tr class="total"><td colspan="5">Coverage for this set</td>${T.best.map((c,i)=>`<td class="dish"><i class="dot ${c?"d"+c:""}" role="img" aria-label="${DISHES[i]}"></i></td>`).join("")}<td class="price"><b>${money(Math.round(T.total*100)/100)}</b></td><td></td></tr>`;
+  $("#bTotal").textContent=money(Math.round(T.total));
+  $("#bMeta").textContent=T.chosen.length+" pieces · "+T.covered+"/7 dishes";
+}
+
+/* ---------- Articles ---------- */
+function renderArticles(){
+  const counts={};ART_TAGS.forEach(([k])=>counts[k]=k==="all"?ARTICLES.length:ARTICLES.filter(a=>hasTag(a,k)).length);
+  $("#artChips").innerHTML=ART_TAGS.map(([k,l])=>`<button type="button" class="chip" data-tagf="${k}" aria-pressed="${ART_F===k}">${k==="all"?"":icon("tag")}${l}${ARTICLES.length?` <i>${counts[k]}</i>`:""}</button>`).join("");
+  const q=ART_Q.trim().toLowerCase();
+  const list=ARTICLES.filter(a=>(ART_F==="all"||hasTag(a,ART_F))&&(!q||[a.title,a.source,a.summary,a.tags.join(" "),a.products.map(id=>PROD[id]?PROD[id].o.brand+" "+PROD[id].o.name:"").join(" ")].join(" ").toLowerCase().includes(q)));
+  const last=ARTICLES.reduce((m,a)=>Math.max(m,ts(a.addedAt)),0);
+  $("#artMeta").innerHTML=ARTICLES.length?icon("article")+ARTICLES.length+" articles"+(last?" · newest "+esc(ago(new Date(last).toISOString())):""):"";
+  const el=$("#artList");
+  if(!ARTICLES.length){el.innerHTML=(DB_PENDING||(DB&&!LOADED.articles))?skeletons(3):emptyState("article","Articles land here every morning at 7","Each day brings new reviews, tests and technique pieces about the pans you're considering. Each card links to the original.");return;}
+  el.innerHTML=list.length?list.map(articleCard).join(""):emptyState("search","No matches","Try another word, or clear the topic filter.");
+}
+
+/* ---------- Saved ---------- */
+function renderSaved(){const el=$("#savedList");
+  if(!SOCIAL()){el.innerHTML=(DB_PENDING)?skeletons(2):emptyState("bookmark","Saving needs sharing turned on","Open this page signed in, with shared data allowed, to bookmark pans and articles for both of you.");return;}
+  if(!LOADED.saved){el.innerHTML=skeletons(2);return;}
+  const groups={};SAVED.forEach(x=>{(groups[x.target]=groups[x.target]||{target:x.target,users:[],at:0}).users.push(x.user);groups[x.target].at=Math.max(groups[x.target].at,ts(x.at));});
+  const gs=Object.values(groups).filter(g=>targetInfo(g.target)).sort((a,b)=>b.at-a.at);
+  if(!gs.length){el.innerHTML=emptyState("bookmark","Nothing saved yet","Tap the bookmark on any pan or article to keep it here. You'll both see it, with who saved it.");return;}
+  el.innerHTML=gs.map(g=>{const i=targetInfo(g.target);const by=`<span class="lastby" style="white-space:normal">${icon("bookmarkf")} Saved by ${g.users.map(u=>esc(whoName(u))).join(" and ")} · ${esc(ago(new Date(g.at).toISOString()))}</span>`;
+    if(i.kind==="article"&&i.a)return `<div>${articleCard(i.a)}${by}</div>`;
+    if(i.kind==="product"){const {s,o}=i.f;const p=priceOf(o);
+      return `<article class="card dcard" style="border-color:var(--line)">${thumb(o,s)}<div style="min-width:0"><div class="brandl">${esc(o.brand)} · ${esc(s.name)}</div><button type="button" class="linkbtn" data-info="${o.id}" style="display:block;margin:2px 0 4px">${esc(o.name)}</button><div class="pricepair"><b>${money(p.price)}</b>${p.drop?'<span class="dropb">Price drop</span>':""}</div>${by}</div>
+       <div class="acts"><a class="btn primary sm" href="${esc(p.url)}" target="_blank" rel="noopener">Buy ${icon("ext")}</a><button type="button" class="btn sm" data-info="${o.id}">Details</button><span style="flex:1"></span>${saveBtn(g.target)}${shareBtn(g.target)}</div></article>`;}
+    return `<div class="card" style="padding:12px">${esc(i.title)} ${by}</div>`;}).join("");
+}
+
+/* ---------- Product detail ---------- */
+const info=$("#info"),cmp=$("#cmp"),shareDlg=$("#share");
+let CUR=null,askCtl=null;
+function showDlg(d){try{if(d.showModal){if(!d.open)d.showModal();}else d.setAttribute("open","");}catch(e){d.setAttribute("open","");}}
+function closeDlg(d){try{d.close();}catch(e){d.removeAttribute("open");}}
+[info,cmp,shareDlg].forEach(d=>d.addEventListener("click",e=>{if(e.target===d)closeDlg(d);}));
+info.addEventListener("close",()=>{askCtl&&askCtl.abort();CUR=null;});
+const q=s=>encodeURIComponent(s);
+function openInfo(id){const f=PROD[id];if(!f)return;CUR=f;const {s,o}=f;const t=traits(o);
+  if(cmp.open)closeDlg(cmp);
+  $("#infoBrand").textContent=o.brand+" · "+s.name;$("#infoTitle").textContent=o.name;
+  $("#infoImg").innerHTML=o.img?`<img src="${esc(o.img)}" alt="${esc(o.brand+" "+o.name)}" loading="lazy" referrerpolicy="no-referrer" data-fb="${s.kind}|${esc(o.fill||"url(#g)")}">`:draw(s.kind,o.fill||"url(#g)");
+  $("#infoNote").textContent=o.note;
+  $("#infoSpecs").innerHTML=`<div><span class="eyebrow">Material</span><span class="mat"><i class="sw" style="background:${t.sw}"></i>${esc(o.build)}</span></div>
+   <div class="heat"><span class="eyebrow">Max heat</span>${lvl("flame",t.heat,4)}<small style="color:var(--muted)">${HEAT_TXT[t.heat]}</small></div>
+   <div class="care"><span class="eyebrow">Care effort</span>${lvl("sponge",t.care,3)}<small style="color:var(--muted)">${CARE_TXT[t.care]}</small></div>
+   <div><span class="eyebrow">Oven</span><span class="mat">${icon("therm")}${esc(o.oven)}</span></div>
+   <div><span class="eyebrow">Made in</span><span class="mat">${icon("pin")}${esc(o.made)}</span></div>
+   <div><span class="eyebrow">Stove &amp; wash</span><span class="mat">${icon("coil")}${o.ind?"Induction ok":"No induction"}</span><span class="mat">${icon(o.dw?"dw":"hand")}${o.dw?"Dishwasher ok":"Hand wash"}</span></div>`;
+  $("#infoDishes").innerHTML=s.cov.map((c,i)=>`<span class="dishchip ${c?"d"+c:""}">${icon(DKEYS[i])}${DISHES[i]}${c===2?" · best":""}</span>`).join("");
+  const inf=INFO[o.id]||{pros:[],cons:[]};
+  $("#infoPros").innerHTML=inf.pros.map(x=>`<li>${esc(x)}</li>`).join("");$("#infoCons").innerHTML=inf.cons.map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#infoCare").textContent=CARE[careKey(o)];
+  const others=s.options.filter(x=>x.id!==o.id).map(x=>x.brand+" "+x.name);
+  $("#askQs").innerHTML=["Is this worth it for how we cook?",others.length?`How does it compare to the ${others[0]}?`:"What would we lose by skipping it?","How do we get the best sear for steak or tacos?","What should we do the first week we own it?"].map(x=>`<button type="button">${esc(x)}</button>`).join("");
+  askCtl&&askCtl.abort();const out=$("#askOut");out.hidden=true;out.textContent="";$("#askNote").hidden=true;$("#askInput").value="";$("#cmInput").value="";
+  fillInfo();showDlg(info);info.scrollTop=0;}
+function fillInfo(){if(!CUR||!info.open&&!CUR)return;const {s,o}=CUR;const p=priceOf(o);const full=o.brand+" "+o.name;const target="product:"+o.id;
+  $("#infoPrice").innerHTML=`<div class="info-price"><b>${money(p.price)}</b>${p.was?`<s>${money(p.was)}</s>`:""}${p.drop?`<span class="dropb">${icon("down")}Price drop</span>`:""}</div>
+   <div class="info-sub">${esc(p.note?p.note+" · ":"")}${esc(p.store)}${p.checked?` · ${icon("clock")}checked ${esc(fmtDate(p.checked))}`:" · catalog price"}</div>`;
+  $("#infoLinks").innerHTML=`<a class="btn primary" href="${esc(p.url)}" target="_blank" rel="noopener">Buy at ${esc(p.store)} ${icon("ext")}</a>
+   <a class="btn" href="${esc(o.amz||amz(full))}" target="_blank" rel="noopener">Amazon ${icon("ext")}</a>
+   <a class="btn" href="https://www.google.com/search?q=${q(full+" review")}" target="_blank" rel="noopener">Reviews ${icon("ext")}</a>
+   <a class="btn" href="https://www.youtube.com/results?search_query=${q(full+" review")}" target="_blank" rel="noopener">Videos ${icon("ext")}</a>
+   <a class="btn" href="https://www.reddit.com/search/?q=${q(full)}" target="_blank" rel="noopener">Reddit ${icon("ext")}</a>`;
+  const S=eff();const d=S[s.id];const inSet=d.productId===o.id&&d.on;
+  $("#infoInSet").innerHTML=`<div class="inset">${inSet?`<span><b>In our set</b> as the ${esc(s.name.toLowerCase())}</span>${stSel(s,d)}`:`<span>${d.on?`Our ${esc(s.name.toLowerCase())} is the ${esc(optOf(s,d).brand)}`:`Not in our set`}</span><button type="button" class="btn sm primary" data-use="${o.id}"${READONLY?" disabled":""}>${icon("check")}Use this one</button>`}</div>`;
+  const soc=$("#infoSocial");
+  if(SOCIAL()){const list=REACT.filter(r=>r.target===target);
+    const said=list.length?list.map(r=>`<b>${esc(whoName(r.user))}</b>: ${esc((RX.find(x=>x[0]===r.value)||[])[2]||"")}`).join(" · "):"No reactions yet. What do you think?";
+    soc.innerHTML=`<span class="eyebrow">What we think</span>${rxBar(target,false)}<span class="rxwho">${said}</span><div class="acts" style="margin-top:4px">${(()=>{const on=SAVED.some(x=>x.target===target&&x.user===ME);return `<button type="button" class="btn${on?" primary":""}" data-save="${target}" aria-pressed="${on}">${icon(on?"bookmarkf":"bookmark")}${on?"Saved":"Save"}</button>`;})()}<button type="button" class="btn" data-share="${target}">${icon("send")}Send to ${esc(partnerShort())}</button></div>`;}
+  else soc.innerHTML=`<div class="acts"><button type="button" class="btn" data-share="${target}">${icon("link")}Share link</button></div>`;
+  /* comments */
+  const cb=$("#cmBlock");cb.hidden=!SOCIAL();
+  if(SOCIAL()){const cs=COMMENTS.filter(c=>c.target===target).sort((a,b)=>ts(a.at)-ts(b.at));
+    $("#infoCm").innerHTML=cs.length?cs.map(c=>`<div class="cm${c.user===ME?" mine":""}">${avatar(c.user)}<div class="bub"><b>${esc(whoName(c.user))}</b><time>${esc(ago(c.at))}</time><p>${esc(c.text)}</p></div></div>`).join(""):`<p class="quietnote">No notes yet. Leave one for ${esc(partnerLabel())}, like "Wait for Black Friday?"</p>`;
+    $("#cmForm").hidden=READONLY;}
+  /* related */
+  const mk=careKey(o);const rel=ARTICLES.filter(a=>a.products.includes(o.id)||a.tags.some(t=>(MAT_TAGS[mk]||[]).includes(t.toLowerCase()))).sort((a,b)=>(b.products.includes(o.id)-a.products.includes(o.id))||ts(b.addedAt)-ts(a.addedAt)).slice(0,4);
+  $("#relBlock").hidden=!rel.length;
+  $("#infoRel").innerHTML=rel.map(a=>`<div class="rel">${artThumb(a)}<div style="min-width:0">${a.url?`<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>`:`<span>${esc(a.title)}</span>`}<small>${esc(a.source)}${a.readMinutes?" · "+a.readMinutes+" min":""}</small></div></div>`).join("");
+}
+$("#cmForm").addEventListener("submit",async e=>{e.preventDefault();if(!CUR||!SOCIAL())return;const inp=$("#cmInput");const text=inp.value.trim().slice(0,500);if(!text)return;
+  inp.value="";try{await write("comments/"+eid(),{target:"product:"+CUR.o.id,user:ME,text,at:nowISO()});}catch(err){inp.value=text;}});
+
+/* ---------- Ask Claude ---------- */
+const ERR={not_granted:"Claude isn't allowed on this page. You can turn it on from the page's Permissions menu.",
+  rate_limited:"Too many questions at once. Try again in a minute.",session_expired:"Sign in again to ask Claude.",
+  refused:"Claude couldn't answer that one. Try asking it differently.",empty_completion:"No answer came back. Try rephrasing.",prompt_too_large:"That question is too long. Try a shorter one."};
+async function ask(question){if(!SAMPLE||!CUR||!question.trim())return;
+  const {s,o}=CUR,inf=INFO[o.id]||{pros:[],cons:[]},p=priceOf(o),S=eff();
+  const set=SLOTS.filter(x=>S[x.id].on).map(x=>{const po=optOf(x,S[x.id]);return `${x.name}: ${po.brand} ${po.name} (${money(priceOf(po).price)}, ${STL[S[x.id].status]})`;}).join("; ")||"nothing selected yet";
+  const alts=s.options.filter(x=>x.id!==o.id).map(x=>`${x.brand} ${x.name} (${money(priceOf(x).price)}, ${x.build})`).join("; ")||"none listed";
+  const rx=REACT.filter(r=>r.target==="product:"+o.id).map(r=>`${r.user===ME?"the person asking":"their partner"}: ${(RX.find(x=>x[0]===r.value)||[])[2]}`).join("; ");
+  const prompt=`You are a straight-talking cookware advisor for a Bay Area couple who cook at home a lot: steaks, chicken, fish, burritos, tacos, soups and pasta. They are replacing cheap scratched pans with high-quality, buy-once cookware that is easy to clean and won't scratch or burn. They plan the set together.
+
+Product they are looking at:
+- ${o.brand} ${o.name}, ${money(p.price)} at ${p.store}${p.drop?` (dropped from ${money(o.price)})`:""}
+- Slot in their set: ${s.name} (${s.sub})
+- Material: ${o.build}; oven: ${o.oven}; induction: ${o.ind?"yes":"no"}; dishwasher: ${o.dw?"yes":"no"}; made in ${o.made}
+- Notes: ${o.note} Pros: ${inf.pros.join(", ")}. Cons: ${inf.cons.join(", ")}.
+- Dishes it suits: ${s.cov.map((c,i)=>c?DISHES[i]+(c===2?" (best)":""):"").filter(Boolean).join(", ")||"none of their staples"}
+Other options for this slot: ${alts}.
+Their current set with status: ${set}.${rx?`\nReactions so far: ${rx}.`:""}
+
+Question: ${question.slice(0,600)}
+
+Answer in plain text with no markdown, under 170 words. Be specific and practical for how they cook. If you aren't sure about a spec or price, say so instead of guessing.`;
+  const out=$("#askOut"),stop=$("#askStop"),note=$("#askNote");
+  askCtl&&askCtl.abort();askCtl=new AbortController();const ctl=askCtl;
+  out.hidden=false;out.dataset.state="wait";out.textContent="Thinking";note.hidden=true;stop.hidden=false;$("#askGo").disabled=true;
+  try{const r=await SAMPLE(prompt,{signal:ctl.signal,onText:({text})=>{out.dataset.state="";out.textContent=text;}});
+    if(r&&r.truncated){note.hidden=false;note.textContent="The answer was cut short. Ask a narrower question for the rest.";}}
+  catch(e){const c=e&&e.code;out.dataset.state="";
+    if(c==="cancelled"){if(e.text)out.textContent=e.text;else out.hidden=true;}
+    else if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(c)){out.textContent=ERR.not_granted;$("#askQs").hidden=true;$("#askForm").hidden=true;}
+    else if(c==="refused"){out.textContent=ERR.refused;}
+    else{out.textContent=e&&e.text?e.text:"";if(!out.textContent)out.hidden=true;note.hidden=false;note.textContent=(e&&e.text?"Interrupted. ":"")+(ERR[c]||"Something went wrong reaching Claude. Try again.");}}
+  finally{if(askCtl===ctl){stop.hidden=true;$("#askGo").disabled=false;}}}
+$("#askQs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){$("#askInput").value=b.textContent;ask(b.textContent);}});
+$("#askForm").addEventListener("submit",e=>{e.preventDefault();ask($("#askInput").value);});
+$("#askStop").addEventListener("click",()=>askCtl&&askCtl.abort());
+
+/* ---------- Compare ---------- */
+function openCmp(id){const s=SLOT[id];if(!s)return;const S=eff();const cur=optOf(s,S[id]).id;const minP=Math.min(...s.options.map(o=>priceOf(o).price));
+  const row=(label,fn)=>`<tr><th scope="row">${label}</th>${s.options.map(o=>`<td class="${o.id===cur?"cur":""}">${fn(o)}</td>`).join("")}</tr>`;
+  $("#cmpTitle").textContent=s.name+" · "+s.sub;
+  $("#cmpTable").innerHTML=row("",o=>thumb(o,s))+
+   row("Product",o=>`<div class="brandl">${esc(o.brand)}${pills(o)}</div><b>${esc(o.name)}</b>`)+
+   row("Price",o=>{const p=priceOf(o);return `<span class="mono ${p.price===minP?"best":""}">${money(p.price)}</span>${p.was?` <s class="mono" style="color:var(--muted)">${money(p.was)}</s>`:""}${p.drop?' <span class="dropb">Drop</span>':""}<br><small style="color:var(--muted)">${esc(p.note||p.store)}</small>`;})+
+   row("Build",o=>`<span class="mat"><i class="sw" style="background:${traits(o).sw}"></i>${esc(o.build)}</span>`)+
+   row("Max heat",o=>`<span class="heat">${lvl("flame",traits(o).heat,4)}</span><br><small style="color:var(--muted)">${HEAT_TXT[traits(o).heat]} · oven ${esc(o.oven)}</small>`)+
+   row("Care",o=>`<span class="care">${lvl("sponge",traits(o).care,3)}</span><br><small style="color:var(--muted)">${CARE_TXT[traits(o).care]}</small>`)+
+   row("Made in",o=>`<span class="mat">${icon("pin")}${esc(o.made)}</span>`)+
+   row("Induction",o=>`<span class="mat">${icon("coil")}${o.ind?"Yes":"No"}</span>`)+row("Dishwasher",o=>`<span class="mat">${icon(o.dw?"dw":"hand")}${o.dw?"Yes":"Hand wash"}</span>`)+
+   (SOCIAL()?row("You two",o=>{const l=REACT.filter(r=>r.target==="product:"+o.id);return l.length?l.map(r=>`${esc(whoName(r.user))}: ${esc((RX.find(x=>x[0]===r.value)||[])[2]||"")}`).join("<br>"):'<span style="color:var(--muted)">No reactions</span>';}):"")+
+   row("Why it",o=>esc(o.note))+
+   row("",o=>`<div class="acts">${o.id===cur?`<span class="btn sm" aria-disabled="true">${icon("check")}Selected</span>`:`<button class="btn primary sm" type="button" data-choose="${o.id}"${READONLY?" disabled":""}>Choose</button>`}<button class="btn sm" type="button" data-info="${o.id}">Details</button></div>`);
+  cmp.dataset.slot=id;showDlg(cmp);}
+
+/* ---------- Share ---------- */
+let SHARE_T=null;
+function openShare(target){const i=targetInfo(target);if(!i)return;SHARE_T=target;
+  let th;if(i.kind==="product")th=thumb(i.f.o,i.f.s);else if(i.kind==="article")th=i.a?artThumb(i.a):`<span class="athumb">${artTile({source:"Article",tags:[]})}</span>`;else th=`<span class="setic">${icon("list")}</span>`;
+  $("#shPrev").innerHTML=`${th}<div style="min-width:0"><div class="eyebrow">${i.kind==="set"?"Your set":i.kind==="product"?"Pan":"Article"}</div><b style="display:block;line-height:1.25">${esc(i.title)}</b>${i.sub?`<small class="quietnote">${esc(i.sub)}</small>`:""}</div>`;
+  $("#shTitle").textContent="Send to "+partnerShort();
+  const can=SOCIAL()&&!READONLY;$("#shNoteWrap").hidden=!can;$("#shSend").hidden=!can;$("#shSend").textContent="Send to "+partnerShort();
+  const qn=$("#shQuiet");qn.hidden=can;qn.textContent=can?"":"Sending needs sharing turned on in this view. Copy the link and paste it in a message instead.";
+  $("#shNote").value="";showDlg(shareDlg);}
+$("#shForm").addEventListener("submit",async e=>{e.preventDefault();if(!SHARE_T||!SOCIAL()||READONLY)return;const note=$("#shNote").value.trim().slice(0,280);const target=SHARE_T;const i=targetInfo(target);
+  const btn=$("#shSend");btn.disabled=true;
+  try{await write("shares/"+eid(),{from:ME,target,note,at:nowISO(),seenBy:[ME]});closeDlg(shareDlg);toast("Sent to "+partnerShort());
+    logEvent("share","sent "+(i.kind==="set"?"the set":i.title)+(note?": “"+note+"”":""),i.kind==="product"?{productId:i.id}:i.kind==="article"?{articleId:i.id}:null);}
+  catch(err){}finally{btn.disabled=false;}});
+$("#shCopy").addEventListener("click",async()=>{const i=targetInfo(SHARE_T);let link=PAGE_URL+"#"+(i&&i.kind==="article"?"articles":"set");
+  const text=i&&i.kind==="article"&&i.a&&i.a.url?i.title+"\n"+i.a.url+"\n\nThe Pan Rack: "+link:(i?i.title+" on The Pan Rack\n":"")+link;
+  const ok=await copyText(text);toast(ok?"Link copied":"Copy blocked. Long-press the address to copy it.");});
+
+/* ---------- Copy list ---------- */
+async function copyList(){const S=eff();const ch=SLOTS.filter(s=>S[s.id].on);
+  const text="Our Pan Rack set\n\n"+ch.map(s=>{const o=optOf(s,S[s.id]);const p=priceOf(o);return `${s.name}: ${o.brand} ${o.name} — ${money(p.price)} [${STL[S[s.id].status]}]\n${p.url}`;}).join("\n\n")+`\n\nTotal: ${money(Math.round(ch.reduce((a,s)=>a+priceOf(optOf(s,S[s.id])).price,0)))}`;
+  const ok=await copyText(text);toast(ok?"List copied with links":"Copy blocked in this view");}
+
+/* ---------- Events ---------- */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-tab],[data-info],[data-swap],[data-choose],[data-use],[data-rx],[data-save],[data-share],[data-preset],[data-ff],[data-tagf],[data-close],[data-copylist]");
+  if(!el)return;const ds=el.dataset;
+  if(ds.tab!==undefined){e.preventDefault();if(shareDlg.open)closeDlg(shareDlg);go(ds.tab);return;}
+  if(ds.close){closeDlg($("#"+ds.close));return;}
+  if(ds.info){openInfo(ds.info);return;}
+  if(ds.swap){openCmp(ds.swap);return;}
+  if(ds.choose){const sid=cmp.dataset.slot;const s=SLOT[sid];const o=s.options.find(x=>x.id===ds.choose);closeDlg(cmp);
+    changeSlots({[sid]:{productId:o.id,on:true}},{type:"set_change",text:`swapped the ${s.name.toLowerCase()} to the ${o.brand} ${o.name}`,productId:o.id,toast:"Swapped to "+o.brand});return;}
+  if(ds.use){const f=PROD[ds.use];if(!f)return;changeSlots({[f.s.id]:{productId:f.o.id,on:true}},{type:"set_change",text:`put the ${f.o.brand} ${f.o.name} in the set`,productId:f.o.id,toast:"Added to the set"});return;}
+  if(ds.rx){react(ds.rx,ds.v);return;}
+  if(ds.save){toggleSave(ds.save);return;}
+  if(ds.share){openShare(ds.share);return;}
+  if(ds.preset){const p=ds.preset,cur=eff(),patch={};SLOTS.forEach(s=>{if(s.spec)return;const want=PRESETS[p][s.id];patch[s.id]={on:!!want,productId:want||cur[s.id].productId};});
+    changeSlots(patch,{type:"set_change",text:`switched the set to the ${PRESET_NAMES[p]} build`,toast:PRESET_NAMES[p]+" build applied"});return;}
+  if(ds.ff){FEED_F=ds.ff;lsSet("pr_ff",FEED_F);renderFeed();return;}
+  if(ds.tagf){ART_F=ds.tagf;lsSet("pr_af",ART_F);renderArticles();return;}
+  if(ds.copylist!==undefined){copyList();return;}
+});
+document.addEventListener("change",e=>{const t=e.target;
+  if(t.dataset.on){const s=SLOT[t.dataset.on];const o=optOf(s,eff()[s.id]);const on=t.checked;
+    changeSlots({[s.id]:{on}},{type:"set_change",text:on?`added the ${o.brand} ${o.name} to the set`:`took the ${o.brand} ${o.name} out of the set`,productId:o.id,toast:on?s.name+" added":s.name+" removed"});}
+  else if(t.dataset.status){const s=SLOT[t.dataset.status];const o=optOf(s,eff()[s.id]);const v=t.value;
+    changeSlots({[s.id]:{status:v}},{type:"status",text:`marked the ${o.brand} ${o.name} as ${STL[v]}`,productId:o.id,toast:"Marked "+STL[v]});}
+});
+$("#artSearch").addEventListener("input",e=>{ART_Q=e.target.value;renderArticles();});
+
+/* ---------- Render loop ---------- */
+let rq=0;
+function schedule(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;renderAll();});setTimeout(()=>{if(rq){cancelAnimationFrame(rq);rq=0;renderAll();}},120);}
+function renderAll(){
+  const ids=collectIds();ensureNames(ids);PARTNER=findPartner(ids);
+  renderNav();
+  if(VIEW==="feed")renderFeed();else $("#inbox").innerHTML="";
+  if(VIEW==="set")renderSet();
+  if(VIEW==="articles")renderArticles();
+  if(VIEW==="saved")renderSaved();
+  if(info.open&&CUR)fillInfo();
+}
+setInterval(schedule,60000);
+setTimeout(()=>$("#main").classList.remove("intro"),1400);
+
+/* ---------- Capabilities ---------- */
+function normArt(d){const x=d.data()||{};return {id:d.id,title:str(x.title)||"Untitled article",url:safeUrl(x.url),source:str(x.source)||"Article",publishedAt:str(x.publishedAt)||null,summary:str(x.summary),image:safeUrl(x.image)||null,tags:arr(x.tags),products:arr(x.products),readMinutes:Math.max(0,Math.round(Number(x.readMinutes)||0)),addedAt:str(x.addedAt)||null};}
+function sub(name,query,cb){let retried=false;const start=()=>{try{query().onSnapshot(snap=>{try{cb(snap);}catch(e){}LOADED[name]=true;schedule();},
+  err=>{LOADED[name]=true;schedule();if(err&&err.code==="unavailable"&&!retried){retried=true;setTimeout(start,4000);}});}catch(e){LOADED[name]=true;schedule();}};start();}
+function startDb(){
+  sub("articles",()=>DB.collection("articles"),s=>{ARTICLES=s.docs.map(normArt).sort((a,b)=>ts(b.addedAt||b.publishedAt)-ts(a.addedAt||a.publishedAt));ART_BY_ID={};ARTICLES.forEach(a=>ART_BY_ID[a.id]=a);});
+  sub("prices",()=>DB.collection("prices"),s=>{PRICES={};s.docs.forEach(d=>{const x=d.data()||{};if(typeof x.price==="number")PRICES[d.id]={price:x.price,was:typeof x.was==="number"?x.was:null,store:str(x.store),checkedAt:str(x.checkedAt),url:safeUrl(x.url)};});});
+  sub("events",()=>DB.collection("events").orderBy("createdAt","desc").limit(200),s=>{EVENTS=s.docs.map(d=>{const x=d.data()||{};return {id:d.id,type:str(x.type),actor:str(x.actor),productId:str(x.productId),articleId:str(x.articleId),text:str(x.text),createdAt:str(x.createdAt)};}).filter(e=>e.text||e.type==="price_drop");});
+  sub("set",()=>DB.collection("set"),s=>{const n={};s.docs.forEach(d=>{if(SLOT[d.id])n[d.id]=d.data()||{};});DBSET=n;
+    Object.keys(OVR).forEach(id=>{if(n[id]&&str(n[id].updatedAt)===OVR[id].updatedAt)delete OVR[id];});});
+  sub("reactions",()=>DB.collection("reactions"),s=>{REACT=s.docs.map(d=>d.data()||{}).filter(r=>str(r.target)&&str(r.user)&&["yes","maybe","no"].includes(r.value)).map(r=>({target:r.target,user:r.user,value:r.value,at:str(r.at)}));});
+  sub("comments",()=>DB.collection("comments"),s=>{COMMENTS=s.docs.map(d=>{const x=d.data()||{};return {id:d.id,target:str(x.target),user:str(x.user),text:str(x.text).slice(0,1000),at:str(x.at)};}).filter(c=>c.text);});
+  sub("saved",()=>DB.collection("saved"),s=>{SAVED=s.docs.map(d=>d.data()||{}).filter(x=>str(x.target)&&str(x.user)).map(x=>({target:x.target,user:x.user,at:str(x.at)}));});
+  sub("shares",()=>DB.collection("shares"),s=>{SHARES=s.docs.map(d=>{const x=d.data()||{};return {id:d.id,from:str(x.from),target:str(x.target),note:str(x.note).slice(0,400),at:str(x.at),seenBy:arr(x.seenBy)};}).filter(x=>x.from&&x.target);});
+}
+(function init(){
+  const h=location.hash.slice(1);go(TABS.some(t=>t.id===h)?h:"feed",false);
+  const c=window.claude;
+  if(!c||typeof c.use!=="function"){DB_PENDING=false;renderAll();return;}
+  c.use("user").then(async u=>{U=u||null;if(!U){schedule();return;}
+    try{ME=await U.id();}catch(e){ME=null;}try{MEPROF=await U.me();}catch(e){}
+    try{const w=await U.can("data.write");if(w===false)READONLY=true;}catch(e){}
+    schedule();}).catch(()=>{});
+  c.use("db").then(db=>{DB=db||null;DB_PENDING=false;if(DB)startDb();schedule();}).catch(()=>{DB_PENDING=false;schedule();});
+  c.use("sample").then(sm=>{SAMPLE=sm||null;$("#askBox").hidden=!SAMPLE;}).catch(()=>{});
+})();
+</script>
