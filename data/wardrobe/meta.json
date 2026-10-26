@@ -1,6 +1,24 @@
 {
- "updatedAt": "2026-10-26T04:43:32Z",
+ "updatedAt": "2026-10-26T13:51:04Z",
  "events": [
+  {
+   "type": "price_drop",
+   "productId": "vuori-strato-tech-polo",
+   "text": "Vuori Strato Tech Polo Shirt dropped from $68 to $53.93",
+   "createdAt": "2026-10-26T13:51:04Z"
+  },
+  {
+   "type": "price_drop",
+   "productId": "arcteryx-beta-jacket",
+   "text": "Arc'teryx Beta Jacket dropped from $400 to $249.83",
+   "createdAt": "2026-10-26T13:51:04Z"
+  },
+  {
+   "type": "article",
+   "articleId": "highsnobiety-todd-snyder-new-balance-t500-cafe-pack",
+   "text": "New from Highsnobiety: New Balance's Coffee-Flavored Tennis Shoe Is Perfectly Caffeinated",
+   "createdAt": "2026-10-26T13:51:04Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: The warm layer",

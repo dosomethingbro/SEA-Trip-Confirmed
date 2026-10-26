@@ -13,10 +13,14 @@
  "abercrombie-ls-linen-shirt-blue-stripe": {
   "price": 70,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 70
+   },
+   {
+    "date": "2026-10-26",
     "price": 70
    }
   ]
@@ -46,10 +50,14 @@
  "faherty-palma-linen-camp-shirt": {
   "price": 83.9,
   "was": 168,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 83.9
+   },
+   {
+    "date": "2026-10-26",
     "price": 83.9
    }
   ]
@@ -57,10 +65,14 @@
  "centuria-ss-camp-linen-shirt": {
   "price": 160,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 160
+   },
+   {
+    "date": "2026-10-26",
     "price": 160
    }
   ]
@@ -83,10 +95,14 @@
  "buck-mason-breeze-cotton-linen-shirt": {
   "price": 188,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 188
+   },
+   {
+    "date": "2026-10-26",
     "price": 188
    }
   ]
@@ -118,13 +134,17 @@
   ]
  },
  "vuori-strato-tech-polo": {
-  "price": 68,
-  "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "price": 53.93,
+  "was": 68,
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 68
+   },
+   {
+    "date": "2026-10-26",
+    "price": 53.93
    }
   ]
  },
@@ -142,10 +162,14 @@
  "wooland-signature-polo": {
   "price": 94,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 94
+   },
+   {
+    "date": "2026-10-26",
     "price": 94
    }
   ]
@@ -183,10 +207,14 @@
  "smartwool-perfect-crew-tee": {
   "price": 39.97,
   "was": 60,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 39.97
+   },
+   {
+    "date": "2026-10-26",
     "price": 39.97
    }
   ]
@@ -209,10 +237,14 @@
  "wooland-signature-crew-tee": {
   "price": 80,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 80
+   },
+   {
+    "date": "2026-10-26",
     "price": 80
    }
   ]
@@ -325,10 +357,14 @@
  "rhone-commuter-pant-classic": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 138
+   },
+   {
+    "date": "2026-10-26",
     "price": 138
    }
   ]
@@ -336,10 +372,14 @@
  "vuori-meta-pants-classic": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 138
+   },
+   {
+    "date": "2026-10-26",
     "price": 138
    }
   ]
@@ -356,23 +396,31 @@
   ]
  },
  "free-fly-reverb-short": {
-  "price": 55.5,
+  "price": 55.46,
   "was": 74,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 55.5
+   },
+   {
+    "date": "2026-10-26",
+    "price": 55.46
    }
   ]
  },
  "prana-stretch-zion-short-8": {
   "price": 54.73,
   "was": 84,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 54.73
+   },
+   {
+    "date": "2026-10-26",
     "price": 54.73
    }
   ]
@@ -380,10 +428,14 @@
  "vuori-kore-lined-short-5": {
   "price": 78,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 78
+   },
+   {
+    "date": "2026-10-26",
     "price": 78
    }
   ]
@@ -391,10 +443,14 @@
  "faherty-all-day-7-short-2": {
   "price": 108,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 108
+   },
+   {
+    "date": "2026-10-26",
     "price": 108
    }
   ]
@@ -413,10 +469,14 @@
  "rei-rainier-rain-jacket": {
   "price": 99.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 99.95
+   },
+   {
+    "date": "2026-10-26",
     "price": 99.95
    }
   ]
@@ -424,32 +484,44 @@
  "patagonia-torrentshell-3l": {
   "price": 189,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 189
+   },
+   {
+    "date": "2026-10-26",
     "price": 189
    }
   ]
  },
  "arcteryx-beta-jacket": {
-  "price": 400,
-  "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "price": 249.83,
+  "was": 400,
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 400
+   },
+   {
+    "date": "2026-10-26",
+    "price": 249.83
    }
   ]
  },
  "patagonia-houdini-stash-half-zip": {
   "price": 100.93,
   "was": 145,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-26T13:51:04Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 100.93
+   },
+   {
+    "date": "2026-10-26",
     "price": 100.93
    }
   ]
