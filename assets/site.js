@@ -77,7 +77,8 @@ function monogram(b){const w=String(b||"?").replace(/[^A-Za-z0-9 ]/g,"").trim().
 
 /* ---------- Personal state (this browser only) ---------- */
 const LS="wardrobe.v1";
-const DEF={saved:{},closet:{},outfits:[],packed:{},qty:{},packSel:null,activeStyle:null,tier:"better",read:{},shoe:null,guideMode:"latest",build:null,shop:{tier:"all",occ:"",temple:false,deal:false,sort:"featured"}};
+const DEF={saved:{},closet:{},outfits:[],packed:{},qty:{},packSel:null,activeStyle:null,tier:"better",read:{},shoe:null,guideMode:"latest",build:null,shop:{tier:"all",occ:"",temple:false,deal:false,top:false,sort:"featured"}};
+const SORTS=[["featured","Featured"],["rated","Top rated"],["reviews","Most reviewed"],["low","Price: low to high"],["high","Price: high to low"]];
 const clone=o=>JSON.parse(JSON.stringify(o));
 function sanitize(v){const o=clone(DEF);if(!v||typeof v!=="object")return o;
   for(const k of ["saved","closet","packed","qty","read"])if(v[k]&&typeof v[k]==="object"&&!Array.isArray(v[k]))o[k]=v[k];
@@ -88,7 +89,7 @@ function sanitize(v){const o=clone(DEF);if(!v||typeof v!=="object")return o;
   if(v.shoe!=null&&/^\d{1,2}(\.5)?$/.test(String(v.shoe)))o.shoe=String(v.shoe);
   if(["latest","section","styles"].includes(v.guideMode))o.guideMode=v.guideMode;
   if(v.build&&typeof v.build==="object"&&v.build.slots&&typeof v.build.slots==="object")o.build={slots:Object.assign({top:null,bottom:null,layer:null,shoes:null,accessory:null},v.build.slots),tier:TIERS.includes(v.build.tier)?v.build.tier:"better",style:str(v.build.style)||null};
-  if(v.shop&&typeof v.shop==="object")o.shop=Object.assign(o.shop,{tier:["all",...TIERS].includes(v.shop.tier)?v.shop.tier:"all",occ:str(v.shop.occ),temple:!!v.shop.temple,deal:!!v.shop.deal,sort:["featured","low","high"].includes(v.shop.sort)?v.shop.sort:"featured"});
+  if(v.shop&&typeof v.shop==="object")o.shop=Object.assign(o.shop,{tier:["all",...TIERS].includes(v.shop.tier)?v.shop.tier:"all",occ:str(v.shop.occ),temple:!!v.shop.temple,deal:!!v.shop.deal,top:!!v.shop.top,sort:SORTS.some(s=>s[0]===v.shop.sort)?v.shop.sort:"featured"});
   return o;}
 const eid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 let S;
@@ -130,7 +131,12 @@ const prof=()=>{const p=Object.assign({},DEFAULT_PROFILE,PROFILE||{});if(S.shoe)
 const DEFAULT_TRIP=()=>clone(DEFAULT_PROFILE.trip);
 const trip=()=>prof().trip;
 async function getJSON(n){const r=await fetch("data/wardrobe/"+n+".json",{cache:"no-cache"});if(!r.ok)throw new Error(n+": "+r.status);return r.json();}
-function normP(x){if(!x||!str(x.id))return null;return {id:x.id,brand:str(x.brand)||"Unbranded",name:str(x.name)||"Untitled",category:CATS.includes(x.category)?x.category:"accessories",tier:TIERS.includes(x.tier)?x.tier:"better",price:num(x.price),was:typeof x.was==="number"?x.was:null,url:safeUrl(x.url),image:safeUrl(x.image)||null,fabric:str(x.fabric),sizesOk:str(x.sizesOk),heat:Math.max(0,Math.min(3,num(x.heat)|0)),styles:arr(x.styles),templeOk:!!x.templeOk,why:str(x.why),checkedAt:str(x.checkedAt)};}
+function normP(x){if(!x||!str(x.id))return null;return {id:x.id,brand:str(x.brand)||"Unbranded",name:str(x.name)||"Untitled",category:CATS.includes(x.category)?x.category:"accessories",tier:TIERS.includes(x.tier)?x.tier:"better",price:num(x.price),was:typeof x.was==="number"?x.was:null,url:safeUrl(x.url),image:safeUrl(x.image)||null,fabric:str(x.fabric),sizesOk:str(x.sizesOk),heat:Math.max(0,Math.min(3,num(x.heat)|0)),styles:arr(x.styles),templeOk:!!x.templeOk,why:str(x.why),checkedAt:str(x.checkedAt),
+  rating:typeof x.rating==="number"&&isFinite(x.rating)&&x.rating>0?Math.round(Math.min(5,x.rating)*10)/10:null,
+  reviewCount:typeof x.reviewCount==="number"&&isFinite(x.reviewCount)&&x.reviewCount>=0?Math.round(x.reviewCount):null,
+  reviewSource:str(x.reviewSource).trim(),reviewUrl:safeUrl(x.reviewUrl),fitNote:str(x.fitNote).trim(),
+  pros:arr(x.pros).map(s=>s.trim()).filter(Boolean).slice(0,6),cons:arr(x.cons).map(s=>s.trim()).filter(Boolean).slice(0,6),
+  gallery:arr(x.gallery).map(safeUrl).filter(Boolean).slice(0,12),redditUrl:safeUrl(x.redditUrl),videoUrl:safeUrl(x.videoUrl)};}
 function normA(x){if(!x||!str(x.id))return null;return {id:x.id,title:str(x.title)||"Untitled",url:safeUrl(x.url),source:str(x.source)||"Reading",publishedAt:str(x.publishedAt)||null,summary:str(x.summary),image:safeUrl(x.image)||null,sections:arr(x.sections),styles:arr(x.styles),readMinutes:Math.max(0,Math.round(num(x.readMinutes))),kind:str(x.kind)||"article",addedAt:str(x.addedAt)||null};}
 
 /* ---------- Product helpers ---------- */
@@ -144,8 +150,33 @@ function priceOf(p){const l=PRICES[p.id];const has=l&&typeof l.price==="number";
 const isDeal=p=>{const x=priceOf(p);return x.drop||!!x.was;};
 const dname=p=>p.name.toLowerCase().startsWith(p.brand.toLowerCase().split(" ")[0].toLowerCase())?p.name:p.brand+" "+p.name;
 const tierChip=t=>TIERS.includes(t)?`<span class="tier ${t}">${TIER_L[t]}</span>`:"";
-function photo(p,cls=""){const img=safeUrl(p.image);return `<span class="ph ${cls}"><span class="fb" aria-hidden="true"><span class="bn">${esc(p.brand)}</span><b>${esc(monogram(p.brand))}</b>${icon(CAT_G[p.category]||"tag")}</span>${img?`<img src="${esc(img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`:""}</span>`;}
-document.addEventListener("error",e=>{const im=e.target;if(im&&im.tagName==="IMG")im.remove();},true);
+/* Images: resized + cached through wsrv.nl; fall back to the original URL, then to the monogram. */
+const PX=(u,w)=>`https://wsrv.nl/?url=${encodeURIComponent(u)}&w=${w}&output=webp&q=78`;
+const HOVER=(()=>{try{return matchMedia("(hover:hover) and (pointer:fine)").matches;}catch(e){return false;}})();
+const WIDE=()=>{try{return matchMedia("(min-width:760px)").matches;}catch(e){return false;}};
+function imgEl(u,w,o={}){u=safeUrl(u);if(!u)return"";
+  return `<img src="${esc(PX(u,w))}" srcset="${esc(PX(u,w))} 1x, ${esc(PX(u,w*2))} 2x" data-orig="${esc(u)}" alt="${esc(o.alt||"")}"${o.cls?` class="${o.cls}"`:""} ${o.eager?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" referrerpolicy="no-referrer">`;}
+function photo(p,cls="",o={}){const w=o.w||640;const img=o.src||p.image;
+  const alt2=o.hover&&HOVER?(p.gallery||[]).find(u=>u!==p.image):null;
+  return `<span class="ph ${cls}"><span class="fb" aria-hidden="true"><span class="bn">${esc(p.brand)}</span><b>${esc(monogram(p.brand))}</b>${icon(CAT_G[p.category]||"tag")}</span>${imgEl(img,w,{eager:o.eager})}${alt2?imgEl(alt2,w,{cls:"h2"}):""}</span>`;}
+const T200={w:200};
+document.addEventListener("error",e=>{const im=e.target;if(!im||im.tagName!=="IMG")return;
+  const o=im.dataset.orig;if(o&&!im.dataset.fell){im.dataset.fell="1";im.removeAttribute("srcset");im.src=o;return;}
+  im.remove();},true);
+document.addEventListener("load",e=>{const im=e.target;if(im&&im.tagName==="IMG")im.classList.add("ld");},true);
+function markLoaded(root){(root||document).querySelectorAll("img:not(.ld)").forEach(im=>{if(im.complete&&im.naturalWidth)im.classList.add("ld");});}
+/* Reviews */
+const STARD="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z",HALFD="M12 4v12l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z";
+const fmtN=n=>Number(n).toLocaleString("en-US");
+function stars(r,cls=""){if(r==null)return"";const h=Math.round(r*2)/2;let s="";
+  for(let i=1;i<=5;i++){const k=h>=i?"f":h>=i-.5?"h":"e";s+=`<svg class="${k}" viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="${STARD}"/>${k==="h"?`<path class="hf" d="${HALFD}"/>`:""}</svg>`;}
+  return `<span class="stars ${cls}" role="img" aria-label="Rated ${r.toFixed(1)} out of 5">${s}</span>`;}
+function rvLine(p,cls=""){if(p.rating==null)return"";
+  return `<div class="rvl ${cls}">${stars(p.rating)}<b class="num" aria-hidden="true">${p.rating.toFixed(1)}</b>${p.reviewCount!=null?`<span class="num">(${fmtN(p.reviewCount)})<span class="sr"> reviews</span></span>`:""}</div>`;}
+const fitLine=p=>p.fitNote?`<div class="fitl" title="${esc(p.fitNote)}"><b>Fit</b> ${esc(p.fitNote)}</div>`:"";
+const rk=p=>p.rating==null?-1:p.rating,ck=p=>p.reviewCount==null?-1:p.reviewCount;
+const byRated=(a,b)=>rk(b)-rk(a)||ck(b)-ck(a);
+const galImgs=p=>[...new Set([p.image,...(p.gallery||[])].filter(Boolean))];
 function badges(p,x){x=x||priceOf(p);let h="";if(x.off>=5)h+=`<span class="badge">−${x.off}%</span>`;if(x.drop)h+=`<span class="badge ink">Price drop</span>`;return h;}
 function heatIcons(n){return `<span class="heat" title="${esc(HEAT_L[n])}">${[1,2,3].map(i=>icon("sun",i<=n?"on":"")).join("")}<span class="sr">Heat rating ${n} of 3, ${esc(HEAT_L[n])}</span></span>`;}
 function care(p,full){return `<div class="care">${heatIcons(p.heat)}${p.templeOk?`<span class="tok">${icon("temple","xs")}Temple-ready</span>`:(full?`<span>${icon("temple","xs")}Not for temples</span>`:"")}</div>`;}
@@ -177,24 +208,25 @@ const isSaved=k=>!!S.saved[k];
 function heart(k,label,cls=""){const on=isSaved(k);return `<button type="button" class="heart ${cls}" data-save="${esc(k)}" aria-pressed="${on}" aria-label="${on?"Saved":"Save"}: ${esc(label)}"><span>${icon(on?"heartf":"heart")}</span></button>`;}
 const buyLink=(p,cls="btn sm",label="Buy")=>p.url?`<a class="${cls}" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(label)} ${icon("ext")}</a>`:"";
 function activeStyle(){const a=S.activeStyle;if(!a||!STYLE(a.id))return null;if(ts(a.until)&&ts(a.until)<Date.now())return null;return a;}
-function pcard(p){const x=priceOf(p);const a=activeStyle();const fits=a&&p.styles.includes(a.id);
+function pcard(p,o){o=o&&typeof o==="object"?o:{};const x=priceOf(p);const a=activeStyle();const fits=a&&p.styles.includes(a.id);
   return `<article class="pc">
-  <a class="pc-media" href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}, ${money(x.price)}">${photo(p)}<span class="badges">${badges(p,x)}</span></a>
+  <a class="pc-media" href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}, ${money(x.price)}${p.rating!=null?`, rated ${p.rating.toFixed(1)} of 5`:""}">${photo(p,"",{w:640,eager:o.eager,hover:true})}<span class="badges">${badges(p,x)}</span>${o.top?`<span class="ribbon">${icon("star","xs")}Top rated<span class="rl"> in this drop</span></span>`:""}</a>
   ${heart("p:"+p.id,dname(p))}
   <div class="pc-body">
    <div class="pc-brand">${esc(p.brand)}</div>
    <a class="pc-name" href="#/p/${esc(p.id)}">${esc(p.name)}</a>
+   ${rvLine(p)}
    <div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s><span class="sr">was </span>${money(x.was)}</s>`:""}${tierChip(p.tier)}</div>
-   ${sizeLine(p)}${care(p)}
+   ${sizeLine(p)}${fitLine(p)}${care(p)}
    ${fits?`<span class="fits">Fits ${esc(STYLE(a.id).name)}</span>`:""}
    <div class="pc-foot">${buyLink(p,"btn sm")}</div>
   </div></article>`;}
-function mini(p){const x=priceOf(p);return `<a class="mi" href="#/p/${esc(p.id)}">${photo(p)}<span class="t">${esc(dname(p))}</span><span class="price">${money(x.price)}</span></a>`;}
+function mini(p){const x=priceOf(p);return `<a class="mi" href="#/p/${esc(p.id)}">${photo(p,"",T200)}<span class="t">${esc(dname(p))}</span><span class="price">${money(x.price)}</span></a>`;}
 
 /* ---------- Article helpers ---------- */
 const isNew=a=>!S.read[a.id];
-function artThumb(a,cls="wide"){const img=safeUrl(a.image);
-  const inner=`<span class="wm" style="--h:${hue(a.source)}" aria-hidden="true"><span>${a.kind==="thread"?"Forum thread":"Reading"}</span><b>${esc(a.source)}</b></span>${img?`<img src="${esc(img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`:""}`;
+function artThumb(a,cls="wide",w=640){
+  const inner=`<span class="wm" style="--h:${hue(a.source)}" aria-hidden="true"><span>${a.kind==="thread"?"Forum thread":"Reading"}</span><b>${esc(a.source)}</b></span>${imgEl(a.image,w)}`;
   return a.url?`<a class="ph ${cls}" href="${esc(a.url)}" target="_blank" rel="noopener" data-read="${esc(a.id)}" tabindex="-1" aria-hidden="true">${inner}</a>`:`<span class="ph ${cls}">${inner}</span>`;}
 function ameta(a){const d=a.publishedAt?fmtDay(a.publishedAt,{month:"short",day:"numeric",year:"numeric"}):"";
   return `<div class="ameta"><b>${esc(a.source)}</b>${d?`<span>${esc(d)}</span>`:""}${a.readMinutes?`<span>${a.readMinutes} min read</span>`:""}${isNew(a)?`<span class="new">New</span>`:""}</div>`;}
@@ -280,17 +312,18 @@ function pageDrops(date){
   const art=ps.filter(p=>p.image).slice(0,3);while(art.length<3&&ps[art.length])art.push(ps[art.length]);
   const low=ps.length?Math.min(...ps.map(p=>priceOf(p).price)):0;
   const deals=ps.filter(isDeal).length;
-  let h=`<section class="hero" aria-labelledby="dropT"><div class="art">${art.map(p=>photo(p)).join("")}</div>
+  const rated=ps.filter(p=>p.rating!=null).sort(byRated);const topId=rated.length>1?rated[0].id:null;
+  let h=`<section class="hero" aria-labelledby="dropT"><div class="art">${art.map((p,i)=>photo(p,"",{w:1200,eager:i===0||WIDE()})).join("")}</div>
    <div class="wrap in"><h1 class="d d-xl" id="dropT">${titleLines(drop.title||drop.theme)}</h1>
    ${drop.blurb?`<p class="lede">${esc(drop.blurb)}</p>`:""}
    <div class="meta"><span class="chip hot">${icon("plane")}${esc(tripChip())}</span><span class="chip">${isToday?"Today's drop":"Past drop"} · ${esc(fmtDay(drop.date,{weekday:"short",month:"short",day:"numeric"}))}</span><span class="chip">${plural(ps.length,"piece")} from ${money(low)}</span>${deals?`<span class="chip">${deals} on sale</span>`:""}</div>
    <div class="cta"><button class="btn acc" type="button" data-scroll="dropgrid">Shop the drop ${icon("down")}</button>${isToday?"":`<a class="btn" href="#/drops">Today's drop</a>`}</div></div></section>`;
-  h+=`<div class="wrap"><section class="sec" id="dropgrid" aria-labelledby="dgT"><div class="shead"><div><h2 class="d d-m" id="dgT">The drop</h2><p>${esc(drop.theme)} · picked for the trip, sized for you</p></div></div><div class="grid">${ps.map(pcard).join("")}</div></section>`;
+  h+=`<div class="wrap"><section class="sec" id="dropgrid" aria-labelledby="dgT"><div class="shead"><div><h2 class="d d-m" id="dgT">The drop</h2><p>${esc(drop.theme)} · picked for the trip, sized for you</p></div></div><div class="grid">${ps.map((p,i)=>pcard(p,{eager:i<4,top:p.id===topId})).join("")}</div></section>`;
   const da=(drop.articleIds||[]).map(id=>ART[id]).filter(Boolean);
   if(da.length)h+=`<section class="sec" aria-labelledby="rbT"><div class="shead"><h2 class="d d-m" id="rbT">Read before you buy</h2></div><div class="rail art">${da.map(acard).join("")}</div></section>`;
   const past=DROPS.filter(d=>d.date!==drop.date);
   if(past.length)h+=`<section class="sec" aria-labelledby="pdT"><div class="shead"><h2 class="d d-m" id="pdT">${isToday?"Past drops":"More drops"}</h2></div><div class="archive">${past.map(d=>{const f=d.productIds.map(id=>PROD[id]).filter(Boolean);const cover=f.find(p=>p.image)||f[0];
-    return `<a class="dcard" href="#/drops/${esc(d.date)}"${today&&d.date===today.date?' aria-label="Today\'s drop"':""}>${cover?photo(cover):`<span class="ph"></span>`}<span class="t"><span class="d">${esc(d.title||d.theme)}</span><small>${esc(fmtDay(d.date,{weekday:"short",month:"short",day:"numeric"}))} · ${plural(f.length,"piece")}</small></span></a>`;}).join("")}</div></section>`;
+    return `<a class="dcard" href="#/drops/${esc(d.date)}"${today&&d.date===today.date?' aria-label="Today\'s drop"':""}>${cover?photo(cover,"",{w:400}):`<span class="ph"></span>`}<span class="t"><span class="d">${esc(d.title||d.theme)}</span><small>${esc(fmtDay(d.date,{weekday:"short",month:"short",day:"numeric"}))} · ${plural(f.length,"piece")}</small></span></a>`;}).join("")}</div></section>`;
   let dropsL=PRODUCTS.filter(p=>priceOf(p).drop);let dropT="Price drops",dropP="Lower than when we first checked.";
   if(!dropsL.length){dropsL=PRODUCTS.filter(p=>priceOf(p).was).sort((a,b)=>priceOf(b).off-priceOf(a).off);dropT="On sale now";dropP="No new price drops since the last check. These are already marked down at the store.";}
   if(dropsL.length)h+=`<section class="sec" aria-labelledby="prT"><div class="shead"><div><h2 class="d d-m" id="prT">${dropT}</h2><p>${dropP}</p></div><a class="more" href="#/shop">Shop all ${icon("chev","sm")}</a></div><div class="rail">${boost(dropsL).slice(0,12).map(pcard).join("")}</div></section>`;
@@ -302,11 +335,13 @@ function pageDrops(date){
 /* ---------- Shop ---------- */
 function pageShop(cat){if(cat&&!CATS.includes(cat))cat=null;const f=S.shop;
   const base=cat?PRODUCTS.filter(p=>p.category===cat):PRODUCTS;
-  let list=base.filter(p=>(f.tier==="all"||p.tier===f.tier)&&(!f.temple||p.templeOk)&&(!f.deal||isDeal(p)));
+  let list=base.filter(p=>(f.tier==="all"||p.tier===f.tier)&&(!f.temple||p.templeOk)&&(!f.deal||isDeal(p))&&(!f.top||(p.rating!=null&&p.rating>=4.5)));
   if(f.occ){if(f.occ.startsWith("stop:")){const m=STOP_MATCH[f.occ.slice(5)];if(m)list=list.filter(m);}else list=list.filter(p=>p.styles.includes(f.occ));}
   const td=todayDrop();const inDrop=new Set(td?td.productIds:[]);const a=activeStyle();
   if(f.sort==="low")list.sort((x,y)=>priceOf(x).price-priceOf(y).price);
   else if(f.sort==="high")list.sort((x,y)=>priceOf(y).price-priceOf(x).price);
+  else if(f.sort==="rated")list.sort(byRated);
+  else if(f.sort==="reviews")list.sort((a,b)=>ck(b)-ck(a)||rk(b)-rk(a));
   else{const sc=p=>(a&&p.styles.includes(a.id)?10:0)+(inDrop.has(p.id)?3:0)+(priceOf(p).drop?2:0)+(priceOf(p).was?1:0);list=list.map((p,i)=>({p,i})).sort((x,y)=>sc(y.p)-sc(x.p)||x.i-y.i).map(x=>x.p);}
   const stops=trip().stops.map(s=>s.name).filter(n=>STOP_MATCH[n]);
   const title=cat?CAT_TAB[cat]:"Shop everything";
@@ -317,7 +352,8 @@ function pageShop(cat){if(cat&&!CATS.includes(cat))cat=null;const f=S.shop;
    <label class="sr" for="fOcc">Wear it for</label><select class="field" id="fOcc" data-sfsel="occ"><option value="">Any stop or style</option><optgroup label="Trip stops">${stops.map(n=>`<option value="stop:${esc(n)}"${f.occ==="stop:"+n?" selected":""}>${esc(n)}</option>`).join("")}</optgroup><optgroup label="Styles">${STYLES.map(s=>`<option value="${esc(s.id)}"${f.occ===s.id?" selected":""}>${esc(s.name)}</option>`).join("")}</optgroup></select>
    <button type="button" class="chip" data-sf="temple" aria-pressed="${f.temple}">${icon("temple")}Temple-ready</button>
    <button type="button" class="chip" data-sf="deal" aria-pressed="${f.deal}">${icon("tag")}On sale</button>
-   <label class="sr" for="fSort">Sort</label><select class="field" id="fSort" data-sfsel="sort"><option value="featured"${f.sort==="featured"?" selected":""}>Featured</option><option value="low"${f.sort==="low"?" selected":""}>Price: low to high</option><option value="high"${f.sort==="high"?" selected":""}>Price: high to low</option></select>
+   <button type="button" class="chip" data-sf="top" aria-pressed="${f.top}">${icon("star")}4.5★ and up</button>
+   <label class="sr" for="fSort">Sort</label><select class="field" id="fSort" data-sfsel="sort">${SORTS.map(([k,l])=>`<option value="${k}"${f.sort===k?" selected":""}>${l}</option>`).join("")}</select>
   </div>
   <p class="rescount" aria-live="polite">${plural(list.length,"piece")}${a&&f.sort==="featured"?` · ${esc(STYLE(a.id).name)} pieces first`:""}</p>
   ${list.length?`<div class="grid">${list.map(pcard).join("")}</div>`:empty("tag","Nothing matches","Loosen a filter to see more pieces.",`<button class="btn" type="button" data-sreset>Clear filters</button>`)}</div>`;
@@ -333,7 +369,7 @@ function pageGuide(){const m=S.guideMode;
   else if(m==="section")h+=SECTIONS.map(([id,l])=>{const as=artSorted().filter(a=>a.sections.includes(id));if(!as.length)return"";const n=as.filter(isNew).length;
     return `<section class="shelf" aria-labelledby="sh-${id}"><div class="shead"><div><h2 class="d d-m" id="sh-${id}">${esc(l)}<span class="count${n?"":" zero"}" title="${n} new">${n?n+" new":"All read"}</span></h2><p>${esc(SEC_TRIP[id])}</p></div><a class="more" href="#/guide/section/${id}">See all ${as.length} ${icon("chev","sm")}</a></div><div class="rail art">${as.slice(0,10).map(acard).join("")}</div></section>`;}).join("");
   else{const all=artSorted();const lead=all[0];
-    if(lead)h+=`<article class="lead">${artThumb(lead)}<div>${ameta(lead)}<h2 class="mt8">${aLink(lead,esc(lead.title))}</h2>${lead.summary?`<p class="sum">${esc(lead.summary)}</p>`:""}<div class="mt16">${aActs(lead)}</div></div></article>${shopThis(lead)}`;
+    if(lead)h+=`<article class="lead">${artThumb(lead,"wide",1200)}<div>${ameta(lead)}<h2 class="mt8">${aLink(lead,esc(lead.title))}</h2>${lead.summary?`<p class="sum">${esc(lead.summary)}</p>`:""}<div class="mt16">${aActs(lead)}</div></div></article>${shopThis(lead)}`;
     const rest=all.slice(1,1+LATEST_N);const chunks=[];for(let i=0;i<rest.length;i+=6)chunks.push(rest.slice(i,i+6));
     h+=chunks.map((c,i)=>`<div class="agrid">${c.map(acard).join("")}</div>${i<chunks.length-1&&c.length===6?`<div class="mt24">${shopThis(c[0])}</div>`:`<div class="mt24"></div>`}`).join("");
     if(all.length>1+LATEST_N)h+=`<div style="text-align:center;margin-top:12px"><button class="btn" type="button" data-more>Show more stories</button></div>`;}
@@ -350,7 +386,7 @@ function pageStyle(id){const s=STYLE(id);if(!s)return emptyPage("book","Style no
   const tier=S.tier;const look=styleLook(s.id,tier);const a=activeStyle();const wearing=a&&a.id===s.id;const hp=styleHero(s);
   const tot=SLOTS.reduce((t,sl)=>t+(look[sl.id]?priceOf(look[sl.id]).price:0),0);
   const arts=s.articleIds.map(i=>ART[i]).filter(Boolean);
-  let h=`<section class="lookhero" aria-labelledby="lkT">${bands(s.palette)}<div class="art">${hp?photo(hp):""}</div><div class="wrap in"><a class="backlink" href="#/guide">${icon("back","sm")}Styles</a><h1 class="d d-xl" id="lkT">${esc(s.name)}</h1><p class="lede">${esc(s.tagline)}</p>
+  let h=`<section class="lookhero" aria-labelledby="lkT">${bands(s.palette)}<div class="art">${hp?photo(hp,"",{w:1200,eager:true}):""}</div><div class="wrap in"><a class="backlink" href="#/guide">${icon("back","sm")}Styles</a><h1 class="d d-xl" id="lkT">${esc(s.name)}</h1><p class="lede">${esc(s.tagline)}</p>
    <div class="cta" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><button class="btn ${wearing?"solid":"acc"}" type="button" data-wear="${esc(s.id)}" aria-pressed="${wearing}">${wearing?icon("check")+"Wearing this style":"Wear this style"}</button><button class="btn" type="button" data-preset="${esc(s.id)}">Open in Build</button></div>
    ${wearing?`<p class="note" style="color:var(--ink2)">Its pieces come first in Drops and Shop until ${esc(new Date(ts(a.until)).toLocaleDateString("en-US",{month:"short",day:"numeric"}))}.</p>`:`<p class="note" style="color:var(--ink2)">Wearing it puts its pieces first in Drops and Shop for 7 days.</p>`}</div></section>
   <div class="wrap"><section class="sec twocol"><div><h2 class="d d-m">The rules</h2><ul class="rules mt16">${s.rules.map(r=>`<li>${icon("check")}<span>${esc(r)}</span></li>`).join("")}</ul></div><div><h2 class="d d-m">The palette</h2><div class="mt16" style="display:grid;grid-template-columns:repeat(${s.palette.length},1fr);height:120px;border-radius:var(--r);overflow:hidden">${s.palette.map(c=>`<i style="background:${PAL[c]||"#555"}"></i>`).join("")}</div><div class="mt16">${palChips(s.palette)}</div></div></section>
@@ -384,12 +420,12 @@ function pageBuild(){ensureBuild();const b=S.build;const st=STYLE(b.style);
   <div class="wrap"><div class="slots">${SLOTS.map(sl=>{const p=PROD[b.slots[sl.id]];
     if(!p)return `<div class="slot empty"><span class="ph">${icon(CAT_G[sl.cats[0]]||"tag")}</span><div class="info"><div class="lbl"><span class="cap">${sl.l}</span></div><span class="mute" style="font-size:13px">Empty${st&&st.outfit&&st.outfit[sl.id]===null?`. ${esc(st.name)} skips it.`:""}</span><div class="acts"><button class="btn sm" type="button" data-swap="${sl.id}">${icon("plus")}Add</button></div></div></div>`;
     const x=priceOf(p);
-    return `<div class="slot"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p)}</a><div class="info"><div class="lbl"><span class="cap">${sl.l}</span>${tierChip(p.tier)}</div><span class="pc-brand">${esc(p.brand)}</span><a class="nm" href="#/p/${esc(p.id)}">${esc(p.name)}</a><div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s>${money(x.was)}</s>`:""}</div>${care(p)}
+    return `<div class="slot"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p,"",T200)}</a><div class="info"><div class="lbl"><span class="cap">${sl.l}</span>${tierChip(p.tier)}</div><span class="pc-brand">${esc(p.brand)}</span><a class="nm" href="#/p/${esc(p.id)}">${esc(p.name)}</a><div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s>${money(x.was)}</s>`:""}</div>${care(p)}
      <div class="acts"><button class="btn sm" type="button" data-swap="${sl.id}">${icon("swap")}Swap</button>${buyLink(p,"btn sm")}${sl.id==="layer"||sl.id==="accessory"?`<button class="btn sm ghost" type="button" data-clear="${sl.id}" aria-label="Remove ${sl.l.toLowerCase()}">${icon("x")}</button>`:""}</div></div></div>`;}).join("")}</div>
   <section class="sec" aria-labelledby="wfT"><div class="shead"><h2 class="d d-m" id="wfT">Works for</h2></div><div class="works">${worksFor(b.slots).map(w=>`<div class="work ${w.ok?"y":"n"}">${icon(w.ok?"check":w.ic)}<div><b>${esc(w.l)}</b><small>${esc(w.why)}</small></div></div>`).join("")}</div></section>
   <section class="sec" aria-labelledby="svT"><div class="shead"><div><h2 class="d d-m" id="svT">Save this outfit</h2><p>Saved outfits feed the packing list.</p></div></div>
    <form class="saveform" id="saveOutfit"><label class="sr" for="ofName">Outfit name</label><input class="field" id="ofName" maxlength="60" placeholder="${esc((st?st.name:"My outfit")+" · "+TIER_L[b.tier])}"><button class="btn solid" type="submit">${icon("plus")}Save outfit</button></form>
-   ${S.outfits.length?`<div class="outfits mt16">${S.outfits.map(o=>{const ps=SLOTS.map(s=>PROD[o.slots[s.id]]).filter(Boolean);return `<div class="of"><div style="min-width:0"><b>${esc(o.name)}</b><small class="num">${money0(buildTotal(o.slots))} · ${plural(ps.length,"piece")}</small><div class="thumbs">${ps.map(p=>photo(p)).join("")}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn sm" type="button" data-loadof="${esc(o.id)}">Load</button><button class="btn sm ghost" type="button" data-delof="${esc(o.id)}" aria-label="Delete ${esc(o.name)}">${icon("trash")}</button></div></div>`;}).join("")}</div>`:""}
+   ${S.outfits.length?`<div class="outfits mt16">${S.outfits.map(o=>{const ps=SLOTS.map(s=>PROD[o.slots[s.id]]).filter(Boolean);return `<div class="of"><div style="min-width:0"><b>${esc(o.name)}</b><small class="num">${money0(buildTotal(o.slots))} · ${plural(ps.length,"piece")}</small><div class="thumbs">${ps.map(p=>photo(p,"",T200)).join("")}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"><button class="btn sm" type="button" data-loadof="${esc(o.id)}">Load</button><button class="btn sm ghost" type="button" data-delof="${esc(o.id)}" aria-label="Delete ${esc(o.name)}">${icon("trash")}</button></div></div>`;}).join("")}</div>`:""}
   </section></div>
   <div class="totalbar"><div class="wrap"><div><small>Outfit total</small><span class="tot num">${money0(buildTotal(b.slots))}</span></div><span class="sp"></span><div class="seg acc" role="group" aria-label="Tier">${TIERS.map(t=>`<button type="button" data-bt="${t}" aria-pressed="${b.tier===t}">${t==="bifl"?"For life":TIER_L[t]}</button>`).join("")}</div><button class="btn solid hide-sm" type="button" data-saveof>Save outfit</button></div></div>`;
   return h;}
@@ -399,12 +435,12 @@ function openSwap(slot,tierF){const sl=SLOTS.find(s=>s.id===slot);if(!sl)return;
   list.sort((a,b)=>(b.id===cur)-(a.id===cur)||TIERS.indexOf(a.tier)-TIERS.indexOf(b.tier)||priceOf(a).price-priceOf(b).price);
   $("#swapT").textContent="Swap "+sl.l.toLowerCase();
   $("#swapB").innerHTML=`<div class="seg" role="group" aria-label="Tier" style="margin-bottom:12px">${[["all","All"],...TIERS.map(t=>[t,TIER_L[t]])].map(([k,l])=>`<button type="button" data-swaptier="${k}" aria-pressed="${SWAP.tier===k}">${l}</button>`).join("")}</div>
-   ${list.map(p=>{const x=priceOf(p);const on=p.id===cur;return `<div class="alt${on?" cur":""}">${photo(p)}<div style="min-width:0"><div class="pc-brand">${esc(p.brand)} · ${esc(CAT_L[p.category])}</div><div class="nm">${esc(p.name)}</div><div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s>${money(x.was)}</s>`:""}${tierChip(p.tier)}</div><div class="care mt8">${p.fabric?`<span>${esc(p.fabric)}</span>`:""}${heatIcons(p.heat)}${p.templeOk?`<span class="tok">${icon("temple","xs")}Temple-ready</span>`:""}</div>${p.why?`<p class="why">${esc(p.why)}</p>`:""}<div class="acts">${on?`<span class="btn sm solid" aria-disabled="true">${icon("check")}In your outfit</span>`:`<button class="btn sm acc" type="button" data-use="${esc(p.id)}">Use this</button>`}${buyLink(p)}</div></div></div>`;}).join("")||`<p>No pieces at this tier.</p>`}
+   ${list.map(p=>{const x=priceOf(p);const on=p.id===cur;return `<div class="alt${on?" cur":""}">${photo(p,"",T200)}<div style="min-width:0"><div class="pc-brand">${esc(p.brand)} · ${esc(CAT_L[p.category])}</div><div class="nm">${esc(p.name)}</div><div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s>${money(x.was)}</s>`:""}${tierChip(p.tier)}</div>${rvLine(p,"mt4")}<div class="care mt8">${p.fabric?`<span>${esc(p.fabric)}</span>`:""}${heatIcons(p.heat)}${p.templeOk?`<span class="tok">${icon("temple","xs")}Temple-ready</span>`:""}</div>${p.why?`<p class="why">${esc(p.why)}</p>`:""}<div class="acts">${on?`<span class="btn sm solid" aria-disabled="true">${icon("check")}In your outfit</span>`:`<button class="btn sm acc" type="button" data-use="${esc(p.id)}">Use this</button>`}${buyLink(p)}</div></div></div>`;}).join("")||`<p>No pieces at this tier.</p>`}
    ${cur&&(slot==="layer"||slot==="accessory")?`<div class="mt16"><button class="btn ghost" type="button" data-clear="${slot}">Leave this slot empty</button></div>`:""}`;
   showDlg($("#dlgSwap"));}
 function openPicker(title,pred){const list=PRODUCTS.filter(pred).sort((a,b)=>priceOf(a).price-priceOf(b).price);SWAP=null;
   $("#swapT").textContent=title;
-  $("#swapB").innerHTML=list.map(p=>{const x=priceOf(p);return `<div class="alt">${photo(p)}<div style="min-width:0"><div class="pc-brand">${esc(p.brand)}</div><div class="nm">${esc(p.name)}</div><div class="pr-row"><span class="price">${money(x.price)}</span>${tierChip(p.tier)}</div>${p.why?`<p class="why">${esc(p.why)}</p>`:""}<div class="acts"><button class="btn sm acc" type="button" data-addslot="${esc(p.id)}">Add to outfit</button><a class="btn sm" href="#/p/${esc(p.id)}">Details</a>${buyLink(p)}</div></div></div>`;}).join("")||`<p>Nothing tracked yet.</p>`;
+  $("#swapB").innerHTML=list.map(p=>{const x=priceOf(p);return `<div class="alt">${photo(p,"",T200)}<div style="min-width:0"><div class="pc-brand">${esc(p.brand)}</div><div class="nm">${esc(p.name)}</div><div class="pr-row"><span class="price">${money(x.price)}</span>${tierChip(p.tier)}</div>${rvLine(p,"mt4")}${p.why?`<p class="why">${esc(p.why)}</p>`:""}<div class="acts"><button class="btn sm acc" type="button" data-addslot="${esc(p.id)}">Add to outfit</button><a class="btn sm" href="#/p/${esc(p.id)}">Details</a>${buyLink(p)}</div></div></div>`;}).join("")||`<p>Nothing tracked yet.</p>`;
   showDlg($("#dlgSwap"));}
 function addToOutfit(id){const p=PROD[id];if(!p)return;ensureBuild();const sl=SLOT_OF(p.category);S.build.slots[sl]=p.id;save();toast(`Added to Build as ${SLOTS.find(s=>s.id===sl).l.toLowerCase()}`);}
 
@@ -430,7 +466,7 @@ function pagePack(){const tr=trip();
   h+=GAPS.length?`<div class="warns">${GAPS.map((g,i)=>`<div class="warn">${icon("warnI")}<div><b>${esc(g[0])}</b><small>${esc(g[1])}</small></div><button type="button" class="btn sm" data-gap="${i}">Find one</button></div>`).join("")}</div>`:`<div class="allgood">${icon("check")}<span>No gaps. Rain, temples, Hanoi evenings and the sanctuary are covered.</span></div>`;
   const packedN=items.filter(p=>S.packed[p.id]).length;
   h+=`<section class="sec" style="padding-top:8px"><div class="shead"><div><h2 class="d d-m">Packing list</h2><p class="num">${packedN} of ${items.length} packed</p></div></div><div class="plist">${items.map(p=>{const pk=!!S.packed[p.id];const c=closetOf(p.id);
-    return `<div class="prow ${pk?"done":""}"><input type="checkbox" class="ck" id="pk-${esc(p.id)}" data-pack="${esc(p.id)}" ${pk?"checked":""}><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p)}</a><div style="min-width:0"><label class="nm" for="pk-${esc(p.id)}">${esc(dname(p))}</label><div class="sub"><span>${esc(CAT_L[p.category])}</span><span>In ${plural(count[p.id],"outfit")}</span><span>${c?esc(ST_L[c.status]||""):"Not bought"}</span></div>
+    return `<div class="prow ${pk?"done":""}"><input type="checkbox" class="ck" id="pk-${esc(p.id)}" data-pack="${esc(p.id)}" ${pk?"checked":""}><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p,"",T200)}</a><div style="min-width:0"><label class="nm" for="pk-${esc(p.id)}">${esc(dname(p))}</label><div class="sub"><span>${esc(CAT_L[p.category])}</span>${rvLine(p)}<span>In ${plural(count[p.id],"outfit")}</span><span>${c?esc(ST_L[c.status]||""):"Not bought"}</span></div>
      <div class="end"><span class="qty" role="group" aria-label="Quantity of ${esc(p.name)}"><button type="button" data-qty="${esc(p.id)}" data-d="-1" aria-label="One fewer">${icon("minus","sm")}</button><span class="num">${qtyOf(p.id)}</span><button type="button" data-qty="${esc(p.id)}" data-d="1" aria-label="One more">${icon("plus","sm")}</button></span>${bought(p.id)?"":buyLink(p)}</div></div></div>`;}).join("")}</div></section>`;
   const STOPI={"Chiang Mai":"temple","Elephant sanctuary":"elephant",Hanoi:"moon","Ninh Binh":"bike"};
   const NEEDS={"Chiang Mai":[["Temple-ready top",p=>TOPS.includes(p.category)&&p.templeOk],["Temple-ready long trousers",p=>p.category==="pants"&&p.templeOk],["Slip-on shoes for temple halls",isSlip],["Hot-weather top",p=>TOPS.includes(p.category)&&p.heat>=3]],
@@ -443,7 +479,7 @@ function pagePack(){const tr=trip();
   const byT=TIERS.map(t=>{const l=toBuy.filter(p=>p.tier===t);return [t,l.length,l.reduce((x,p)=>x+priceOf(p).price*qtyOf(p.id),0)];});
   const all=byT.reduce((x,t)=>x+t[2],0);
   h+=`<section class="sec"><div class="shead"><div><h2 class="d d-m">Still to buy</h2><p>${toBuy.length?`${plural(toBuy.length,"piece")} not ordered or kept yet. Mark them in Closet as you buy.`:"Everything on the list is ordered or kept."}</p></div></div>`;
-  if(toBuy.length)h+=`<div class="plist">${toBuy.map(p=>{const x=priceOf(p);const q=qtyOf(p.id);return `<div class="prow nock"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p)}</a><div style="min-width:0"><span class="nm">${esc(dname(p))}</span><div class="sub"><span class="price" style="font-size:17px">${money(x.price)}${q>1?" × "+q:""}</span>${tierChip(p.tier)}</div></div>${buyLink(p)}</div>`;}).join("")}</div>
+  if(toBuy.length)h+=`<div class="plist">${toBuy.map(p=>{const x=priceOf(p);const q=qtyOf(p.id);return `<div class="prow nock"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p,"",T200)}</a><div style="min-width:0"><span class="nm">${esc(dname(p))}</span><div class="sub"><span class="price" style="font-size:17px">${money(x.price)}${q>1?" × "+q:""}</span>${tierChip(p.tier)}${rvLine(p)}</div></div>${buyLink(p)}</div>`;}).join("")}</div>
    <div class="tiertot">${byT.map(([t,n,s])=>`<div>${tierChip(t)}<span class="tot num">${money0(s)}</span><small>${plural(n,"piece")}</small></div>`).join("")}<div class="all"><span class="cap">Total to buy</span><span class="tot num">${money0(all)}</span><small>Order by ${esc(fmtDay(ORDER_BY))}</small></div></div>`;
   return h+`</section></div>`;}
 
@@ -462,7 +498,7 @@ function pageCloset(){const pr=prof();const tr=trip();const dl=daysUntil(ORDER_B
   if(!rows.length)h+=empty("closet","Your closet is empty","Open any piece and tap Add to wishlist, then track it through ordered, kept or returned.",`<a class="btn acc" href="#/drops">Browse today's drop</a>`);
   else if(!shown.length)h+=empty("closet","Nothing here","No pieces have this status yet.");
   else h+=`<div>${shown.map(({p,c})=>{const x=priceOf(p);const rp=RETURN_PENDING===p.id;
-    return `<div class="crow"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p)}</a><div style="min-width:0"><div class="pc-brand">${esc(p.brand)}</div><a class="nm" href="#/p/${esc(p.id)}">${esc(p.name)}</a><div class="row"><span class="price">${money(x.price)}</span>${tierChip(p.tier)}${c.status==="returned"&&c.reason?`<span>Returned: ${esc(c.reason)}</span>`:""}</div></div>
+    return `<div class="crow"><a href="#/p/${esc(p.id)}" aria-label="${esc(dname(p))}">${photo(p,"",T200)}</a><div style="min-width:0"><div class="pc-brand">${esc(p.brand)}</div><a class="nm" href="#/p/${esc(p.id)}">${esc(p.name)}</a><div class="row"><span class="price">${money(x.price)}</span>${tierChip(p.tier)}${c.status==="returned"&&c.reason?`<span>Returned: ${esc(c.reason)}</span>`:""}</div></div>
      <div class="stseg"><div class="seg" role="group" aria-label="Status of ${esc(p.name)}">${STATUSES.map(([k,l])=>`<button type="button" data-cst="${k}" data-pid="${esc(p.id)}" aria-pressed="${(rp?"returned":c.status)===k}">${l}</button>`).join("")}</div>${c.status==="wishlist"?buyLink(p):""}<button type="button" class="btn sm ghost" data-crm="${esc(p.id)}" aria-label="Remove ${esc(p.name)} from closet">${icon("trash")}</button></div>
      ${rp?`<form class="reason" data-reason="${esc(p.id)}"><span>Why the return?</span><button type="button" class="chip" data-rr="Too small">Too small</button><button type="button" class="chip" data-rr="Too large">Too large</button><button type="button" class="chip" data-rr="Too short">Too short</button><button type="button" class="chip" data-rr="Fabric">Fabric</button><label class="sr" for="rr-${esc(p.id)}">Other reason</label><input class="field" id="rr-${esc(p.id)}" maxlength="80" placeholder="Other reason"><button class="btn sm solid" type="submit">Save</button><button class="btn sm ghost" type="button" data-rrcancel>Cancel</button></form>`:""}</div>`;}).join("")}</div>`;
   const sp=Object.keys(S.saved).filter(k=>k.startsWith("p:")).map(k=>PROD[k.slice(2)]).filter(Boolean);
@@ -479,21 +515,46 @@ function spark(hist){if(hist.length<2)return"";const ps=hist.map(h=>h.price);con
 function completeLook(p){const sid=p.styles[0]||"travel-day";const own=SLOT_OF(p.category);const ex=new Set([p.id]);const out=[];
   for(const sl of ["top","bottom","shoes","layer","accessory"]){if(sl===own)continue;const q=pickFor(sid,sl,p.tier,ex);if(q){out.push(q);ex.add(q.id);}if(out.length>=3)break;}return out;}
 function relatedArticles(p,n=3){const st=new Set(p.styles);return ARTICLES.map(a=>({a,s:a.styles.filter(x=>st.has(x)).length*2+(a.sections.some(s=>(SEC_CATS[s]||[]).includes(p.category)&&s!=="color")?1.5:0)})).filter(x=>x.s>=2).sort((x,y)=>y.s-x.s).slice(0,n).map(x=>x.a);}
+function gallery(p){const imgs=galImgs(p);if(!imgs.length)return photo(p,"",{w:1200});const n=imgs.length;
+  return `<div class="gal" data-pid="${esc(p.id)}"><div class="gal-track" id="galT" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Photos of ${esc(dname(p))}${n>1?`, ${n} photos, swipe for more`:""}">${imgs.map((u,i)=>`<button type="button" class="gal-slide" data-view="${i}" aria-label="Open photo ${i+1} of ${n} full screen">${photo(p,"",{src:u,w:1200,eager:i===0})}</button>`).join("")}</div>${n>1?`<div class="gal-dots" aria-hidden="true">${imgs.map((_,i)=>`<i${i?"":' class="on"'}></i>`).join("")}</div>`:""}</div>
+  ${n>1?`<div class="gal-thumbs" role="group" aria-label="Choose a photo">${imgs.map((u,i)=>`<button type="button" data-galgo="${i}" aria-label="Show photo ${i+1}" aria-current="${i===0}">${photo(p,"sq",{src:u,w:200})}</button>`).join("")}</div>`:""}`;}
+function galSync(t){const i=Math.round(t.scrollLeft/Math.max(1,t.clientWidth));const g=t.closest(".media");if(!g)return;
+  g.querySelectorAll(".gal-dots i").forEach((d,k)=>d.classList.toggle("on",k===i));g.querySelectorAll(".gal-thumbs button").forEach((b,k)=>b.setAttribute("aria-current",String(k===i)));}
+function reviewsBlock(p){const pr=prof();
+  const any=p.rating!=null||p.pros.length||p.cons.length||p.fitNote;
+  const g="https://www.google.com/search?q="+encodeURIComponent(p.brand+" "+p.name+" review");
+  const btns=[[p.reviewUrl,"Read all reviews","solid"],[p.redditUrl,"Reddit",""],[p.videoUrl,"Video review",""],[g,"Google reviews",p.reviewUrl?"ghost":""]].filter(b=>b[0]).map(([u,l,c])=>`<a class="btn sm ${c}" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ${icon("ext")}</a>`).join("");
+  const src=p.reviewSource?` from ${esc(p.reviewSource)}`:"";
+  return `<section class="revs${any?"":" none"}" aria-labelledby="rvT"><h2 class="cap" id="rvT">Reviews</h2>
+  ${p.rating!=null?`<div class="rv-score"><span class="big num" aria-hidden="true">${p.rating.toFixed(1)}</span><div>${stars(p.rating,"lg")}<small>${p.reviewCount!=null?`${fmtN(p.reviewCount)} ${p.reviewCount===1?"review":"reviews"}`:"Average rating"}${src}</small></div></div>`:`<p class="rv-none">${any?"No star rating collected yet.":"We haven't summarized reviews for this piece yet. Check the links below."}</p>`}
+  ${p.fitNote?`<div class="rv-fit">${icon("ruler")}<div><b>Fit for you</b><p>${esc(p.fitNote)}</p><small>You: ${Math.floor((pr.heightIn||74)/12)}′${(pr.heightIn||74)%12}″, ${esc(pr.tops||"XL")} tops, ${pr.waist||36}×${pr.inseam||34}</small></div></div>`:""}
+  ${p.pros.length||p.cons.length?`<div class="rv-pc">${p.pros.length?`<div class="pros"><h3 class="cap">What reviewers like</h3><ul>${p.pros.map(t=>`<li>${icon("check")}<span>${esc(t)}</span></li>`).join("")}</ul></div>`:""}${p.cons.length?`<div class="cons"><h3 class="cap">Watch out for</h3><ul>${p.cons.map(t=>`<li>${icon("warnI")}<span>${esc(t)}</span></li>`).join("")}</ul></div>`:""}</div><p class="note">Pros and cons are summarized from reviews${p.reviewSource?` on ${esc(p.reviewSource)}`:""}, not quoted.</p>`:""}
+  <div class="rv-btns">${btns}</div></section>`;}
+/* Fullscreen photo viewer */
+let VIEW=null;
+const smooth=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";
+function openViewer(pid,i){const p=PROD[pid];if(!p)return;const imgs=galImgs(p);if(!imgs.length)return;i=Math.max(0,Math.min(imgs.length-1,i|0));VIEW={pid,n:imgs.length,i};
+  const t=$("#vwTrack");t.innerHTML=imgs.map((u,k)=>`<div class="vw-s" role="group" aria-roledescription="slide" aria-label="Photo ${k+1} of ${imgs.length}"><span class="vw-fb" aria-hidden="true">${esc(monogram(p.brand))}</span>${imgEl(u,1200,{eager:k===i,alt:k===0?dname(p):""})}</div>`).join("");
+  $("#vwT").textContent=dname(p);$("#vwPrev").hidden=$("#vwNext").hidden=imgs.length<2;
+  showDlg($("#dlgView"));requestAnimationFrame(()=>{t.scrollLeft=i*t.clientWidth;vwSync();try{t.focus({preventScroll:true});}catch(e){}});}
+const vwIdx=()=>{const t=$("#vwTrack");return Math.round(t.scrollLeft/Math.max(1,t.clientWidth));};
+function vwSync(){if(!VIEW)return;const i=Math.max(0,Math.min(VIEW.n-1,vwIdx()));VIEW.i=i;$("#vwN").textContent=VIEW.n>1?`${i+1} / ${VIEW.n}`:"";$("#vwPrev").disabled=i<=0;$("#vwNext").disabled=i>=VIEW.n-1;}
+function vwGo(d){if(!VIEW)return;const t=$("#vwTrack");const i=Math.max(0,Math.min(VIEW.n-1,vwIdx()+d));t.scrollTo({left:i*t.clientWidth,behavior:smooth()});}
 function pageProduct(id){const p=PROD[id];if(!p)return emptyPage("tag","Piece not found","It may have been removed in the last update.",`<a class="btn" href="#/shop">Shop everything</a>`);
   const x=priceOf(p);const si=sizeInfo(p);const c=closetOf(p.id);const sl=SLOT_OF(p.category);const inB=S.build&&S.build.slots[sl]===p.id;
   const look=completeLook(p);const arts=relatedArticles(p);
   return `<div class="wrap"><a class="backlink" href="#/shop/${esc(p.category)}" style="margin-top:8px">${icon("back","sm")}${esc(CAT_TAB[p.category])}</a>
-  <div class="pdp" style="padding-top:8px"><div class="media">${photo(p)}<div class="badges">${badges(p,x)}</div></div>
+  <div class="pdp" style="padding-top:8px"><div class="media">${gallery(p)}<div class="badges">${badges(p,x)}</div></div>
    <div><div class="brand">${esc(p.brand)}</div><h1>${esc(p.name)}</h1>
     <div class="pr-row"><span class="price">${money(x.price)}</span>${x.was?`<s><span class="sr">was </span>${money(x.was)}</s>`:""}${tierChip(p.tier)}</div>
     ${spark(x.hist)}
     ${sizeLine(p)}
+    ${reviewsBlock(p)}
     ${p.why?`<p class="why">${esc(p.why)}</p>`:""}
     <div class="acts">${p.url?`<a class="btn acc wide" href="${esc(p.url)}" target="_blank" rel="noopener">Buy at ${esc(host(p.url))} ${icon("ext")}</a>`:""}
      <button class="btn" type="button" data-addslot="${esc(p.id)}"${inB?" disabled":""}>${inB?icon("check")+"In your outfit":icon("hanger")+"Add to outfit"}</button>
      <button class="btn" type="button" data-cst="wishlist" data-pid="${esc(p.id)}"${c?" disabled":""}>${c?icon("check")+esc(ST_L[c.status]):icon("closet")+"Add to wishlist"}</button>
-     <button class="btn" type="button" data-save="p:${esc(p.id)}" aria-pressed="${isSaved("p:"+p.id)}">${icon(isSaved("p:"+p.id)?"heartf":"heart")}${isSaved("p:"+p.id)?"Saved":"Save"}</button>
-     <a class="btn" href="https://www.google.com/search?q=${encodeURIComponent(p.brand+" "+p.name+" review")}" target="_blank" rel="noopener">Reviews ${icon("ext")}</a></div>
+     <button class="btn" type="button" data-save="p:${esc(p.id)}" aria-pressed="${isSaved("p:"+p.id)}">${icon(isSaved("p:"+p.id)?"heartf":"heart")}${isSaved("p:"+p.id)?"Saved":"Save"}</button></div>
     <dl class="specs"><dt>Fabric</dt><dd>${esc(p.fabric||"Not listed")}</dd><dt>Your size</dt><dd>${esc(si.mine||(p.category==="shoes"?"Shoe size not set":"One size"))}${si.full?` · ${esc(si.full)}`:""}</dd><dt>Heat</dt><dd>${heatIcons(p.heat)} ${esc(HEAT_L[p.heat])}</dd><dt>Temples</dt><dd>${p.templeOk?"Temple-ready: covers shoulders or knees as needed":"Not for temple visits"}</dd><dt>Styles</dt><dd>${p.styles.map(s=>STYLE(s)?`<a href="#/style/${esc(s)}">${esc(STYLE(s).name)}</a>`:"").filter(Boolean).join(", ")||"None"}</dd><dt>Checked</dt><dd>${esc(x.checked?new Date(x.checked.length>10?x.checked:x.checked+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}):"Unknown")}</dd></dl>
    </div></div>
   ${look.length?`<section class="sec" aria-labelledby="clT"><div class="shead"><h2 class="d d-m" id="clT">Complete the look</h2></div><div class="grid">${look.map(pcard).join("")}</div></section>`:""}
@@ -507,7 +568,7 @@ function runSearch(q){const el=$("#qres");q=q.trim().toLowerCase();
   const terms=q.split(/\s+/).filter(Boolean);const hits=SIDX.filter(x=>terms.every(t=>x.s.includes(t)));
   const ps=hits.filter(x=>x.t==="p").map(x=>x.o).slice(0,14),as=hits.filter(x=>x.t==="a").map(x=>x.o).slice(0,10);
   if(!ps.length&&!as.length){el.innerHTML=`<p>Nothing for “${esc(q)}”. Try a fabric, a brand or a stop on the trip.</p>`;return;}
-  el.innerHTML=(ps.length?`<div class="cap sgroup">${plural(ps.length,"piece")}</div>${ps.map(p=>`<a class="sres" href="#/p/${esc(p.id)}">${photo(p)}<span style="min-width:0"><span class="nm">${esc(dname(p))}</span><small>${esc(CAT_L[p.category])} · ${esc(TIER_L[p.tier])}</small></span><span class="price">${money(priceOf(p).price)}</span></a>`).join("")}`:"")+
+  el.innerHTML=(ps.length?`<div class="cap sgroup">${plural(ps.length,"piece")}</div>${ps.map(p=>`<a class="sres" href="#/p/${esc(p.id)}">${photo(p,"",T200)}<span style="min-width:0"><span class="nm">${esc(dname(p))}</span><small>${esc(CAT_L[p.category])} · ${esc(TIER_L[p.tier])}</small></span><span class="price">${money(priceOf(p).price)}</span></a>`).join("")}`:"")+
    (as.length?`<div class="cap sgroup" style="margin-top:20px">${plural(as.length,"story")}</div>${as.map(a=>`<a class="sres" href="${esc(a.url)}" target="_blank" rel="noopener" data-read="${esc(a.id)}" style="grid-template-columns:minmax(0,1fr) auto"><span style="min-width:0"><span class="nm">${esc(a.title)}</span><small>${esc(a.source)}${a.readMinutes?` · ${a.readMinutes} min`:""}</small></span>${icon("ext","sm")}</a>`).join("")}`:"");}
 
 /* ---------- Settings ---------- */
@@ -520,7 +581,7 @@ function openSettings(){const pr=prof();CONFIRM_RESET=false;
   showDlg($("#dlgSettings"));}
 
 /* ---------- Dialog helpers ---------- */
-function showDlg(d){try{if(!d.open)d.showModal();}catch(e){d.setAttribute("open","");}}
+function showDlg(d){try{if(!d.open)d.showModal();}catch(e){d.setAttribute("open","");}markLoaded(d);}
 function closeDlg(d){try{d.close();}catch(e){d.removeAttribute("open");}}
 document.querySelectorAll("dialog").forEach(d=>d.addEventListener("click",e=>{if(e.target===d)closeDlg(d);}));
 
@@ -543,15 +604,17 @@ function render(keepScroll){const [a,b,c]=parse();let top=a||"drops",html,title=
    case "p":top="shop";html=pageProduct(b);title=(PROD[b]?dname(PROD[b]):"Piece")+" · Wardrobe";break;
    default:top="";html=emptyPage("info","Page not found","That link doesn't go anywhere.",`<a class="btn" href="#/drops">Today's drop</a>`);}
   const y=window.scrollY;
-  $("#app").innerHTML=html;renderChrome(top);document.title=title;
+  $("#app").innerHTML=html;renderChrome(top);document.title=title;markLoaded($("#app"));
   if(keepScroll)window.scrollTo(0,y);}
 function rerender(){render(true);}
 function onRoute(){const k=location.hash;document.querySelectorAll("dialog[open]").forEach(closeDlg);if(k===CUR)return;CUR=k;render(false);window.scrollTo(0,0);
   if(!/^#\/p\//.test(k)){try{$("#app").focus({preventScroll:true});}catch(e){}}}
 
 /* ---------- Events ---------- */
-document.addEventListener("click",e=>{const t=e.target.closest("[data-save],[data-read],[data-lesson],[data-gm],[data-more],[data-readall],[data-wear],[data-unwear],[data-preset],[data-lt],[data-bt],[data-swap],[data-swaptier],[data-use],[data-clear],[data-saveof],[data-loadof],[data-delof],[data-addslot],[data-packof],[data-qty],[data-gap],[data-cst],[data-crm],[data-rr],[data-rrcancel],[data-cf],[data-sf],[data-sreset],[data-scroll],[data-open],[data-close],[data-q],[data-copy],[data-import],[data-reset]");if(!t)return;
+document.addEventListener("click",e=>{const t=e.target.closest("[data-save],[data-read],[data-lesson],[data-gm],[data-more],[data-readall],[data-wear],[data-unwear],[data-preset],[data-lt],[data-bt],[data-swap],[data-swaptier],[data-use],[data-clear],[data-saveof],[data-loadof],[data-delof],[data-addslot],[data-packof],[data-qty],[data-gap],[data-cst],[data-crm],[data-rr],[data-rrcancel],[data-cf],[data-sf],[data-sreset],[data-scroll],[data-open],[data-close],[data-q],[data-copy],[data-import],[data-reset],[data-view],[data-galgo]");if(!t)return;
   const d=t.dataset;
+  if(d.view!==undefined){const g=t.closest(".gal");if(g)openViewer(g.dataset.pid,+d.view);return;}
+  if(d.galgo!==undefined){const tr=$("#galT");if(tr)tr.scrollTo({left:(+d.galgo)*tr.clientWidth,behavior:smooth()});return;}
   if(d.read!==undefined&&ART[d.read]){S.read[d.read]=new Date().toISOString();save();setTimeout(rerender,50);return;}
   if(d.save){e.preventDefault();if(S.saved[d.save]){delete S.saved[d.save];toast("Removed from saved");}else{S.saved[d.save]=new Date().toISOString();toast("Saved");}save();rerender();return;}
   if(d.lesson){openLesson(d.lesson);return;}
@@ -580,7 +643,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("[data-save],[dat
   if(d.rrcancel!==undefined){RETURN_PENDING=null;rerender();return;}
   if(d.cf){CLOSET_F=d.cf;rerender();return;}
   if(d.sf){if(d.sf==="tier")S.shop.tier=d.v;else S.shop[d.sf]=!S.shop[d.sf];save();rerender();return;}
-  if(d.sreset!==undefined){S.shop={tier:"all",occ:"",temple:false,deal:false,sort:S.shop.sort};save();rerender();return;}
+  if(d.sreset!==undefined){S.shop={tier:"all",occ:"",temple:false,deal:false,top:false,sort:S.shop.sort};save();rerender();return;}
   if(d.scroll){const el=document.getElementById(d.scroll);el&&el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});return;}
   if(d.open==="settings"){document.querySelectorAll("dialog[open]").forEach(closeDlg);openSettings();return;}
   if(d.close!==undefined){closeDlg(t.closest("dialog"));return;}
@@ -613,6 +676,11 @@ $("#lessonCards").addEventListener("scroll",()=>lessonDots(lessonIdx()),{passive
 $("#lessonPrev").addEventListener("click",()=>lessonGo(-1));$("#lessonNext").addEventListener("click",()=>lessonGo(1));
 $("#lessonCards").addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();lessonGo(1);}if(e.key==="ArrowLeft"){e.preventDefault();lessonGo(-1);}});
 window.addEventListener("hashchange",onRoute);
+document.addEventListener("scroll",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="galT")galSync(t);else if(t.id==="vwTrack")vwSync();},{capture:true,passive:true});
+$("#vwPrev").addEventListener("click",()=>vwGo(-1));$("#vwNext").addEventListener("click",()=>vwGo(1));
+$("#dlgView").addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();vwGo(1);}else if(e.key==="ArrowLeft"){e.preventDefault();vwGo(-1);}});
+$("#dlgView").addEventListener("close",()=>{if(!VIEW)return;const g=$("#galT");if(g){g.scrollLeft=VIEW.i*g.clientWidth;const b=g.querySelectorAll(".gal-slide")[VIEW.i];b&&b.focus({preventScroll:true});}});
+window.addEventListener("resize",()=>{const d=$("#dlgView");if(VIEW&&d.open){const t=$("#vwTrack");t.scrollLeft=VIEW.i*t.clientWidth;}});
 window.addEventListener("storage",e=>{if(e.key===LS){S=load();rerender();}});
 
 /* ---------- Boot ---------- */

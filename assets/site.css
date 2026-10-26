@@ -503,3 +503,89 @@ dialog::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(3px);-webkit-bac
 .fb .bn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .pdp .acts{grid-template-columns:repeat(2,minmax(0,1fr))}
 .pdp .acts .btn{white-space:normal;text-align:center;line-height:1.2;padding:6px 10px}
+
+/* ---------- Photos: fade in over the monogram ---------- */
+.ph img{opacity:0;transition:opacity .45s var(--ease),transform .7s var(--ease)}
+.ph img.ld{opacity:1}
+.ph img.h2,.ph img.h2.ld{opacity:0}
+@media (hover:hover) and (pointer:fine){.pc-media:hover .ph img.h2.ld{opacity:1}}
+@media (prefers-reduced-motion:reduce){.ph img,.vw-s img{transition:none}.pc:hover .ph img{transform:none}}
+.ribbon{position:absolute;left:0;bottom:10px;z-index:2;display:inline-flex;align-items:center;gap:5px;padding:5px 9px 5px 8px;background:var(--ink);color:var(--bg);font-family:var(--display);font-stretch:70%;font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:11.5px;line-height:1;border-radius:0 2px 2px 0;max-width:calc(100% - 10px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ribbon .ic{color:var(--acc);fill:var(--acc);stroke:var(--acc);width:12px;height:12px}
+
+/* ---------- Stars + review lines ---------- */
+.stars{display:inline-flex;gap:1px;color:var(--acc);flex:none;vertical-align:middle}
+.stars svg{width:13px;height:13px;display:block}
+.stars .o{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
+.stars .f .o,.stars .hf{fill:currentColor}
+.stars .e .o{opacity:.45}
+.stars.lg svg{width:20px;height:20px}
+.rvl{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mute);min-width:0;white-space:nowrap}
+.rvl b{color:var(--ink);font-weight:700}
+.mt4{margin-top:4px}
+.prow .sub .rvl,.prow .sub .tier{margin:0}
+.fitl{font-size:12.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fitl b{font-family:var(--display);font-stretch:75%;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--acc);margin-right:3px}
+
+/* ---------- Product gallery ---------- */
+.gal{position:relative}
+.gal-track{display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:var(--r);overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-slide{display:block;width:100%;scroll-snap-align:start;scroll-snap-stop:always;cursor:zoom-in;padding:0;border-radius:0}
+.gal-slide .ph{border-radius:0}
+.gal-dots{position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;gap:6px;pointer-events:none;z-index:2}
+.gal-dots i{width:7px;height:7px;border-radius:4px;background:rgba(245,243,239,.45);box-shadow:0 0 0 1px rgba(10,10,11,.35);transition:width .25s var(--ease),background .25s}
+.gal-dots i.on{background:var(--acc);width:20px}
+.gal-thumbs{display:none}
+@media (min-width:900px){
+  .gal-dots{display:none}
+  .gal-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,68px));gap:8px;margin-top:10px}
+  .gal-thumbs button{border-radius:2px;overflow:hidden;opacity:.55;transition:opacity .2s;box-shadow:inset 0 0 0 1px var(--line2)}
+  .gal-thumbs button:hover{opacity:.85}
+  .gal-thumbs button[aria-current=true]{opacity:1;outline:2px solid var(--acc);outline-offset:1px}
+}
+.pdp .media .badges{pointer-events:none}
+
+/* ---------- Reviews (product page) ---------- */
+.revs{margin-top:20px;padding:18px;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);display:grid;gap:14px}
+.revs h2{margin:0;color:var(--mute)}
+.revs.none{background:transparent;border-style:dashed;gap:10px;padding:14px 16px}
+.rv-score{display:flex;align-items:center;gap:14px}
+.rv-score .big{font-family:var(--display);font-stretch:70%;font-weight:900;font-size:56px;line-height:.85;color:var(--ink)}
+.rv-score small{display:block;margin-top:6px;color:var(--ink2);font-size:13px}
+.rv-none{margin:0;color:var(--mute);font-size:14px}
+.rv-fit{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:14px;border-radius:var(--r);background:rgba(255,122,26,.1);box-shadow:inset 3px 0 0 var(--acc)}
+.rv-fit>.ic{color:var(--acc);margin-top:1px}
+.rv-fit b{font-family:var(--display);font-stretch:75%;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:var(--acc)}
+.rv-fit p{margin:4px 0 0;font-size:15px;line-height:1.45;color:var(--ink)}
+.rv-fit small{display:block;margin-top:6px;color:var(--mute);font-size:12px}
+.rv-pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 20px}
+.rv-pc h3{margin:0 0 8px;color:var(--ink2)}
+.rv-pc ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rv-pc li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:14px;line-height:1.4;color:var(--ink)}
+.rv-pc li .ic{width:18px;height:18px;margin-top:1px}
+.rv-pc .pros .ic{color:var(--ok)}
+.rv-pc .cons .ic{color:var(--warn)}
+.revs .note{margin:-4px 0 0}
+.rv-btns{display:flex;flex-wrap:wrap;gap:8px}
+.rv-btns .btn{flex:1 1 auto}
+.pdp .acts>:last-child:nth-child(even){grid-column:1/-1}
+
+/* ---------- Fullscreen viewer ---------- */
+dialog.viewer{max-width:100vw;max-height:100svh;width:100vw;height:100svh;margin:0;border-radius:0;background:#000;box-shadow:none}
+dialog.viewer::backdrop{background:#000}
+.vw-h{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 8px 20px;background:linear-gradient(180deg,rgba(0,0,0,.6),transparent)}
+.vw-h .hbtn{color:var(--ink);background:rgba(10,10,11,.6)}
+.vw-n{font-size:14px;font-weight:600;color:var(--ink2)}
+.vw-track{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain;outline:none}
+.vw-track::-webkit-scrollbar{display:none}
+.vw-s{position:relative;scroll-snap-align:start;scroll-snap-stop:always;display:grid;place-items:center;height:100%;min-width:0;overflow:hidden}
+.vw-s img{position:relative;z-index:1;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .35s var(--ease)}
+.vw-s img.ld{opacity:1}
+.vw-fb{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-stretch:62%;font-weight:900;font-size:min(40vw,240px);color:transparent;-webkit-text-stroke:1.5px #2A2A30}
+.vw-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(10,10,11,.6);color:var(--ink)}
+.vw-nav:disabled{opacity:.25;cursor:default}
+.vw-nav.prev{left:12px}.vw-nav.next{right:12px}
+@media (hover:none){.vw-nav{display:none}}
+.vw-nav[hidden]{display:none}
+@media (max-width:759.98px){.ribbon .rl{display:none}}

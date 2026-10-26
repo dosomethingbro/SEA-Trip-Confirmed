@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap">
+<link rel="preconnect" href="https://wsrv.nl">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -67,6 +68,13 @@
 <dialog id="dlgSettings" aria-labelledby="setT">
   <div class="sh-h"><h2 class="d d-s" id="setT">My data</h2><button class="hbtn" type="button" data-close aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button></div>
   <div class="sh-b" id="setB"></div>
+</dialog>
+
+<dialog id="dlgView" class="viewer" aria-labelledby="vwT">
+  <div class="vw-h"><h2 class="sr" id="vwT">Photos</h2><span class="vw-n num" id="vwN" aria-live="polite"></span><button class="hbtn" type="button" data-close aria-label="Close photos"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button></div>
+  <div class="vw-track" id="vwTrack" tabindex="0" aria-label="Photos, swipe or use arrow keys"></div>
+  <button class="vw-nav prev" type="button" id="vwPrev" aria-label="Previous photo"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>
+  <button class="vw-nav next" type="button" id="vwNext" aria-label="Next photo"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
 </dialog>
 
 <script src="assets/site.js" defer></script>
