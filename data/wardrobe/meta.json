@@ -1,6 +1,17 @@
 {
- "updatedAt": "2026-10-26T13:51:04Z",
+ "updatedAt": "2026-10-27T14:46:10Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Shoes for 20,000 steps",
+   "createdAt": "2026-10-27T14:46:10Z"
+  },
+  {
+   "type": "article",
+   "articleId": "highsnobiety-seven-best-sneakers-to-cop-this-week-oct-wk5",
+   "text": "New from Highsnobiety: From adidas to New Balance, the Seven Best Sneakers to Cop This Week",
+   "createdAt": "2026-10-27T14:46:10Z"
+  },
   {
    "type": "price_drop",
    "productId": "vuori-strato-tech-polo",

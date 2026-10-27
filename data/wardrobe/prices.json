@@ -2,10 +2,14 @@
  "jcrew-gingham-linen-camp-shirt": {
   "price": 39.99,
   "was": 98,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 39.99
+   },
+   {
+    "date": "2026-10-27",
     "price": 39.99
    }
   ]
@@ -28,10 +32,14 @@
  "jcrew-camp-collar-linen-shirt": {
   "price": 104.99,
   "was": 118,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 104.99
+   },
+   {
+    "date": "2026-10-27",
     "price": 104.99
    }
   ]
@@ -151,10 +159,14 @@
  "jcrew-pima-cotton-polo": {
   "price": 98,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 98
+   },
+   {
+    "date": "2026-10-27",
     "price": 98
    }
   ]
@@ -387,10 +399,14 @@
  "bluffworks-ascender-chino": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 138
+   },
+   {
+    "date": "2026-10-27",
     "price": 138
    }
   ]
@@ -551,10 +567,14 @@
  "jcrew-heritage-cotton-quarter-zip": {
   "price": 118,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 118
+   },
+   {
+    "date": "2026-10-27",
     "price": 118
    }
   ]
@@ -573,10 +593,14 @@
  "unbound-merino-knit-quarter-zip": {
   "price": 228,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 228
+   },
+   {
+    "date": "2026-10-27",
     "price": 228
    }
   ]
@@ -606,10 +630,14 @@
  "olukai-ohana-sandal": {
   "price": 80,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 80
+   },
+   {
+    "date": "2026-10-27",
     "price": 80
    }
   ]
@@ -672,10 +700,14 @@
  "rainbow-301-premier-leather": {
   "price": 75,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 75
+   },
+   {
+    "date": "2026-10-27",
     "price": 75
    }
   ]
@@ -683,10 +715,14 @@
  "common-projects-original-achilles-low": {
   "price": 565,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 565
+   },
+   {
+    "date": "2026-10-27",
     "price": 565
    }
   ]
@@ -694,10 +730,14 @@
  "rancourt-beefroll-penny-loafer": {
   "price": 338,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 338
+   },
+   {
+    "date": "2026-10-27",
     "price": 338
    }
   ]
@@ -716,10 +756,14 @@
  "randolph-aviator-23k-white-gold": {
   "price": 385,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-27T14:46:10Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 385
+   },
+   {
+    "date": "2026-10-27",
     "price": 385
    }
   ]
