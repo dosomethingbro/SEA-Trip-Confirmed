@@ -1,5 +1,26 @@
 [
  {
+  "date": "2026-10-28",
+  "theme": "Linen edit",
+  "title": "Linen edit",
+  "blurb": "Linen breathes through humid Chiang Mai afternoons and still looks sharp at temples, where long sleeves and full-length trousers keep shoulders and knees covered. These shirts and pants span easy camp collars to buy-for-life button-ups, all in light, packable weights.",
+  "productIds": [
+   "jcrew-gingham-linen-camp-shirt",
+   "abercrombie-ls-linen-shirt-blue-stripe",
+   "faherty-palma-linen-camp-shirt",
+   "centuria-ss-camp-linen-shirt",
+   "billy-reid-tuscumbia-linen-shirt",
+   "unbound-merino-linen-button-up",
+   "faherty-linen-drawstring-pant",
+   "alex-crane-bo-pant"
+  ],
+  "articleIds": [
+   "propercloth-style-linen-shirts",
+   "fb-best-linen-pants",
+   "gg-better-dressed-hot-weather"
+  ]
+ },
+ {
   "date": "2026-10-27",
   "theme": "Shoes for 20,000 steps",
   "title": "Shoes for 20,000 steps",
@@ -67,7 +88,7 @@
   "date": "2026-10-24",
   "theme": "Hanoi nights",
   "title": "Hanoi nights",
-  "blurb": "Evenings in the mid-50s to mid-60s \u00b0F: a real layer, long pants and shoes that look good at dinner.",
+  "blurb": "Evenings in the mid-50s to mid-60s °F: a real layer, long pants and shoes that look good at dinner.",
   "productIds": [
    "jcrew-gingham-linen-camp-shirt",
    "rei-rainier-rain-jacket",

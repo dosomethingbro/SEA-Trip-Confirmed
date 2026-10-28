@@ -582,10 +582,14 @@
  "patagonia-nano-puff-jacket": {
   "price": 239,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 239
+   },
+   {
+    "date": "2026-10-28",
     "price": 239
    }
   ]
@@ -667,10 +671,14 @@
  "on-cloud-6-waterproof": {
   "price": 180,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 180
+   },
+   {
+    "date": "2026-10-28",
     "price": 180
    }
   ]
@@ -678,10 +686,14 @@
  "chaco-zcloud-sandal": {
   "price": 105,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 105
+   },
+   {
+    "date": "2026-10-28",
     "price": 105
    }
   ]
@@ -771,10 +783,14 @@
  "rei-sahara-bucket-hat": {
   "price": 32.93,
   "was": 44.95,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 32.93
+   },
+   {
+    "date": "2026-10-28",
     "price": 32.93
    }
   ]
@@ -782,32 +798,44 @@
  "patagonia-wavefarer-bucket-hat": {
   "price": 45,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 45
+   },
+   {
+    "date": "2026-10-28",
     "price": 45
    }
   ]
  },
  "peak-design-everyday-sling-6l": {
-  "price": 108,
-  "was": 129.95,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "price": 129.95,
+  "was": null,
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 108
+   },
+   {
+    "date": "2026-10-28",
+    "price": 129.95
    }
   ]
  },
  "aer-city-sling-2": {
   "price": 75.65,
-  "was": 89,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "was": 89.0,
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 75.65
+   },
+   {
+    "date": "2026-10-28",
     "price": 75.65
    }
   ]
@@ -815,10 +843,14 @@
  "tom-bihn-side-effect": {
   "price": 70,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 70
+   },
+   {
+    "date": "2026-10-28",
     "price": 70
    }
   ]
@@ -848,10 +880,14 @@
  "arcade-atlas-belt": {
   "price": 39.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 39.95
+   },
+   {
+    "date": "2026-10-28",
     "price": 39.95
    }
   ]
@@ -859,10 +895,14 @@
  "tanner-goods-standard-belt-cognac": {
   "price": 120,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 120
+   },
+   {
+    "date": "2026-10-28",
     "price": 120
    }
   ]
@@ -870,10 +910,14 @@
  "barton-silicone-watch-band": {
   "price": 20.99,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 20.99
+   },
+   {
+    "date": "2026-10-28",
     "price": 20.99
    }
   ]
@@ -881,10 +925,14 @@
  "nite-ize-runoff-phone-pouch": {
   "price": 34.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-28T14:12:11Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 34.95
+   },
+   {
+    "date": "2026-10-28",
     "price": 34.95
    }
   ]

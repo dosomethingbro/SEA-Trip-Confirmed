@@ -1,5 +1,80 @@
 [
  {
+  "id": "fashionbeans-levis-fits-explained",
+  "title": "Levi's Fits Explained for Anyone Choosing Between Core Fits",
+  "url": "https://www.fashionbeans.com/article/levis-fits-explained/",
+  "source": "FashionBeans",
+  "publishedAt": "2026-10-25T00:00:00Z",
+  "summary": "Breaks down Levi's fits from 501 to 569 by rise, thigh, seat and leg shape, with charts to help a taller, 36-waist frame pick jeans that actually fit.",
+  "image": "https://www.fashionbeans.com/wp-content/uploads/2025/12/Levi_501_6.png",
+  "sections": [
+   "fit",
+   "pants-shorts"
+  ],
+  "styles": [
+   "minimal-neutral"
+  ],
+  "readMinutes": 27,
+  "kind": "article",
+  "addedAt": "2026-10-28T14:12:11Z"
+ },
+ {
+  "id": "fashionbeans-5-best-shoes-like-onitsuka-tiger",
+  "title": "5 Best Shoes Like Onitsuka Tiger: Get Ultimate Kicks in 2026",
+  "url": "https://www.fashionbeans.com/article/shoes-like-onitsuka-tiger/",
+  "source": "FashionBeans",
+  "publishedAt": "2026-10-26T00:00:00Z",
+  "summary": "Five slim retro sneakers in the Onitsuka mold, led by the ASICS Tiger Runner II; light, low-profile pairs that slip off easily at temple doors.",
+  "image": "https://www.fashionbeans.com/wp-content/uploads/2024/09/dynamicsports.bn_apairofblueASICSTigerRunnerIIsneakers.jpg",
+  "sections": [
+   "shoes"
+  ],
+  "styles": [
+   "chiang-mai-old-town",
+   "travel-day"
+  ],
+  "readMinutes": 12,
+  "kind": "article",
+  "addedAt": "2026-10-28T14:12:11Z"
+ },
+ {
+  "id": "highsnobiety-vans-half-cab-gore-tex-insulated",
+  "title": "Vans' Waterproof Skate Shoe Makes Winter Survival Look Good",
+  "url": "https://www.highsnobiety.com/p/vans-half-cab-gore-tex-insulated-shoes/",
+  "source": "Highsnobiety",
+  "publishedAt": "2026-10-26T00:00:00Z",
+  "summary": "Vans gives the Half Cab a GORE-TEX, insulated build with grippy All-Trac soles for $180; a casual waterproof sneaker option, if a bit warm for Southeast Asia.",
+  "image": "https://www.highsnobiety.com/static-assets/dato/1793032436-vans-half-cab-gore-tex-insulated-shoes-0.jpg",
+  "sections": [
+   "shoes"
+  ],
+  "styles": [
+   "hanoi-evening"
+  ],
+  "readMinutes": null,
+  "kind": "article",
+  "addedAt": "2026-10-28T14:12:11Z"
+ },
+ {
+  "id": "dappered-1-sale-4-outfits-jcrew-factory-oct27",
+  "title": "1 Sale 4 Outfits: J. Crew Factory Extra 30% off $150",
+  "url": "https://dappered.com/2026/10/1-sale-4-outfits-j-crew-factory-extra-30-off-150/",
+  "source": "Dappered",
+  "publishedAt": "2026-10-27T00:00:00Z",
+  "summary": "Four full outfits built from one sale, from chambray-and-chukkas casual to a quilted vest over a henley; a handy template for layering neutral pieces.",
+  "image": "https://dappered.com/wp-content/uploads/2026/10/JCF-Header-102626.jpg",
+  "sections": [
+   "color",
+   "fit"
+  ],
+  "styles": [
+   "minimal-neutral"
+  ],
+  "readMinutes": null,
+  "kind": "article",
+  "addedAt": "2026-10-28T14:12:11Z"
+ },
+ {
   "id": "highsnobiety-seven-best-sneakers-to-cop-this-week-oct-wk5",
   "title": "From adidas to New Balance, the Seven Best Sneakers to Cop This Week",
   "url": "https://www.highsnobiety.com/p/sneaker-releases-2026-october-week-5/",
@@ -77,7 +152,7 @@
  },
  {
   "id": "muddietrails-doi-suthep-guide",
-  "title": "Doi Suthep Temple Travel Guide \u2013 How to Visit & What to Expect in Chiang Mai, Thailand",
+  "title": "Doi Suthep Temple Travel Guide – How to Visit & What to Expect in Chiang Mai, Thailand",
   "url": "https://muddietrails.com/blog/doi-suthep-temple-travel-guide-how-to-visit-what-to-expect-in-chiang-mai-thailand/",
   "source": "Muddie Trails",
   "publishedAt": "2025-11-04",
@@ -354,7 +429,7 @@
  },
  {
   "id": "localvietnam-tam-coc-guide",
-  "title": "Tam Coc travel guide \u2013 boat tour & 6 highlights",
+  "title": "Tam Coc travel guide – boat tour & 6 highlights",
   "url": "https://localvietnam.com/blog/tam-coc-travel-guide/",
   "source": "Local Vietnam",
   "publishedAt": "2023-06-01",
@@ -445,7 +520,7 @@
  },
  {
   "id": "carryology-mens-travel-capsule",
-  "title": "The Best Clothes for a Men\u2019s Travel Capsule Wardrobe",
+  "title": "The Best Clothes for a Men’s Travel Capsule Wardrobe",
   "url": "https://www.carryology.com/travel/the-best-clothes-for-a-mens-travel-capsule-wardrobe/",
   "source": "Carryology",
   "publishedAt": "2019-04-08",
@@ -502,7 +577,7 @@
  },
  {
   "id": "gg-travel-with-one-bag",
-  "title": "How to Travel with ONE Bag & ZERO Sacrifices \u2013 Packing Hacks",
+  "title": "How to Travel with ONE Bag & ZERO Sacrifices – Packing Hacks",
   "url": "https://www.gentlemansgazette.com/travel-with-one-bag/",
   "source": "Gentleman's Gazette",
   "publishedAt": "2023-08-07",
@@ -671,7 +746,7 @@
  },
  {
   "id": "propercloth-dress-hot-weather",
-  "title": "How to Dress in Hot Weather: A Men\u2019s Summer Style Guide",
+  "title": "How to Dress in Hot Weather: A Men’s Summer Style Guide",
   "url": "https://propercloth.com/reference/how-to-dress-in-hot-weather-a-mens-summer-style-guide/",
   "source": "Proper Cloth",
   "publishedAt": "2025-07-01",
@@ -729,7 +804,7 @@
  },
  {
   "id": "citynomads-humid-weather-style-hacks",
-  "title": "Men\u2019s Style: 7 Style Hacks for Men Living with Humid Weather",
+  "title": "Men’s Style: 7 Style Hacks for Men Living with Humid Weather",
   "url": "https://citynomads.com/style-hacks-for-guys-singapore/",
   "source": "City Nomads",
   "publishedAt": "2017-04-21",
@@ -835,11 +910,11 @@
  },
  {
   "id": "fb-pierre-maheo-dressing-for-heat",
-  "title": "Officine G\u00e9n\u00e9rale: Pierre Mah\u00e9o on Flannel, Authenticity and Dressing for Heat",
+  "title": "Officine Générale: Pierre Mahéo on Flannel, Authenticity and Dressing for Heat",
   "url": "https://www.fashionbeans.com/article/pierre-maheo-officine-generale-interview-flannel-authenticity/",
   "source": "FashionBeans",
   "publishedAt": null,
-  "summary": "Interview with the Officine G\u00e9n\u00e9rale founder about cloth and his approach to staying elegant in hot weather, a designer's view on relaxed tailoring.",
+  "summary": "Interview with the Officine Générale founder about cloth and his approach to staying elegant in hot weather, a designer's view on relaxed tailoring.",
   "image": null,
   "sections": [
    "fabrics-heat"
@@ -980,7 +1055,7 @@
  },
  {
   "id": "essentialman-shorts-fit",
-  "title": "How Men's Shorts Should Fit \u2014 The Essential Man",
+  "title": "How Men's Shorts Should Fit — The Essential Man",
   "url": "https://www.theessentialman.com/blog/shorts-fit-guide-men",
   "source": "The Essential Man",
   "publishedAt": null,
@@ -1069,7 +1144,7 @@
  },
  {
   "id": "propercloth-style-linen-shirts",
-  "title": "How to Style Men\u2019s Linen Shirts for Summer",
+  "title": "How to Style Men’s Linen Shirts for Summer",
   "url": "https://propercloth.com/reference/how-to-style-mens-linen-shirts-for-summer/",
   "source": "Proper Cloth",
   "publishedAt": "2025-05-19",
@@ -1230,7 +1305,7 @@
  },
  {
   "id": "atg-drawstring-pants",
-  "title": "Men\u2019s Drawstring Pants: Fashion\u2019s Favourite New Trouser Style",
+  "title": "Men’s Drawstring Pants: Fashion’s Favourite New Trouser Style",
   "url": "https://www.apetogentleman.com/best-drawstring-pants-men/",
   "source": "Ape to Gentleman",
   "publishedAt": "2022-05-12",
@@ -1269,7 +1344,7 @@
  },
  {
   "id": "fb-best-5-pocket-pants",
-  "title": "7 Best 5 Pocket Pants For Men \u2013 Comfortable Fits For 2026",
+  "title": "7 Best 5 Pocket Pants For Men – Comfortable Fits For 2026",
   "url": "https://www.fashionbeans.com/article/best-5-pocket-pants/",
   "source": "FashionBeans",
   "publishedAt": null,
@@ -1307,7 +1382,7 @@
  },
  {
   "id": "atg-stylish-sandals",
-  "title": "11 Most Stylish Men\u2019s Sandals For Summer 2026",
+  "title": "11 Most Stylish Men’s Sandals For Summer 2026",
   "url": "https://www.apetogentleman.com/best-sandals-men-summer/",
   "source": "Ape to Gentleman",
   "publishedAt": "2020-06-15",
@@ -1362,7 +1437,7 @@
  },
  {
   "id": "fb-best-walking-shoes",
-  "title": "10 Best Walking Shoes For Men \u2013 Stride in Style in 2026",
+  "title": "10 Best Walking Shoes For Men – Stride in Style in 2026",
   "url": "https://www.fashionbeans.com/article/best-walking-shoes-for-men/",
   "source": "FashionBeans",
   "publishedAt": null,
@@ -1474,7 +1549,7 @@
  },
  {
   "id": "mrporter-summer-hats",
-  "title": "The Stylish Gent\u2019s Guide To Summer Hats",
+  "title": "The Stylish Gent’s Guide To Summer Hats",
   "url": "https://www.mrporter.com/en-ie/journal/fashion/the-best-hats-for-summer-828070",
   "source": "Mr Porter",
   "publishedAt": "2020-07-05",
@@ -1493,7 +1568,7 @@
  },
  {
   "id": "fb-types-of-hats",
-  "title": "25 Types of Hats For Men \u2013 Styles for Any Occasion in 2026",
+  "title": "25 Types of Hats For Men – Styles for Any Occasion in 2026",
   "url": "https://www.fashionbeans.com/article/mens-hat-styles/",
   "source": "FashionBeans",
   "publishedAt": null,

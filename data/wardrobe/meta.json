@@ -1,6 +1,35 @@
 {
- "updatedAt": "2026-10-27T14:46:10Z",
+ "updatedAt": "2026-10-28T14:12:11Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Linen edit",
+   "createdAt": "2026-10-28T14:12:11Z"
+  },
+  {
+   "type": "article",
+   "articleId": "dappered-1-sale-4-outfits-jcrew-factory-oct27",
+   "text": "New from Dappered: 1 Sale 4 Outfits: J. Crew Factory Extra 30% off $150",
+   "createdAt": "2026-10-28T14:12:11Z"
+  },
+  {
+   "type": "article",
+   "articleId": "highsnobiety-vans-half-cab-gore-tex-insulated",
+   "text": "New from Highsnobiety: Vans' Waterproof Skate Shoe Makes Winter Survival Look Good",
+   "createdAt": "2026-10-28T14:12:11Z"
+  },
+  {
+   "type": "article",
+   "articleId": "fashionbeans-5-best-shoes-like-onitsuka-tiger",
+   "text": "New from FashionBeans: 5 Best Shoes Like Onitsuka Tiger: Get Ultimate Kicks in 2026",
+   "createdAt": "2026-10-28T14:12:11Z"
+  },
+  {
+   "type": "article",
+   "articleId": "fashionbeans-levis-fits-explained",
+   "text": "New from FashionBeans: Levi's Fits Explained for Anyone Choosing Between Core Fits",
+   "createdAt": "2026-10-28T14:12:11Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Shoes for 20,000 steps",
