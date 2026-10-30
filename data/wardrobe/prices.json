@@ -116,9 +116,9 @@
   ]
  },
  "unbound-merino-linen-button-up": {
-  "price": 198,
+  "price": 198.0,
   "was": null,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-10-30T14:18:36Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -127,6 +127,10 @@
    {
     "date": "2026-10-25",
     "price": 198
+   },
+   {
+    "date": "2026-10-30",
+    "price": 198.0
    }
   ]
  },
@@ -232,9 +236,9 @@
   ]
  },
  "buck-mason-slub-curved-hem-tee": {
-  "price": 48,
+  "price": 48.0,
   "was": null,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-10-30T14:18:36Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -243,6 +247,10 @@
    {
     "date": "2026-10-25",
     "price": 48
+   },
+   {
+    "date": "2026-10-30",
+    "price": 48.0
    }
   ]
  },
@@ -307,9 +315,9 @@
   ]
  },
  "patagonia-quandary-pants": {
-  "price": 99,
+  "price": 99.0,
   "was": null,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-10-30T14:18:36Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -318,6 +326,10 @@
    {
     "date": "2026-10-25",
     "price": 99
+   },
+   {
+    "date": "2026-10-30",
+    "price": 99.0
    }
   ]
  },

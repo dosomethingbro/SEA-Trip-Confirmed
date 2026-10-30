@@ -1,6 +1,17 @@
 {
- "updatedAt": "2026-10-28T14:12:11Z",
+ "updatedAt": "2026-10-30T14:18:36Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Dinner in the Old Quarter",
+   "createdAt": "2026-10-30T14:18:36Z"
+  },
+  {
+   "type": "article",
+   "articleId": "dappered-in-review-allen-edmonds-rhett-cap-toe-oxfords",
+   "text": "New from Dappered: In Review: Allen Edmonds Rhett Cap Toe Oxfords",
+   "createdAt": "2026-10-30T14:18:36Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Linen edit",
