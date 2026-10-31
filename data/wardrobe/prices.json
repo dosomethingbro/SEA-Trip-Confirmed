@@ -206,9 +206,9 @@
   ]
  },
  "vuori-strato-tech-tee": {
-  "price": 45.93,
-  "was": 58,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "price": 58,
+  "was": null,
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -217,6 +217,10 @@
    {
     "date": "2026-10-25",
     "price": 45.93
+   },
+   {
+    "date": "2026-10-31",
+    "price": 58
    }
   ]
  },
@@ -272,7 +276,7 @@
  "icebreaker-merino-150-tech-lite-iii": {
   "price": 90,
   "was": null,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -280,6 +284,10 @@
    },
    {
     "date": "2026-10-25",
+    "price": 90
+   },
+   {
+    "date": "2026-10-31",
     "price": 90
    }
   ]
@@ -302,7 +310,7 @@
  "prana-stretch-zion-slim-pant-ii": {
   "price": 46.77,
   "was": 95,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -310,6 +318,10 @@
    },
    {
     "date": "2026-10-25",
+    "price": 46.77
+   },
+   {
+    "date": "2026-10-31",
     "price": 46.77
    }
   ]
@@ -486,10 +498,14 @@
  "patagonia-quandary-8-shorts": {
   "price": 89,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 89
+   },
+   {
+    "date": "2026-10-31",
     "price": 89
    }
   ]
@@ -661,10 +677,14 @@
  "on-cloud-6": {
   "price": 160,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 160
+   },
+   {
+    "date": "2026-10-31",
     "price": 160
    }
   ]
@@ -952,10 +972,14 @@
  "nite-ize-runoff-12l-pack": {
   "price": 99.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-10-31T13:47:50Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 99.95
+   },
+   {
+    "date": "2026-10-31",
     "price": 99.95
    }
   ]

@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-10-30T14:18:36Z",
+ "updatedAt": "2026-10-31T13:47:50Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Rain-ready",
+   "createdAt": "2026-10-31T13:47:50Z"
+  },
+  {
+   "type": "article",
+   "articleId": "dappered-in-review-casio-edifice-efb730d-panda-chronograph",
+   "text": "New from Dappered: In Review: The Casio Edifice EFB730D Panda Chronograph",
+   "createdAt": "2026-10-31T13:47:50Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-7-autumn-style-mistakes-men-make",
+   "text": "New from Ape to Gentleman: 7 Autumn Style Mistakes Men Make (And How To Fix Them)",
+   "createdAt": "2026-10-31T13:47:50Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Dinner in the Old Quarter",
