@@ -1,5 +1,26 @@
 [
  {
+  "date": "2026-11-01",
+  "theme": "Carry-on capsule",
+  "title": "Carry-on capsule",
+  "blurb": "Two weeks, three climates, one bag: merino tops that survive repeat wear, a tall chino and a half-price linen pant that cover knees at temples, and cubes plus a sling to keep it all organized between Chiang Mai and Hanoi.",
+  "productIds": [
+   "unbound-merino-tall-crew-tee",
+   "wooland-signature-polo",
+   "bluffworks-ascender-chino",
+   "alex-crane-bo-pant",
+   "prana-stretch-zion-short-8",
+   "allbirds-tree-runner",
+   "peak-design-packing-cube-bundle-ms",
+   "aer-city-sling-2"
+  ],
+  "articleIds": [
+   "carryology-mens-travel-capsule",
+   "insidethetravellab-mens-capsule",
+   "fashionbeans-best-t-shirts-for-big-guys"
+  ]
+ },
+ {
   "date": "2026-10-31",
   "theme": "Rain-ready",
   "title": "Rain-ready",

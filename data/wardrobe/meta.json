@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-10-31T13:47:50Z",
+ "updatedAt": "2026-11-01T14:48:28Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Carry-on capsule",
+   "createdAt": "2026-11-01T14:48:28Z"
+  },
+  {
+   "type": "article",
+   "articleId": "fashionbeans-best-t-shirts-for-big-guys",
+   "text": "New from FashionBeans: 12 Best T-Shirts for Big Guys Of All Body Types in 2026",
+   "createdAt": "2026-11-01T14:48:28Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-15-designer-pieces-worth-the-money-this-fall",
+   "text": "New from Ape to Gentleman: 15 Designer Pieces Actually Worth The Money This Fall",
+   "createdAt": "2026-11-01T14:48:28Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Rain-ready",
