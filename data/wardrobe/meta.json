@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-11-01T14:48:28Z",
+ "updatedAt": "2026-11-02T15:07:03Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Buy for life",
+   "createdAt": "2026-11-02T15:07:03Z"
+  },
+  {
+   "type": "article",
+   "articleId": "gentlemans-gazette-what-a-1930s-man-spent-on-clothes",
+   "text": "New from Gentleman's Gazette: What a 1930s Man Really Spent on His Clothes",
+   "createdAt": "2026-11-02T15:07:03Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-pile-on-new-rules-winter-layering-2026",
+   "text": "New from Ape to Gentleman: Pile On: The New Rules Of Winter Layering For 2026",
+   "createdAt": "2026-11-02T15:07:03Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Carry-on capsule",

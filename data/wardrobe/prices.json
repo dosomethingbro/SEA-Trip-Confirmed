@@ -916,23 +916,31 @@
   ]
  },
  "eagle-creek-pack-it-starter-set": {
-  "price": 79,
+  "price": 79.0,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-02T15:07:03Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 79
+   },
+   {
+    "date": "2026-11-02",
+    "price": 79.0
    }
   ]
  },
  "peak-design-packing-cube-bundle-ms": {
   "price": 59.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-02T15:07:03Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 59.95
+   },
+   {
+    "date": "2026-11-02",
     "price": 59.95
    }
   ]
