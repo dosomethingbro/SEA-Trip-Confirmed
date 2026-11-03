@@ -58,7 +58,7 @@
  "faherty-palma-linen-camp-shirt": {
   "price": 83.9,
   "was": 168,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -66,6 +66,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 83.9
+   },
+   {
+    "date": "2026-11-03",
     "price": 83.9
    }
   ]
@@ -73,7 +77,7 @@
  "centuria-ss-camp-linen-shirt": {
   "price": 160,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -81,6 +85,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 160
+   },
+   {
+    "date": "2026-11-03",
     "price": 160
    }
   ]
@@ -143,20 +151,24 @@
   ]
  },
  "jcrew-performance-pique-polo": {
-  "price": 59.99,
-  "was": 79.5,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "price": 79.5,
+  "was": null,
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
     "price": 59.99
+   },
+   {
+    "date": "2026-11-03",
+    "price": 79.5
    }
   ]
  },
  "vuori-strato-tech-polo": {
   "price": 53.93,
   "was": 68,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -164,6 +176,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 53.93
+   },
+   {
+    "date": "2026-11-03",
     "price": 53.93
    }
   ]
@@ -243,7 +259,7 @@
  "smartwool-perfect-crew-tee": {
   "price": 39.97,
   "was": 60,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -251,6 +267,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 39.97
+   },
+   {
+    "date": "2026-11-03",
     "price": 39.97
    }
   ]
@@ -277,7 +297,7 @@
  "wooland-signature-crew-tee": {
   "price": 80,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -285,6 +305,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 80
+   },
+   {
+    "date": "2026-11-03",
     "price": 80
    }
   ]
@@ -387,7 +411,7 @@
  "faherty-linen-drawstring-pant": {
   "price": 83.9,
   "was": 168,
-  "checkedAt": "2026-10-26T04:43:32Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -395,6 +419,10 @@
    },
    {
     "date": "2026-10-25",
+    "price": 83.9
+   },
+   {
+    "date": "2026-11-03",
     "price": 83.9
    }
   ]
@@ -436,7 +464,7 @@
  "vuori-meta-pants-classic": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -444,6 +472,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 138
+   },
+   {
+    "date": "2026-11-03",
     "price": 138
    }
   ]
@@ -466,7 +498,7 @@
  "free-fly-reverb-short": {
   "price": 55.46,
   "was": 74,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -475,13 +507,17 @@
    {
     "date": "2026-10-26",
     "price": 55.46
+   },
+   {
+    "date": "2026-11-03",
+    "price": 55.46
    }
   ]
  },
  "prana-stretch-zion-short-8": {
   "price": 54.73,
   "was": 84,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -489,6 +525,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 54.73
+   },
+   {
+    "date": "2026-11-03",
     "price": 54.73
    }
   ]
@@ -496,7 +536,7 @@
  "vuori-kore-lined-short-5": {
   "price": 78,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -504,6 +544,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 78
+   },
+   {
+    "date": "2026-11-03",
     "price": 78
    }
   ]
@@ -541,7 +585,7 @@
  "rei-rainier-rain-jacket": {
   "price": 99.95,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -549,6 +593,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 99.95
+   },
+   {
+    "date": "2026-11-03",
     "price": 99.95
    }
   ]
@@ -556,7 +604,7 @@
  "patagonia-torrentshell-3l": {
   "price": 189,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -564,6 +612,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 189
+   },
+   {
+    "date": "2026-11-03",
     "price": 189
    }
   ]
@@ -612,10 +664,14 @@
  "faherty-inlet-knit-cpo": {
   "price": 228,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 228
+   },
+   {
+    "date": "2026-11-03",
     "price": 228
    }
   ]
@@ -679,10 +735,14 @@
  "allbirds-cruiser-slip-on": {
   "price": 100,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 100
+   },
+   {
+    "date": "2026-11-03",
     "price": 100
    }
   ]
@@ -720,10 +780,14 @@
  "hoka-transport-2": {
   "price": 155,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 155
+   },
+   {
+    "date": "2026-11-03",
     "price": 155
    }
   ]
@@ -761,10 +825,14 @@
  "birkenstock-boston-clog": {
   "price": 154.95,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 154.95
+   },
+   {
+    "date": "2026-11-03",
     "price": 154.95
    }
   ]
@@ -817,10 +885,14 @@
  "knockaround-premiums-sport-polarized": {
   "price": 38,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-03T15:20:00Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 38
+   },
+   {
+    "date": "2026-11-03",
     "price": 38
    }
   ]

@@ -1,6 +1,11 @@
 {
- "updatedAt": "2026-11-02T15:07:03Z",
+ "updatedAt": "2026-11-03T15:20:00Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Temple-ready",
+   "createdAt": "2026-11-03T15:20:00Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Buy for life",
