@@ -449,7 +449,7 @@
  "rhone-commuter-pant-classic": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -457,6 +457,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 138
+   },
+   {
+    "date": "2026-11-04",
     "price": 138
    }
   ]
@@ -483,7 +487,7 @@
  "bluffworks-ascender-chino": {
   "price": 138,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -491,6 +495,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 138
+   },
+   {
+    "date": "2026-11-04",
     "price": 138
    }
   ]
@@ -555,7 +563,7 @@
  "faherty-all-day-7-short-2": {
   "price": 108,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -563,6 +571,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 108
+   },
+   {
+    "date": "2026-11-04",
     "price": 108
    }
   ]
@@ -621,9 +633,9 @@
   ]
  },
  "arcteryx-beta-jacket": {
-  "price": 249.83,
-  "was": 400,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "price": 400,
+  "was": null,
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -632,13 +644,17 @@
    {
     "date": "2026-10-26",
     "price": 249.83
+   },
+   {
+    "date": "2026-11-04",
+    "price": 400
    }
   ]
  },
  "patagonia-houdini-stash-half-zip": {
   "price": 100.93,
   "was": 145,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -646,6 +662,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 100.93
+   },
+   {
+    "date": "2026-11-04",
     "price": 100.93
    }
   ]
@@ -694,7 +714,7 @@
  "patagonia-nano-puff-jacket": {
   "price": 239,
   "was": null,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -703,13 +723,17 @@
    {
     "date": "2026-10-28",
     "price": 239
+   },
+   {
+    "date": "2026-11-04",
+    "price": 239
    }
   ]
  },
  "unbound-merino-knit-quarter-zip": {
   "price": 228,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -718,16 +742,24 @@
    {
     "date": "2026-10-27",
     "price": 228
+   },
+   {
+    "date": "2026-11-04",
+    "price": 228
    }
   ]
  },
  "allbirds-tree-runner": {
   "price": 100,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 100
+   },
+   {
+    "date": "2026-11-04",
     "price": 100
    }
   ]
@@ -750,7 +782,7 @@
  "olukai-ohana-sandal": {
   "price": 80,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -758,6 +790,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 80
+   },
+   {
+    "date": "2026-11-04",
     "price": 80
    }
   ]
@@ -795,7 +831,7 @@
  "on-cloud-6-waterproof": {
   "price": 180,
   "was": null,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -803,6 +839,10 @@
    },
    {
     "date": "2026-10-28",
+    "price": 180
+   },
+   {
+    "date": "2026-11-04",
     "price": 180
    }
   ]
@@ -810,7 +850,7 @@
  "chaco-zcloud-sandal": {
   "price": 105,
   "was": null,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -818,6 +858,10 @@
    },
    {
     "date": "2026-10-28",
+    "price": 105
+   },
+   {
+    "date": "2026-11-04",
     "price": 105
    }
   ]
@@ -855,7 +899,7 @@
  "common-projects-original-achilles-low": {
   "price": 565,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -863,6 +907,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 565
+   },
+   {
+    "date": "2026-11-04",
     "price": 565
    }
   ]
@@ -870,7 +918,7 @@
  "rancourt-beefroll-penny-loafer": {
   "price": 338,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -878,6 +926,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 338
+   },
+   {
+    "date": "2026-11-04",
     "price": 338
    }
   ]
@@ -915,7 +967,7 @@
  "rei-sahara-bucket-hat": {
   "price": 32.93,
   "was": 44.95,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -923,6 +975,10 @@
    },
    {
     "date": "2026-10-28",
+    "price": 32.93
+   },
+   {
+    "date": "2026-11-04",
     "price": 32.93
    }
   ]
@@ -930,7 +986,7 @@
  "patagonia-wavefarer-bucket-hat": {
   "price": 45,
   "was": null,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -938,6 +994,10 @@
    },
    {
     "date": "2026-10-28",
+    "price": 45
+   },
+   {
+    "date": "2026-11-04",
     "price": 45
    }
   ]
@@ -1095,10 +1155,14 @@
  "davek-mini-travel-umbrella": {
   "price": 65,
   "was": null,
-  "checkedAt": "2026-10-26T01:30:00Z",
+  "checkedAt": "2026-11-04T14:48:22Z",
   "history": [
    {
     "date": "2026-10-25",
+    "price": 65
+   },
+   {
+    "date": "2026-11-04",
     "price": 65
    }
   ]

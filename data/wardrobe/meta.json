@@ -1,6 +1,11 @@
 {
- "updatedAt": "2026-11-03T15:20:00Z",
+ "updatedAt": "2026-11-04T14:48:22Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: The warm layer",
+   "createdAt": "2026-11-04T14:48:22Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Temple-ready",
