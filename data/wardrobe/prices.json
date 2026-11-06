@@ -17,7 +17,7 @@
  "abercrombie-ls-linen-shirt-blue-stripe": {
   "price": 70,
   "was": null,
-  "checkedAt": "2026-10-26T13:51:04Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -25,6 +25,10 @@
    },
    {
     "date": "2026-10-26",
+    "price": 70
+   },
+   {
+    "date": "2026-11-06",
     "price": 70
    }
   ]
@@ -115,7 +119,7 @@
  "buck-mason-breeze-cotton-linen-shirt": {
   "price": 188,
   "was": null,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -127,6 +131,10 @@
    },
    {
     "date": "2026-11-01",
+    "price": 188
+   },
+   {
+    "date": "2026-11-06",
     "price": 188
    }
   ]
@@ -206,7 +214,7 @@
  "wooland-signature-polo": {
   "price": 94,
   "was": null,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -219,13 +227,17 @@
    {
     "date": "2026-11-01",
     "price": 94
+   },
+   {
+    "date": "2026-11-06",
+    "price": 94
    }
   ]
  },
  "unbound-merino-polo": {
   "price": 125,
   "was": null,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -237,6 +249,10 @@
    },
    {
     "date": "2026-11-01",
+    "price": 125
+   },
+   {
+    "date": "2026-11-06",
     "price": 125
    }
   ]
@@ -351,7 +367,7 @@
  "unbound-merino-tall-crew-tee": {
   "price": 98,
   "was": null,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -363,6 +379,10 @@
    },
    {
     "date": "2026-11-01",
+    "price": 98
+   },
+   {
+    "date": "2026-11-06",
     "price": 98
    }
   ]
@@ -727,7 +747,7 @@
  "jcrew-heritage-cotton-quarter-zip": {
   "price": 118,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -735,6 +755,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 118
+   },
+   {
+    "date": "2026-11-06",
     "price": 118
    }
   ]
@@ -1096,9 +1120,9 @@
   ]
  },
  "eagle-creek-pack-it-starter-set": {
-  "price": 79.0,
+  "price": 79,
   "was": null,
-  "checkedAt": "2026-11-02T15:07:03Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1107,13 +1131,17 @@
    {
     "date": "2026-11-02",
     "price": 79.0
+   },
+   {
+    "date": "2026-11-06",
+    "price": 79
    }
   ]
  },
  "peak-design-packing-cube-bundle-ms": {
   "price": 59.95,
   "was": null,
-  "checkedAt": "2026-11-02T15:07:03Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1122,13 +1150,17 @@
    {
     "date": "2026-11-02",
     "price": 59.95
+   },
+   {
+    "date": "2026-11-06",
+    "price": 59.95
    }
   ]
  },
  "arcade-atlas-belt": {
-  "price": 39.95,
+  "price": 39.96,
   "was": null,
-  "checkedAt": "2026-10-28T14:12:11Z",
+  "checkedAt": "2026-11-06T14:49:04Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1137,6 +1169,10 @@
    {
     "date": "2026-10-28",
     "price": 39.95
+   },
+   {
+    "date": "2026-11-06",
+    "price": 39.96
    }
   ]
  },

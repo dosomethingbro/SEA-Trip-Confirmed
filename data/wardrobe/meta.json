@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-11-05T14:48:24Z",
+ "updatedAt": "2026-11-06T14:49:04Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Shoes for 20,000 steps",
+   "createdAt": "2026-11-06T14:49:04Z"
+  },
+  {
+   "type": "article",
+   "articleId": "highsnobiety-salomon-beams-xt-quest-gtx",
+   "text": "New from Highsnobiety: Salomon and BEAMS' New Hiking Shoe Is Built Like a Tank",
+   "createdAt": "2026-11-06T14:49:04Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-13-wardrobe-upgrades-this-season",
+   "text": "New from Ape to Gentleman: 13 Wardrobe Upgrades Every Man Should Make This Season",
+   "createdAt": "2026-11-06T14:49:04Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Sanctuary day",
