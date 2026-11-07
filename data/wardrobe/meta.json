@@ -1,6 +1,17 @@
 {
- "updatedAt": "2026-11-06T14:49:04Z",
+ "updatedAt": "2026-11-07T14:47:25Z",
  "events": [
+  {
+   "type": "price_drop",
+   "productId": "vuori-meta-pants-classic",
+   "text": "Vuori Meta Pants dropped from $138 to $110.33",
+   "createdAt": "2026-11-07T14:47:25Z"
+  },
+  {
+   "type": "drop",
+   "text": "Today's drop: Linen edit",
+   "createdAt": "2026-11-07T14:47:25Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Shoes for 20,000 steps",

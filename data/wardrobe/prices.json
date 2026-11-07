@@ -62,7 +62,7 @@
  "faherty-palma-linen-camp-shirt": {
   "price": 83.9,
   "was": 168,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -74,6 +74,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 83.9
+   },
+   {
+    "date": "2026-11-07",
     "price": 83.9
    }
   ]
@@ -179,8 +183,8 @@
  },
  "vuori-strato-tech-polo": {
   "price": 53.93,
-  "was": 68,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "was": null,
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -192,6 +196,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 53.93
+   },
+   {
+    "date": "2026-11-07",
     "price": 53.93
    }
   ]
@@ -283,7 +291,7 @@
  "smartwool-perfect-crew-tee": {
   "price": 39.97,
   "was": 60,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -295,6 +303,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 39.97
+   },
+   {
+    "date": "2026-11-07",
     "price": 39.97
    }
   ]
@@ -325,7 +337,7 @@
  "wooland-signature-crew-tee": {
   "price": 80,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -337,6 +349,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 80
+   },
+   {
+    "date": "2026-11-07",
     "price": 80
    }
   ]
@@ -436,7 +452,7 @@
  "alex-crane-bo-pant": {
   "price": 73.9,
   "was": 148,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -449,13 +465,17 @@
    {
     "date": "2026-11-01",
     "price": 73.9
+   },
+   {
+    "date": "2026-11-07",
+    "price": 73.9
    }
   ]
  },
  "faherty-linen-drawstring-pant": {
   "price": 83.9,
   "was": 168,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -468,13 +488,17 @@
    {
     "date": "2026-11-03",
     "price": 83.9
+   },
+   {
+    "date": "2026-11-07",
+    "price": 83.9
    }
   ]
  },
  "bonobos-stretch-washed-chino-slim-tall": {
   "price": 98,
   "was": null,
-  "checkedAt": "2026-11-01T14:48:28Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -486,6 +510,10 @@
    },
    {
     "date": "2026-11-01",
+    "price": 98
+   },
+   {
+    "date": "2026-11-07",
     "price": 98
    }
   ]
@@ -510,9 +538,9 @@
   ]
  },
  "vuori-meta-pants-classic": {
-  "price": 138,
-  "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "price": 110.33,
+  "was": 138,
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -525,6 +553,10 @@
    {
     "date": "2026-11-03",
     "price": 138
+   },
+   {
+    "date": "2026-11-07",
+    "price": 110.33
    }
   ]
  },
@@ -569,7 +601,7 @@
  "prana-stretch-zion-short-8": {
   "price": 54.73,
   "was": 84,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -581,6 +613,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 54.73
+   },
+   {
+    "date": "2026-11-07",
     "price": 54.73
    }
   ]
@@ -645,7 +681,7 @@
  "rei-rainier-rain-jacket": {
   "price": 99.95,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -657,6 +693,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 99.95
+   },
+   {
+    "date": "2026-11-07",
     "price": 99.95
    }
   ]
@@ -664,7 +704,7 @@
  "patagonia-torrentshell-3l": {
   "price": 189,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -676,6 +716,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 189
+   },
+   {
+    "date": "2026-11-07",
     "price": 189
    }
   ]
@@ -732,7 +776,7 @@
  "faherty-inlet-knit-cpo": {
   "price": 228,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -740,6 +784,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 228
+   },
+   {
+    "date": "2026-11-07",
     "price": 228
    }
   ]
@@ -819,7 +867,7 @@
  "allbirds-cruiser-slip-on": {
   "price": 100,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-07T14:47:25Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -827,6 +875,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 100
+   },
+   {
+    "date": "2026-11-07",
     "price": 100
    }
   ]
