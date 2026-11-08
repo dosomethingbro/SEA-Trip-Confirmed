@@ -1,6 +1,17 @@
 {
- "updatedAt": "2026-11-07T14:47:25Z",
+ "updatedAt": "2026-11-08T14:47:41Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Rain-ready",
+   "createdAt": "2026-11-08T14:47:41Z"
+  },
+  {
+   "type": "article",
+   "articleId": "fashionbeans-salomon-sneakers-taking-over-streets-and-cafes",
+   "text": "New from FashionBeans: The Salomon Sneakers Taking Over Streets, Cafés and Fashion Week",
+   "createdAt": "2026-11-08T14:47:41Z"
+  },
   {
    "type": "price_drop",
    "productId": "vuori-meta-pants-classic",
