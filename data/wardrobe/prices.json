@@ -2,7 +2,7 @@
  "jcrew-gingham-linen-camp-shirt": {
   "price": 39.99,
   "was": 98,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -10,6 +10,10 @@
    },
    {
     "date": "2026-10-27",
+    "price": 39.99
+   },
+   {
+    "date": "2026-11-09",
     "price": 39.99
    }
   ]
@@ -85,7 +89,7 @@
  "centuria-ss-camp-linen-shirt": {
   "price": 160,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -97,6 +101,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 160
+   },
+   {
+    "date": "2026-11-09",
     "price": 160
    }
   ]
@@ -594,7 +602,7 @@
  "free-fly-reverb-short": {
   "price": 55.46,
   "was": 74,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -606,6 +614,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 55.46
+   },
+   {
+    "date": "2026-11-09",
     "price": 55.46
    }
   ]
@@ -882,9 +894,9 @@
   ]
  },
  "allbirds-tree-runner": {
-  "price": 100,
-  "was": null,
-  "checkedAt": "2026-11-04T14:48:22Z",
+  "price": 70,
+  "was": 100,
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -893,6 +905,10 @@
    {
     "date": "2026-11-04",
     "price": 100
+   },
+   {
+    "date": "2026-11-09",
+    "price": 70
    }
   ]
  },
@@ -960,7 +976,7 @@
  "hoka-transport-2": {
   "price": 155,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -968,6 +984,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 155
+   },
+   {
+    "date": "2026-11-09",
     "price": 155
    }
   ]
@@ -1105,7 +1125,7 @@
  "knockaround-premiums-sport-polarized": {
   "price": 38,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1113,6 +1133,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 38
+   },
+   {
+    "date": "2026-11-09",
     "price": 38
    }
   ]
@@ -1162,7 +1186,7 @@
  "patagonia-wavefarer-bucket-hat": {
   "price": 45,
   "was": null,
-  "checkedAt": "2026-11-04T14:48:22Z",
+  "checkedAt": "2026-11-09T14:54:20Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1174,6 +1198,10 @@
    },
    {
     "date": "2026-11-04",
+    "price": 45
+   },
+   {
+    "date": "2026-11-09",
     "price": 45
    }
   ]

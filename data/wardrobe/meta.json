@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-11-08T14:47:41Z",
+ "updatedAt": "2026-11-09T14:54:20Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Hanoi nights",
+   "createdAt": "2026-11-09T14:54:20Z"
+  },
+  {
+   "type": "price_drop",
+   "productId": "allbirds-tree-runner",
+   "text": "Allbirds Tree Runner dropped from $100 to $70",
+   "createdAt": "2026-11-09T14:54:20Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-7-aw-trends-actually-worth-wearing",
+   "text": "New from Ape to Gentleman: 7 Autumn/Winter Men's Fashion Trends Actually Worth Wearing",
+   "createdAt": "2026-11-09T14:54:20Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Rain-ready",
