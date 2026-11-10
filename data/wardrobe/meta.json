@@ -1,6 +1,23 @@
 {
- "updatedAt": "2026-11-09T14:54:20Z",
+ "updatedAt": "2026-11-10T14:58:00Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Temple-ready",
+   "createdAt": "2026-11-10T14:58:00Z"
+  },
+  {
+   "type": "article",
+   "articleId": "gentlemans-gazette-things-men-should-never-wear-2026",
+   "text": "New from Gentleman's Gazette: Things Men Should Never Wear (Updated for 2026)",
+   "createdAt": "2026-11-10T14:58:00Z"
+  },
+  {
+   "type": "article",
+   "articleId": "ape-to-gentleman-9-winter-style-mistakes-men-keep-making",
+   "text": "New from Ape to Gentleman: 9 Winter Style Mistakes Men Keep Making",
+   "createdAt": "2026-11-10T14:58:00Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Hanoi nights",

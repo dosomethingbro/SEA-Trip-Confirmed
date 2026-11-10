@@ -21,7 +21,7 @@
  "abercrombie-ls-linen-shirt-blue-stripe": {
   "price": 70,
   "was": null,
-  "checkedAt": "2026-11-06T14:49:04Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -33,6 +33,10 @@
    },
    {
     "date": "2026-11-06",
+    "price": 70
+   },
+   {
+    "date": "2026-11-10",
     "price": 70
    }
   ]
@@ -135,7 +139,7 @@
  "buck-mason-breeze-cotton-linen-shirt": {
   "price": 188,
   "was": null,
-  "checkedAt": "2026-11-06T14:49:04Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -152,13 +156,17 @@
    {
     "date": "2026-11-06",
     "price": 188
+   },
+   {
+    "date": "2026-11-10",
+    "price": 188
    }
   ]
  },
  "unbound-merino-linen-button-up": {
   "price": 198,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -175,13 +183,17 @@
    {
     "date": "2026-11-05",
     "price": 198
+   },
+   {
+    "date": "2026-11-10",
+    "price": 198
    }
   ]
  },
  "jcrew-performance-pique-polo": {
   "price": 79.5,
   "was": null,
-  "checkedAt": "2026-11-03T15:20:00Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -189,6 +201,10 @@
    },
    {
     "date": "2026-11-03",
+    "price": 79.5
+   },
+   {
+    "date": "2026-11-10",
     "price": 79.5
    }
   ]
@@ -219,7 +235,7 @@
  "jcrew-pima-cotton-polo": {
   "price": 98,
   "was": null,
-  "checkedAt": "2026-10-27T14:46:10Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -228,13 +244,17 @@
    {
     "date": "2026-10-27",
     "price": 98
+   },
+   {
+    "date": "2026-11-10",
+    "price": 98
    }
   ]
  },
  "wooland-signature-polo": {
   "price": 94,
   "was": null,
-  "checkedAt": "2026-11-06T14:49:04Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -251,13 +271,17 @@
    {
     "date": "2026-11-06",
     "price": 94
+   },
+   {
+    "date": "2026-11-10",
+    "price": 94
    }
   ]
  },
  "unbound-merino-polo": {
   "price": 125,
   "was": null,
-  "checkedAt": "2026-11-06T14:49:04Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -274,13 +298,17 @@
    {
     "date": "2026-11-06",
     "price": 125
+   },
+   {
+    "date": "2026-11-10",
+    "price": 125
    }
   ]
  },
  "vuori-strato-tech-tee": {
   "price": 58,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -296,6 +324,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 58
+   },
+   {
+    "date": "2026-11-10",
     "price": 58
    }
   ]
@@ -326,7 +358,7 @@
  "buck-mason-slub-curved-hem-tee": {
   "price": 48,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -342,6 +374,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 48
+   },
+   {
+    "date": "2026-11-10",
     "price": 48
    }
   ]
@@ -372,7 +408,7 @@
  "icebreaker-merino-150-tech-lite-iii": {
   "price": 90,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -388,6 +424,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 90
+   },
+   {
+    "date": "2026-11-10",
     "price": 90
    }
   ]
@@ -418,7 +458,7 @@
  "prana-stretch-zion-slim-pant-ii": {
   "price": 46.77,
   "was": 95,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -435,13 +475,17 @@
    {
     "date": "2026-11-05",
     "price": 46.77
+   },
+   {
+    "date": "2026-11-10",
+    "price": 46.77
    }
   ]
  },
  "patagonia-quandary-pants": {
   "price": 99,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -457,6 +501,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 99
+   },
+   {
+    "date": "2026-11-10",
     "price": 99
    }
   ]
@@ -690,7 +738,7 @@
  "patagonia-quandary-8-shorts": {
   "price": 89,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -702,6 +750,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 89
+   },
+   {
+    "date": "2026-11-10",
     "price": 89
    }
   ]
@@ -957,7 +1009,7 @@
  "on-cloud-6": {
   "price": 160,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -969,6 +1021,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 160
+   },
+   {
+    "date": "2026-11-10",
     "price": 160
    }
   ]
@@ -1060,7 +1116,7 @@
  "rainbow-301-premier-leather": {
   "price": 75,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1072,6 +1128,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 75
+   },
+   {
+    "date": "2026-11-10",
     "price": 75
    }
   ]
@@ -1144,7 +1204,7 @@
  "randolph-aviator-23k-white-gold": {
   "price": 385,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1156,6 +1216,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 385
+   },
+   {
+    "date": "2026-11-10",
     "price": 385
    }
   ]
@@ -1209,7 +1273,7 @@
  "peak-design-everyday-sling-6l": {
   "price": 129.95,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1222,13 +1286,17 @@
    {
     "date": "2026-11-05",
     "price": 129.95
+   },
+   {
+    "date": "2026-11-10",
+    "price": 129.95
    }
   ]
  },
  "aer-city-sling-2": {
   "price": 75.65,
   "was": 89,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1240,6 +1308,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 75.65
+   },
+   {
+    "date": "2026-11-10",
     "price": 75.65
    }
   ]
@@ -1323,7 +1395,7 @@
  "tanner-goods-standard-belt-cognac": {
   "price": 120,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1335,6 +1407,10 @@
    },
    {
     "date": "2026-11-05",
+    "price": 120
+   },
+   {
+    "date": "2026-11-10",
     "price": 120
    }
   ]
@@ -1361,7 +1437,7 @@
  "nite-ize-runoff-phone-pouch": {
   "price": 34.95,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1374,13 +1450,17 @@
    {
     "date": "2026-11-05",
     "price": 34.95
+   },
+   {
+    "date": "2026-11-10",
+    "price": 34.95
    }
   ]
  },
  "nite-ize-runoff-12l-pack": {
   "price": 99.95,
   "was": null,
-  "checkedAt": "2026-11-05T14:48:24Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1393,13 +1473,17 @@
    {
     "date": "2026-11-05",
     "price": 99.95
+   },
+   {
+    "date": "2026-11-10",
+    "price": 99.95
    }
   ]
  },
  "davek-mini-travel-umbrella": {
   "price": 65,
   "was": null,
-  "checkedAt": "2026-11-04T14:48:22Z",
+  "checkedAt": "2026-11-10T14:58:00Z",
   "history": [
    {
     "date": "2026-10-25",
@@ -1407,6 +1491,10 @@
    },
    {
     "date": "2026-11-04",
+    "price": 65
+   },
+   {
+    "date": "2026-11-10",
     "price": 65
    }
   ]
