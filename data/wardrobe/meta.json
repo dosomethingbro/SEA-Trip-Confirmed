@@ -1,6 +1,11 @@
 {
- "updatedAt": "2026-11-10T14:58:00Z",
+ "updatedAt": "2026-11-11T15:06:36Z",
  "events": [
+  {
+   "type": "drop",
+   "text": "Today's drop: Carry-on capsule",
+   "createdAt": "2026-11-11T15:06:36Z"
+  },
   {
    "type": "drop",
    "text": "Today's drop: Temple-ready",

@@ -1,5 +1,27 @@
 [
  {
+  "date": "2026-11-11",
+  "theme": "Carry-on capsule",
+  "title": "Carry-on capsule",
+  "blurb": "Sixteen days, two countries, one bag: merino tees that survive a few wears between washes, a linen camp shirt for warm Chiang Mai afternoons, and pants and a shell that cover Hanoi's cool evenings. Pack it into cubes and skip the checked bag.",
+  "productIds": [
+   "unbound-merino-tall-crew-tee",
+   "smartwool-perfect-crew-tee",
+   "faherty-palma-linen-camp-shirt",
+   "vuori-meta-pants-classic",
+   "prana-stretch-zion-short-8",
+   "patagonia-houdini-stash-half-zip",
+   "allbirds-tree-runner",
+   "peak-design-packing-cube-bundle-ms",
+   "tom-bihn-side-effect"
+  ],
+  "articleIds": [
+   "carryology-mens-travel-capsule",
+   "gg-travel-with-one-bag",
+   "insidethetravellab-mens-capsule"
+  ]
+ },
+ {
   "date": "2026-11-10",
   "theme": "Temple-ready",
   "title": "Temple-ready",
